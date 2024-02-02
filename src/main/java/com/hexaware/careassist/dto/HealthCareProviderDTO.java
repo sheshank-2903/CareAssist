@@ -1,40 +1,25 @@
-package com.hexaware.careassist.entities;
+package com.hexaware.careassist.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-@Entity
-public class HealthCareProvider {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+public class HealthCareProviderDTO {
+	
 	private long healthCareId;
-	@NotBlank
+	
 	private String healthcareProviderName;
-	@NotBlank
+	
     private String providerGender;
-	@NotBlank
+	
     private String address;
-	@Email
+	
     private String email;
 	
 	private int password;
 
-	public HealthCareProvider() {
+	public HealthCareProviderDTO() {
 		super();
 	}
 
-	public HealthCareProvider(long healthCareId, @NotBlank String healthcareProviderName,
-			@NotBlank String providerGender, @NotBlank String address, @Email String email, int password) {
+	public HealthCareProviderDTO(long healthCareId, String healthcareProviderName,
+			String providerGender, String address, String email, int password) {
 		super();
 		this.healthCareId = healthCareId;
 		this.healthcareProviderName = healthcareProviderName;

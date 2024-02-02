@@ -1,32 +1,24 @@
-package com.hexaware.careassist.entities;
+package com.hexaware.careassist.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-@Entity
-public class Admin {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+public class AdminDTO {
+	
+	
 	private long adminId;
-	@NotBlank
+	
 	private String name;
 	
-	@Email
+	
 	private String email;
 	
 	private String password;
 	
 	
 	
-	public Admin() {
+	public AdminDTO() {
 		super();
 	}
 	
-	public Admin(long adminId, String name) {
+	public AdminDTO(long adminId, String name) {
 		super();
 		this.adminId = adminId;
 		this.name = name;
@@ -49,5 +41,6 @@ public class Admin {
 	public String toString() {
 		return "Admin [adminId=" + adminId + ", name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
+	
 	
 }

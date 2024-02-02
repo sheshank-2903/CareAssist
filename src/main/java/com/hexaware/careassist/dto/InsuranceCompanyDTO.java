@@ -1,54 +1,34 @@
-package com.hexaware.careassist.entities;
+package com.hexaware.careassist.dto;
 
-import java.util.HashSet;
-import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
-@Entity
-public class InsuranceCompany {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+
+public class InsuranceCompanyDTO {
+	
 	private long insuranceCompanyId;
-	@NotBlank
+	
 	private String insuranceCompanyDescription;
-	@NotBlank
+	
     private String companyName;
-    @Pattern(regexp="\\d{10}",message="Please enter 10 digit number")
+    
     private int companyContactNumber;
-    @Email
+    
     private String email;
     
-    
-    @OneToMany(cascade=CascadeType.ALL,mappedBy="insuranceCompany") 
-	private Set<Plans> planSet=new HashSet<Plans>();
 
-
-	public InsuranceCompany() {
+	public InsuranceCompanyDTO() {
 		super();
 	}
 
 
-	public InsuranceCompany(long insuranceCompanyId, @NotBlank String insuranceCompanyDescription,
-			@NotBlank String companyName,
-			@Pattern(regexp = "[0-9]{10}", message = "Please enter 10 digit number") int companyContactNumber,
-			@Email String email, Set<Plans> planSet) {
+	public InsuranceCompanyDTO(long insuranceCompanyId, String insuranceCompanyDescription, String companyName,
+			int companyContactNumber, String email) {
 		super();
 		this.insuranceCompanyId = insuranceCompanyId;
 		this.insuranceCompanyDescription = insuranceCompanyDescription;
 		this.companyName = companyName;
 		this.companyContactNumber = companyContactNumber;
 		this.email = email;
-		this.planSet = planSet;
 	}
 
 
@@ -102,22 +82,14 @@ public class InsuranceCompany {
 	}
 
 
-	public Set<Plans> getPlanSet() {
-		return planSet;
-	}
-
-
-	public void setPlanSet(Set<Plans> planSet) {
-		this.planSet = planSet;
-	}
-
-
 	@Override
 	public String toString() {
 		return "InsuranceCompany [insuranceCompanyId=" + insuranceCompanyId + ", insuranceCompanyDescription="
 				+ insuranceCompanyDescription + ", companyName=" + companyName + ", companyContactNumber="
-				+ companyContactNumber + ", email=" + email + ", planSet=" + planSet + "]";
-	} 
-    
+				+ companyContactNumber + ", email=" + email + "]";
+	}
+
+
+	
     
 }

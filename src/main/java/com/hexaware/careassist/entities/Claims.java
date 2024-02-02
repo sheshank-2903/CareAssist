@@ -1,86 +1,136 @@
 package com.hexaware.careassist.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Claims {
 	@Id
-	private int claimId;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private long claimId;
+	
 	private double claimAmount;
+	@NotBlank
 	private String claimStatus;
-	private String claimName;
-	private String claimDescription;
-	private int InsuranceCompanyId;
-	private int policyId;
+	
+	
+	private int planId;
+	
+	@ManyToOne
+	@JoinColumn(name="patientId")
+	private Patient patient;
+	
+	@ManyToOne
+	@JoinColumn(name="planId")
+	private Plans plans;
+	
+	
 	
 	public Claims() {
 		super();
 	}
-	public Claims(int claimId, double claimAmount, String claimStatus, String claimName, String claimDesciption,int InsuranceCompanyId,int policyId) {
+
+
+
+	public Claims(long claimId, double claimAmount, @NotBlank String claimStatus, int planId, Patient patient,
+			Plans plans) {
 		super();
 		this.claimId = claimId;
 		this.claimAmount = claimAmount;
 		this.claimStatus = claimStatus;
-		this.claimName = claimName;
-		this.claimDescription = claimDesciption;
-		this.InsuranceCompanyId=InsuranceCompanyId;
-		this.policyId=policyId;
+		this.planId = planId;
+		this.patient = patient;
+		this.plans = plans;
 	}
-	public String getClaimDescription() {
-		return claimDescription;
-	}
-	public void setClaimDescription(String claimDescription) {
-		this.claimDescription = claimDescription;
-	}
-	public int getPolicyId() {
-		return policyId;
-	}
-	public void setPolicyId(int policyId) {
-		this.policyId = policyId;
-	}
-	public int getInsuranceCompanyId() {
-		return InsuranceCompanyId;
-	}
-	public void setInsuranceCompanyId(int insauraceCompanyId) {
-		InsuranceCompanyId = insauraceCompanyId;
-	}
-	public int getClaimId() {
+
+
+
+	public long getClaimId() {
 		return claimId;
 	}
-	public void setClaimId(int claimId) {
+
+
+
+	public void setClaimId(long claimId) {
 		this.claimId = claimId;
 	}
+
+
+
 	public double getClaimAmount() {
 		return claimAmount;
 	}
+
+
+
 	public void setClaimAmount(double claimAmount) {
 		this.claimAmount = claimAmount;
 	}
+
+
+
 	public String getClaimStatus() {
 		return claimStatus;
 	}
+
+
+
 	public void setClaimStatus(String claimStatus) {
 		this.claimStatus = claimStatus;
 	}
-	public String getClaimName() {
-		return claimName;
+
+
+
+	public int getPlanId() {
+		return planId;
 	}
-	public void setClaimName(String claimName) {
-		this.claimName = claimName;
+
+
+
+	public void setPlanId(int planId) {
+		this.planId = planId;
 	}
-	public String getClaimDesciption() {
-		return claimDescription;
+
+
+
+	public Patient getPatient() {
+		return patient;
 	}
-	public void setClaimDesciption(String claimDesciption) {
-		this.claimDescription = claimDesciption;
+
+
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
+
+
+
+	public Plans getPlans() {
+		return plans;
+	}
+
+
+
+	public void setPlans(Plans plans) {
+		this.plans = plans;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Claims [claimId=" + claimId + ", claimAmount=" + claimAmount + ", claimStatus=" + claimStatus
-				+ ", claimName=" + claimName + ", claimDesciption=" + claimDescription + ", InsuranceCompanyId="
-				+ InsuranceCompanyId + "]";
+				+ ", planId=" + planId + ", patient=" + patient + ", plans=" + plans + "]";
 	}
+
+	
+	
+	
 	
 	
 }
