@@ -11,20 +11,17 @@ public class ClaimsDTO {
 	
 	private String claimStatus;
 	
-	private int planId;
-	
 	
 	
 	public ClaimsDTO() {
 		super();
 	}
 
-	public ClaimsDTO(long claimId, double claimAmount, String claimStatus,int planId) {
+	public ClaimsDTO(long claimId, double claimAmount, String claimStatus) {
 		super();
 		this.claimId = claimId;
 		this.claimAmount = claimAmount;
 		this.claimStatus = claimStatus;
-		this.planId = planId;
 	}
 
 	public long getClaimId() {
@@ -51,20 +48,10 @@ public class ClaimsDTO {
 		this.claimStatus = claimStatus;
 	}
 
-	
-
-	public int getPlanId() {
-		return planId;
-	}
-
-	public void setPlanId(int planId) {
-		this.planId = planId;
-	}
-
 	@Override
 	public String toString() {
 		return "Claims [claimId=" + claimId + ", claimAmount=" + claimAmount + ", claimStatus=" + claimStatus
-				+  ", planId=" + planId + "]";
+				+ "]";
 	}
 	
 	

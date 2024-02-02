@@ -18,9 +18,6 @@ public class Claims {
 	@NotBlank
 	private String claimStatus;
 	
-	
-	private int planId;
-	
 	@ManyToOne
 	@JoinColumn(name="patientId")
 	private Patient patient;
@@ -37,13 +34,11 @@ public class Claims {
 
 
 
-	public Claims(long claimId, double claimAmount, @NotBlank String claimStatus, int planId, Patient patient,
-			Plans plans) {
+	public Claims(long claimId, double claimAmount, @NotBlank String claimStatus,Plans plans, Patient patient) {
 		super();
 		this.claimId = claimId;
 		this.claimAmount = claimAmount;
 		this.claimStatus = claimStatus;
-		this.planId = planId;
 		this.patient = patient;
 		this.plans = plans;
 	}
@@ -86,18 +81,6 @@ public class Claims {
 
 
 
-	public int getPlanId() {
-		return planId;
-	}
-
-
-
-	public void setPlanId(int planId) {
-		this.planId = planId;
-	}
-
-
-
 	public Patient getPatient() {
 		return patient;
 	}
@@ -125,7 +108,7 @@ public class Claims {
 	@Override
 	public String toString() {
 		return "Claims [claimId=" + claimId + ", claimAmount=" + claimAmount + ", claimStatus=" + claimStatus
-				+ ", planId=" + planId + ", patient=" + patient + ", plans=" + plans + "]";
+				+  ", patient=" + patient + ", plans=" + plans + "]";
 	}
 
 	

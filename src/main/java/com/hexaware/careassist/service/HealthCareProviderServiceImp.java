@@ -1,51 +1,43 @@
 package com.hexaware.careassist.service;
 
-import java.util.Set;
+import java.util.List;
 
+import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
-import com.hexaware.careassist.entities.Invoices;
-import com.hexaware.careassist.entities.Patient;
+import java.util.Collections;
 
 
 public class HealthCareProviderServiceImp implements IHealthCareProviderService {
 
 	@Override
-	public HealthCareProvider getHealthCareProviderInfo(int hId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean updateHealthCareProviderInfo(HealthCareProvider healthCareProvider) {
+	public boolean addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean deleteHealthCareProviderInfo(int hId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Set<Invoices> getAllInvoice(int healthCareId) {
+	public HealthCareProviderDTO getHealthCareProviderById(int healthCareProviderId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean generateInvoice(String patientName, double invoiceTax, double consultingFees,
-			double diagnosticTestFees, double diagnosticScanFees) {
+	public boolean updateHealthCareProviderInfo(HealthCareProviderDTO healthCareProviderDto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Set<Patient> getAllPatientDetails() {
+	public boolean deleteHealthCareProviderInfo(int healthCareProviderId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<HealthCareProvider> getAllHealthCareProvider() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
 
 }

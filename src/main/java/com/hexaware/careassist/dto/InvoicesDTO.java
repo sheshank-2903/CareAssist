@@ -11,8 +11,6 @@ public class InvoicesDTO {
 	
 	private LocalDate invoiceDueDate;
 	
-	private int patientId;
-	
 	private String patientName; 
 	
 	private String patientAddress;
@@ -35,14 +33,13 @@ public class InvoicesDTO {
 
 
 
-	public InvoicesDTO(long invoiceId, LocalDate invoiceDate, LocalDate invoiceDueDate, int patientId, String patientName,
+	public InvoicesDTO(long invoiceId, LocalDate invoiceDate, LocalDate invoiceDueDate, String patientName,
 			String patientAddress, double invoiceTax, double consultingFees, double diagnosticTestFees,
 			double diagnosticScanFees, double calculatedAmount) {
 		super();
 		this.invoiceId = invoiceId;
 		this.invoiceDate = invoiceDate;
 		this.invoiceDueDate = invoiceDueDate;
-		this.patientId = patientId;
 		this.patientName = patientName;
 		this.patientAddress = patientAddress;
 		this.invoiceTax = invoiceTax;
@@ -88,17 +85,6 @@ public class InvoicesDTO {
 		this.invoiceDueDate = invoiceDueDate;
 	}
 
-
-
-	public int getPatientId() {
-		return patientId;
-	}
-
-
-
-	public void setPatientId(int patientId) {
-		this.patientId = patientId;
-	}
 
 
 
@@ -189,7 +175,7 @@ public class InvoicesDTO {
 	@Override
 	public String toString() {
 		return "Invoices [invoiceId=" + invoiceId + ", invoiceDate=" + invoiceDate + ", InvoiceDueDate="
-				+ invoiceDueDate + ", patientId=" + patientId + ", patientName=" + patientName + ", patientAddress="
+				+ invoiceDueDate +", patientName=" + patientName + ", patientAddress="
 				+ patientAddress + ", invoiceTax=" + invoiceTax + ", consultingFees=" + consultingFees
 				+ ", diagnosticTestFees=" + diagnosticTestFees + ", diagnosticScanFees=" + diagnosticScanFees
 				+ ", calculatedAmount=" + calculatedAmount + "]";

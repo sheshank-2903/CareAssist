@@ -1,21 +1,11 @@
 package com.hexaware.careassist.service;
 
-import java.util.Set;
-
-import com.hexaware.careassist.entities.Admin;
-import com.hexaware.careassist.entities.HealthCareProvider;
-import com.hexaware.careassist.entities.InsuranceCompany;
-import com.hexaware.careassist.entities.Invoices;
-import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.dto.AdminDTO;
 
 
 public interface IAdminService {
-	boolean getAdminInfo(int id);
-	boolean updateInfo(Admin admin);
-	boolean addAdmin(Admin admin);
-	Set<Patient> getAllPatientList();
-	Set<Invoices> getAllInvoicesList();
-	Set<HealthCareProvider> getAllHealthCareProviderList();
-	Set<InsuranceCompany> getAllInsuranceCompannyList();
-	boolean deletePatientById(int patientId);
+	public AdminDTO getAdminInfo(long adminId);
+	public boolean updateAdminInfo(AdminDTO adminDto);
+	public boolean addAdmin(AdminDTO adminDto);
+	
 }

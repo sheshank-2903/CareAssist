@@ -2,7 +2,7 @@ package com.hexaware.careassist.dto;
 
 public class HealthCareProviderDTO {
 	
-	private long healthCareId;
+	private long healthCareProviderId;
 	
 	private String healthcareProviderName;
 	
@@ -21,7 +21,7 @@ public class HealthCareProviderDTO {
 	public HealthCareProviderDTO(long healthCareId, String healthcareProviderName,
 			String providerGender, String address, String email, int password) {
 		super();
-		this.healthCareId = healthCareId;
+		this.healthCareProviderId = healthCareId;
 		this.healthcareProviderName = healthcareProviderName;
 		this.providerGender = providerGender;
 		this.address = address;
@@ -29,12 +29,12 @@ public class HealthCareProviderDTO {
 		this.password = password;
 	}
 
-	public long getHealthCareId() {
-		return healthCareId;
+	public long getHealthCareProviderId() {
+		return healthCareProviderId;
 	}
 
-	public void setHealthCareId(long healthCareId) {
-		this.healthCareId = healthCareId;
+	public void setHealthCareProviderId(long healthCareProviderId) {
+		this.healthCareProviderId = healthCareProviderId;
 	}
 
 	public String getHealthcareProviderName() {
@@ -79,7 +79,7 @@ public class HealthCareProviderDTO {
 
 	@Override
 	public String toString() {
-		return "HealthCareProvider [healthCareId=" + healthCareId + ", healthcareProviderName=" + healthcareProviderName
+		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthcareProviderName=" + healthcareProviderName
 				+ ", providerGender=" + providerGender + ", address=" + address + ", email=" + email + ", password="
 				+ password + "]";
 	} 

@@ -13,41 +13,63 @@ public class Admin {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private long adminId;
 	@NotBlank
-	private String name;
+	private String adminName;
 	
 	@Email
 	private String email;
 	
 	private String password;
-	
-	
-	
+
 	public Admin() {
 		super();
 	}
-	
-	public Admin(long adminId, String name) {
+
+	public Admin(long adminId, @NotBlank String adminName, @Email String email, String password) {
 		super();
 		this.adminId = adminId;
-		this.name = name;
+		this.adminName = adminName;
+		this.email = email;
+		this.password = password;
 	}
-	
-	public long getId() {
+
+	public long getAdminId() {
 		return adminId;
 	}
-	public void setId(long adminId) {
+
+	public void setAdminId(long adminId) {
 		this.adminId = adminId;
 	}
-	public String getName() {
-		return name;
+
+	public String getAdminName() {
+		return adminName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
 	public String toString() {
-		return "Admin [adminId=" + adminId + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+		return "Admin [adminId=" + adminId + ", adminName=" + adminName + ", email=" + email + ", password=" + password
+				+ "]";
 	}
+	
+	
 	
 }

@@ -1,62 +1,51 @@
 package com.hexaware.careassist.service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
+import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
-import com.hexaware.careassist.entities.HealthCareProvider;
-import com.hexaware.careassist.entities.InsuranceCompany;
-import com.hexaware.careassist.entities.Invoices;
-import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.repository.AdminRepository;
 
 
+
+@Service
 public class AdminServiceImp implements IAdminService {
-
+	
+	
+	
+	@Autowired 
+	AdminRepository repo;
+	Logger logger =LoggerFactory.getLogger(AdminServiceImp.class);
+	
 	@Override
-	public boolean getAdminInfo(int id) {
-		// TODO Auto-generated method stub
-		return false;
+	public AdminDTO getAdminInfo(long adminId) {
+		Admin admin = repo.findById(adminId).orElse(null);
+		logger.info("AdminServiceImp - Admin data fetched successfully");
+		AdminDTO adminDto = new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
+		return adminDto;
 	}
 
 	@Override
-	public boolean updateInfo(Admin admin) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateAdminInfo(AdminDTO adminDto) {
+		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
+		logger.info("AdminServiceImp - Admin has added updated successfull ");
+		boolean result=true;
+		if(admin==null)
+			result=false;
+		return result;
 	}
 
 	@Override
-	public boolean addAdmin(Admin admin) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addAdmin(AdminDTO adminDto) {
+		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
+		logger.info("AdminServiceImp - Admin has added successfull ");
+		boolean result=false;
+		if(admin!=null)
+			result=true;
+		return result;
 	}
 
-	@Override
-	public Set<Patient> getAllPatientList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Invoices> getAllInvoicesList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<HealthCareProvider> getAllHealthCareProviderList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<InsuranceCompany> getAllInsuranceCompannyList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deletePatientById(int patientId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

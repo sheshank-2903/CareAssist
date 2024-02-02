@@ -9,5 +9,7 @@ public class CareAssistApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CareAssistApplication.class, args);
 	}
+	
+	
 
 }

@@ -1,15 +1,9 @@
 package com.hexaware.careassist.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 public class HealthCareProvider {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private long healthCareId;
+	private long healthCareProviderId;
 	@NotBlank
 	private String healthcareProviderName;
 	@NotBlank
@@ -36,7 +30,7 @@ public class HealthCareProvider {
 	public HealthCareProvider(long healthCareId, @NotBlank String healthcareProviderName,
 			@NotBlank String providerGender, @NotBlank String address, @Email String email, int password) {
 		super();
-		this.healthCareId = healthCareId;
+		this.healthCareProviderId = healthCareId;
 		this.healthcareProviderName = healthcareProviderName;
 		this.providerGender = providerGender;
 		this.address = address;
@@ -44,12 +38,12 @@ public class HealthCareProvider {
 		this.password = password;
 	}
 
-	public long getHealthCareId() {
-		return healthCareId;
+	public long getHealthCareProviderId() {
+		return healthCareProviderId;
 	}
 
-	public void setHealthCareId(long healthCareId) {
-		this.healthCareId = healthCareId;
+	public void setHealthCareProviderId(long healthCareProviderId) {
+		this.healthCareProviderId = healthCareProviderId;
 	}
 
 	public String getHealthcareProviderName() {
@@ -94,7 +88,7 @@ public class HealthCareProvider {
 
 	@Override
 	public String toString() {
-		return "HealthCareProvider [healthCareId=" + healthCareId + ", healthcareProviderName=" + healthcareProviderName
+		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthcareProviderName=" + healthcareProviderName
 				+ ", providerGender=" + providerGender + ", address=" + address + ", email=" + email + ", password="
 				+ password + "]";
 	} 

@@ -20,8 +20,6 @@ public class Invoices {
 	private LocalDate invoiceDate;
 	@NotNull
 	private LocalDate invoiceDueDate;
-	@NotNull
-	private int patientId;
 	@NotBlank
 	private String patientName; 
 	@NotBlank
@@ -46,14 +44,13 @@ public class Invoices {
 	}
 
 	public Invoices(long invoiceId, @NotNull LocalDate invoiceDate, @NotNull LocalDate invoiceDueDate,
-			@NotNull int patientId, @NotBlank String patientName, @NotBlank String patientAddress,
+			 @NotBlank String patientName, @NotBlank String patientAddress,
 			@NotNull double invoiceTax, @NotNull double consultingFees, @NotNull double diagnosticTestFees,
 			@NotNull double diagnosticScanFees, @NotNull double calculatedAmount, Patient patient) {
 		super();
 		this.invoiceId = invoiceId;
 		this.invoiceDate = invoiceDate;
 		this.invoiceDueDate = invoiceDueDate;
-		this.patientId = patientId;
 		this.patientName = patientName;
 		this.patientAddress = patientAddress;
 		this.invoiceTax = invoiceTax;
@@ -88,13 +85,6 @@ public class Invoices {
 		this.invoiceDueDate = invoiceDueDate;
 	}
 
-	public int getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(int patientId) {
-		this.patientId = patientId;
-	}
 
 	public String getPatientName() {
 		return patientName;
@@ -163,7 +153,7 @@ public class Invoices {
 	@Override
 	public String toString() {
 		return "Invoices [invoiceId=" + invoiceId + ", invoiceDate=" + invoiceDate + ", InvoiceDueDate="
-				+ invoiceDueDate + ", patientId=" + patientId + ", patientName=" + patientName + ", patientAddress="
+				+ invoiceDueDate + ", patientName=" + patientName + ", patientAddress="
 				+ patientAddress + ", invoiceTax=" + invoiceTax + ", consultingFees=" + consultingFees
 				+ ", diagnosticTestFees=" + diagnosticTestFees + ", diagnosticScanFees=" + diagnosticScanFees
 				+ ", calculatedAmount=" + calculatedAmount + ", patient=" + patient + "]";
