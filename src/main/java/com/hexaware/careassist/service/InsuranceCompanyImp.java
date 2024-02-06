@@ -1,41 +1,75 @@
 package com.hexaware.careassist.service;
 
+import java.util.HashSet;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.repository.InsuranceCompanyRepository;
+import com.hexaware.careassist.repository.PlansRepository;
 
-
+@Service
 public class InsuranceCompanyImp implements IInsuranceCompanyService {
+	
+	@Autowired
+	InsuranceCompanyRepository insuranceCompanyRepo;
+	
+	@Autowired
+	PlansRepository plansRepo;
+	Logger logger =LoggerFactory.getLogger(InsuranceCompanyImp.class);
 
 	@Override
-	public InsuranceCompanyDTO getInsuranceCompanyById(int insuranceCompanyId) {
-		// TODO Auto-generated method stub
-		return null;
+	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId) {
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
+		logger.info("InsuranceCompanyImp - InsuranceCompany data by Id fetched successfully");
+		return new InsuranceCompanyDTO(insuranceCompany.getInsuranceCompanyId(),
+										insuranceCompany.getInsuranceCompanyDescription(),
+										insuranceCompany.getCompanyName(),
+										insuranceCompany.getCompanyContactNumber(),
+										insuranceCompany.getEmail());
 	}
 
 	@Override
-	public boolean updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
-		// TODO Auto-generated method stub
-		return false;
+	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
+																		insuranceCompanyDto.getInsuranceCompanyId(),
+																		insuranceCompanyDto.getInsuranceCompanyDescription(),
+																		insuranceCompanyDto.getCompanyName(),
+																		insuranceCompanyDto.getCompanyContactNumber(),
+																		insuranceCompanyDto.getEmail(),new HashSet<>()));
+		
+		logger.info("InsuranceCompanyImp - InsuranceCompany updated successfully");
+		return insuranceCompany;
 	}
 
 	@Override
-	public boolean deleteInsuranceCompanyById(int insuranceCompanyId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteInsuranceCompanyById(long insuranceCompanyId) {
+		insuranceCompanyRepo.deleteById(insuranceCompanyId);
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
+		logger.info("InsuranceCompanyImp - InsuranceCompany deleted successfully");
+		return insuranceCompany==null;
 	}
 
 	@Override
-	public InsuranceCompanyDTO addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
-		// TODO Auto-generated method stub
-		return null;
+	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(insuranceCompanyDto.getInsuranceCompanyId(),
+														insuranceCompanyDto.getInsuranceCompanyDescription(),
+														insuranceCompanyDto.getCompanyName(),
+														insuranceCompanyDto.getCompanyContactNumber(),
+														insuranceCompanyDto.getEmail(),new HashSet<>()));
+		logger.info("InsuranceCompanyImp - InsuranceCompany added successfully");
+		return insuranceCompany;
 	}
 
 	@Override
 	public List<InsuranceCompany> getInsuranceCompanyByName(String insuranceCompanyName) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
+		return insuranceCompanyRepo.findBycompanyName(insuranceCompanyName);
 	}
 
 

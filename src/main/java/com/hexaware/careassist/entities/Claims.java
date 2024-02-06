@@ -1,5 +1,9 @@
 package com.hexaware.careassist.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,10 +23,12 @@ public class Claims {
 	private String claimStatus;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name="patientId")
 	private Patient patient;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name="planId")
 	private Plans plans;
 	

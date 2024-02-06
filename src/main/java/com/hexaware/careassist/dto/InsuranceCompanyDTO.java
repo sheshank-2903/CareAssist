@@ -11,7 +11,7 @@ public class InsuranceCompanyDTO {
 	
     private String companyName;
     
-    private int companyContactNumber;
+    private String companyContactNumber;
     
     private String email;
     
@@ -22,7 +22,7 @@ public class InsuranceCompanyDTO {
 
 
 	public InsuranceCompanyDTO(long insuranceCompanyId, String insuranceCompanyDescription, String companyName,
-			int companyContactNumber, String email) {
+			String companyContactNumber, String email) {
 		super();
 		this.insuranceCompanyId = insuranceCompanyId;
 		this.insuranceCompanyDescription = insuranceCompanyDescription;
@@ -62,12 +62,12 @@ public class InsuranceCompanyDTO {
 	}
 
 
-	public int getCompanyContactNumber() {
+	public String getCompanyContactNumber() {
 		return companyContactNumber;
 	}
 
 
-	public void setCompanyContactNumber(int companyContactNumber) {
+	public void setCompanyContactNumber(String companyContactNumber) {
 		this.companyContactNumber = companyContactNumber;
 	}
 

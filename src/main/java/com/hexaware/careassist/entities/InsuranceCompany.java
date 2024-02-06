@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,13 +23,13 @@ public class InsuranceCompany {
 	@NotBlank
     private String companyName;
     @Pattern(regexp="\\d{10}",message="Please enter 10 digit number")
-    private int companyContactNumber;
+    private String companyContactNumber;
     @Email
     private String email;
     
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="insuranceCompany") 
-	private Set<Plans> planSet=new HashSet<Plans>();
+	private Set<Plans> planSet=new HashSet<>();
 
 
 	public InsuranceCompany() {
@@ -40,7 +39,7 @@ public class InsuranceCompany {
 
 	public InsuranceCompany(long insuranceCompanyId, @NotBlank String insuranceCompanyDescription,
 			@NotBlank String companyName,
-			@Pattern(regexp = "[0-9]{10}", message = "Please enter 10 digit number") int companyContactNumber,
+			@Pattern(regexp = "\\d{10}", message = "Please enter 10 digit number") String companyContactNumber,
 			@Email String email, Set<Plans> planSet) {
 		super();
 		this.insuranceCompanyId = insuranceCompanyId;
@@ -82,12 +81,12 @@ public class InsuranceCompany {
 	}
 
 
-	public int getCompanyContactNumber() {
+	public String getCompanyContactNumber() {
 		return companyContactNumber;
 	}
 
 
-	public void setCompanyContactNumber(int companyContactNumber) {
+	public void setCompanyContactNumber(String companyContactNumber) {
 		this.companyContactNumber = companyContactNumber;
 	}
 

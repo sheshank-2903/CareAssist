@@ -12,14 +12,14 @@ public class HealthCareProviderDTO {
 	
     private String email;
 	
-	private int password;
+	private String password;
 
 	public HealthCareProviderDTO() {
 		super();
 	}
 
 	public HealthCareProviderDTO(long healthCareId, String healthcareProviderName,
-			String providerGender, String address, String email, int password) {
+			String providerGender, String address, String email, String password) {
 		super();
 		this.healthCareProviderId = healthCareId;
 		this.healthcareProviderName = healthcareProviderName;
@@ -69,11 +69,11 @@ public class HealthCareProviderDTO {
 		this.email = email;
 	}
 
-	public int getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(int password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
