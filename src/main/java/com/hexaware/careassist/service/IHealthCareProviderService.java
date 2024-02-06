@@ -6,9 +6,9 @@ import com.hexaware.careassist.entities.HealthCareProvider;
 
 
 public interface IHealthCareProviderService {
-	public boolean addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto);
-	public HealthCareProviderDTO getHealthCareProviderById(int healthCareProviderId);
-	public boolean updateHealthCareProviderInfo(HealthCareProviderDTO healthCareProviderDto);
-	public boolean deleteHealthCareProviderInfo(int healthCareProviderId);
+	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto);
+	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId);
+	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto);
+	public boolean deleteHealthCareProvider(long healthCareProviderId);
 	public List<HealthCareProvider> getAllHealthCareProvider();
 }

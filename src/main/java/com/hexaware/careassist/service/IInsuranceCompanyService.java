@@ -7,13 +7,13 @@ import com.hexaware.careassist.entities.InsuranceCompany;
 
 
 public interface IInsuranceCompanyService {
-	public InsuranceCompanyDTO getInsuranceCompanyById(int insuranceCompanyId);
+	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId);
 	
-	public boolean updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto);
+	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto);
 	
-	public boolean deleteInsuranceCompanyById(int insuranceCompanyId);
+	public boolean deleteInsuranceCompanyById(long insuranceCompanyId);
 	
-	public InsuranceCompanyDTO addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto);
+	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto);
 	
 	public List<InsuranceCompany> getInsuranceCompanyByName(String insuranceCompanyName);
 	

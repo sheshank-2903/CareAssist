@@ -21,7 +21,7 @@ public class AdminServiceImp implements IAdminService {
 	Logger logger =LoggerFactory.getLogger(AdminServiceImp.class);
 	
 	@Override
-	public AdminDTO getAdminInfo(long adminId) {
+	public AdminDTO getAdminById(long adminId) {
 		Admin admin = repo.findById(adminId).orElse(null);
 		logger.info("AdminServiceImp - Admin data fetched successfully");
 		AdminDTO adminDto = new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
@@ -29,23 +29,17 @@ public class AdminServiceImp implements IAdminService {
 	}
 
 	@Override
-	public boolean updateAdminInfo(AdminDTO adminDto) {
+	public Admin updateAdmin(AdminDTO adminDto) {
 		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
 		logger.info("AdminServiceImp - Admin has added updated successfull ");
-		boolean result=true;
-		if(admin==null)
-			result=false;
-		return result;
+		return admin;
 	}
 
 	@Override
-	public boolean addAdmin(AdminDTO adminDto) {
+	public Admin addAdmin(AdminDTO adminDto) {
 		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
 		logger.info("AdminServiceImp - Admin has added successfull ");
-		boolean result=true;
-		if(admin==null)
-			result=false;
-		return result;
+		return admin;
 	}
 
 

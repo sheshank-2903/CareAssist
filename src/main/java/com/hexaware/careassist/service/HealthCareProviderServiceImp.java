@@ -2,42 +2,63 @@ package com.hexaware.careassist.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
-import java.util.Collections;
+import com.hexaware.careassist.repository.HealthCareProviderRepository;
 
-
+@Service
 public class HealthCareProviderServiceImp implements IHealthCareProviderService {
 
+	@Autowired
+	HealthCareProviderRepository healthCareRepo;
+	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
+
 	@Override
-	public boolean addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
-		// TODO Auto-generated method stub
-		return false;
+	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
+		HealthCareProvider healthcareprovider=healthCareRepo.save(new HealthCareProvider(healthCareProviderDto.getHealthCareProviderId(),
+				healthCareProviderDto.getHealthcareProviderName(), healthCareProviderDto.getProviderGender(),
+				healthCareProviderDto.getAddress(), healthCareProviderDto.getEmail(),
+				healthCareProviderDto.getPassword()));
+			logger.info("HealthCareProviderServiceImp - HealthCareProvider added successfully");
+		return healthcareprovider;
 	}
 
 	@Override
-	public HealthCareProviderDTO getHealthCareProviderById(int healthCareProviderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) {
+		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElse(null);
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
+		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
+				healthcareprovider.getHealthcareProviderName(), healthcareprovider.getProviderGender(),
+				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword());
 	}
 
 	@Override
-	public boolean updateHealthCareProviderInfo(HealthCareProviderDTO healthCareProviderDto) {
-		// TODO Auto-generated method stub
-		return false;
+	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
+		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
+				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
+				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
+				healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider updated successfully");
+		return healthcareprovider;
 	}
 
 	@Override
-	public boolean deleteHealthCareProviderInfo(int healthCareProviderId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteHealthCareProvider(long healthCareProviderId) {
+		healthCareRepo.deleteById(healthCareProviderId);
+		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElse(null);
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
+		return healthcareprovider == null;
 	}
 
 	@Override
 	public List<HealthCareProvider> getAllHealthCareProvider() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("HealthCareProviderServiceImp - All HealthCareProvider data fetched successfully");
+		return healthCareRepo.findAll();
 	}
-
 
 }

@@ -21,14 +21,14 @@ public class HealthCareProvider {
 	@Email
     private String email;
 	
-	private int password;
+	private String password;
 
 	public HealthCareProvider() {
 		super();
 	}
 
 	public HealthCareProvider(long healthCareId, @NotBlank String healthcareProviderName,
-			@NotBlank String providerGender, @NotBlank String address, @Email String email, int password) {
+			@NotBlank String providerGender, @NotBlank String address, @Email String email, String password) {
 		super();
 		this.healthCareProviderId = healthCareId;
 		this.healthcareProviderName = healthcareProviderName;
@@ -78,11 +78,11 @@ public class HealthCareProvider {
 		this.email = email;
 	}
 
-	public int getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(int password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
