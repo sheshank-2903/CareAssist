@@ -17,6 +17,7 @@ public class AdminServiceImp implements IAdminService {
 	
 	@Autowired 
 	AdminRepository repo;
+	
 	Logger logger =LoggerFactory.getLogger(AdminServiceImp.class);
 	
 	@Override
@@ -41,9 +42,9 @@ public class AdminServiceImp implements IAdminService {
 	public boolean addAdmin(AdminDTO adminDto) {
 		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
 		logger.info("AdminServiceImp - Admin has added successfull ");
-		boolean result=false;
-		if(admin!=null)
-			result=true;
+		boolean result=true;
+		if(admin==null)
+			result=false;
 		return result;
 	}
 

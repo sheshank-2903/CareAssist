@@ -6,12 +6,12 @@ import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.Plans;
 
 public interface IPlansService {
-	public boolean addPlan(PlansDTO plansDto);
-	public boolean updatePlan(PlansDTO plansDto);
-	public boolean deletePlanById(PlansDTO plansDto);
-	public PlansDTO getPlanById(int planId);
+	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId);
+	public Plans updatePlan(String planName,String description,double coverageAmount,long planId);
+	public boolean deletePlanById(long planId);
+	public PlansDTO getPlanById(long planId);
 	public List<Plans> getAllPlans();
 	public List<Plans> getPlanByName(String planName);
-	public List<Plans> getPlanByinsuranceCompanyId(String insuranceCompanyId);
+	public List<Plans> getPlanByInsuranceCompanyName(String companyName);
 	
 }

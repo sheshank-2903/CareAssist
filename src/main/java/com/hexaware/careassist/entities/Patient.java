@@ -29,7 +29,7 @@ public class Patient {
 	@NotNull
 	private LocalDate dob;
 	
-	@Pattern(regexp="[0-9]{10}",message="Please enter 10 digit number")
+	@Pattern(regexp="[\\d]{10}",message="Please enter 10 digit number")
     private String contact;
 	
 	@NotBlank
@@ -58,7 +58,7 @@ public class Patient {
 
     
 	public Patient(long patientId, @NotNull LocalDate dob,
-			@Pattern(regexp = "[0-9]{10}", message = "Please enter 10 digit number") String contact,
+			@Pattern(regexp = "[\\d]{10}", message = "Please enter 10 digit number") String contact,
 			@NotBlank String address, @NotBlank String patientName, @NotBlank String patientGender,
 			@NotBlank String descriptionOfTreatment, @Email String email, String password, Set<Claims> claimSet,
 			Set<Invoices> invoiceSet) {

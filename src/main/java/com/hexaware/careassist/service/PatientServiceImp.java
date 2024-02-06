@@ -2,39 +2,112 @@ package com.hexaware.careassist.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.repository.PatientRepository;
 
+import jakarta.transaction.Transactional;
+
+@Service
+@Transactional
 public class PatientServiceImp implements IPatientService {
 
+	Logger logger = LoggerFactory.getLogger(PatientServiceImp.class);
+	
+	@Autowired
+	PatientRepository repo;
+	
 	@Override
-	public PatientDTO getPatientById(int patientId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PatientDTO getPatientById(long patientId) {
+		
+		Patient patient=repo.findById(patientId).orElse(null); //Throw patient not found exception
+		
+		PatientDTO patientdto=new PatientDTO();
+		patientdto.setPatientId(patient.getPatientId());  
+		patientdto.setPatientName(patient.getPatientName());
+		patientdto.setAddress(patient.getAddress());
+		patientdto.setContact(patient.getContact());
+		patientdto.setDob(patient.getDob());
+		patientdto.setDescriptionOfTreatment(patient.getDescriptionOfTreatment());
+		patientdto.setEmail(patient.getEmail());
+		patientdto.setPassword(patient.getPassword());
+		patientdto.setPatientGender(patient.getPatientGender());
+		
+		logger.info("PatientServiceImp-- Patient with id {} has been fetched successfully",patientId);
+		
+		return patientdto;
 	}
 
 	@Override
-	public boolean updatePatient(PatientDTO patientDto) {
-		// TODO Auto-generated method stub
-		return false;
+	public Patient updatePatient(PatientDTO patientDto) {
+
+		Patient patient=new Patient();
+		patient.setPatientId(patientDto.getPatientId());
+		patient.setPatientName(patientDto.getPatientName());
+		patient.setAddress(patientDto.getAddress());
+		patient.setContact(patientDto.getContact());
+		patient.setDob(patientDto.getDob());
+		patient.setDescriptionOfTreatment(patientDto.getDescriptionOfTreatment());
+		patient.setEmail(patientDto.getEmail());
+		patient.setPassword(patientDto.getPassword());
+		patient.setPatientGender(patientDto.getPatientGender());
+		
+			logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
+		
+		return repo.save(patient);
 	}
 
 	@Override
-	public boolean deletePatientById(int patientId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deletePatientById(long patientId) {
+		repo.deleteById(patientId);
+		
+		Patient patient=repo.findById(patientId).orElse(null);
+		
+		boolean bool=false;
+		if(patient==null) {
+			bool=true;
+			logger.warn("PatientServiceImp-- Patient with id: {} has been deleted!",patientId);
+		}
+		
+		return bool;
+	
 	}
 
 	@Override
 	public List<Patient> getAllPatient() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("PatientServiceImp-- All the Patients Data is received!!!");
+		return repo.findAll();
 	}
 
 	@Override
 	public List<Patient> getPatientByName(String patientName) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		logger.info("PatientServiceImp-- Patients with name: {}  are fetched!!!",patientName);
+		
+		return repo.findByPatientName(patientName);
+	}
+
+	@Override
+	public Patient addPatient(PatientDTO patientDto) {
+		Patient patient=new Patient();
+		patient.setPatientId(patientDto.getPatientId());
+		patient.setPatientName(patientDto.getPatientName());
+		patient.setAddress(patientDto.getAddress());
+		patient.setContact(patientDto.getContact());
+		patient.setDob(patientDto.getDob());
+		patient.setDescriptionOfTreatment(patientDto.getDescriptionOfTreatment());
+		patient.setEmail(patientDto.getEmail());
+		patient.setPassword(patientDto.getPassword());
+		patient.setPatientGender(patientDto.getPatientGender());
+		
+		logger.info("PatientServiceImp-- Patient with id: {} is added successfully!!!!",patient.getPatientId());
+		
+		return repo.save(patient);
 	}
 
 
