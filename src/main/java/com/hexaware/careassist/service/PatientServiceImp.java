@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.repository.PatientRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,9 +24,10 @@ public class PatientServiceImp implements IPatientService {
 	PatientRepository repo;
 	
 	@Override
-	public PatientDTO getPatientById(long patientId) {
+	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException {
 		
-		Patient patient=repo.findById(patientId).orElse(null); //Throw patient not found exception
+		Patient patient=repo.findById(patientId)
+				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 		
 		PatientDTO patientdto=new PatientDTO();
 		patientdto.setPatientId(patient.getPatientId());  
@@ -44,7 +46,10 @@ public class PatientServiceImp implements IPatientService {
 	}
 
 	@Override
-	public Patient updatePatient(PatientDTO patientDto) {
+	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException {
+
+		repo.findById(patientDto.getPatientId())
+		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 
 		Patient patient=new Patient();
 		patient.setPatientId(patientDto.getPatientId());
@@ -57,16 +62,21 @@ public class PatientServiceImp implements IPatientService {
 		patient.setPassword(patientDto.getPassword());
 		patient.setPatientGender(patientDto.getPatientGender());
 		
-			logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
+		logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
 		
 		return repo.save(patient);
 	}
 
 	@Override
-	public boolean deletePatientById(long patientId) {
+	public boolean deletePatientById(long patientId) throws NoSuchPatientFoundException {
+		
+		repo.findById(patientId)
+		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+
 		repo.deleteById(patientId);
 		
-		Patient patient=repo.findById(patientId).orElse(null);
+		Patient patient=repo.findById(patientId).orElse(null); 
+
 		
 		boolean bool=false;
 		if(patient==null) {
@@ -94,6 +104,7 @@ public class PatientServiceImp implements IPatientService {
 
 	@Override
 	public Patient addPatient(PatientDTO patientDto) {
+		//already exists in db...
 		Patient patient=new Patient();
 		patient.setPatientId(patientDto.getPatientId());
 		patient.setPatientName(patientDto.getPatientName());

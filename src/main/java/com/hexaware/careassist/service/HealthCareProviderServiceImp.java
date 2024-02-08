@@ -17,21 +17,24 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 
 	@Autowired
 	HealthCareProviderRepository healthCareRepo;
+
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
 
 	@Override
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
-		HealthCareProvider healthcareprovider=healthCareRepo.save(new HealthCareProvider(healthCareProviderDto.getHealthCareProviderId(),
-				healthCareProviderDto.getHealthcareProviderName(), healthCareProviderDto.getProviderGender(),
-				healthCareProviderDto.getAddress(), healthCareProviderDto.getEmail(),
-				healthCareProviderDto.getPassword()));
-			logger.info("HealthCareProviderServiceImp - HealthCareProvider added successfully");
+		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
+				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
+				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
+				healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider added successfully");
 		return healthcareprovider;
 	}
 
 	@Override
-	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
-		HealthCareProvider healthcareprovider=healthCareRepo.findById(healthCareProviderId).orElseThrow(()-> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId)
+			throws NoSuchHealthCareProviderFoundException {
+		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElseThrow(
+				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
 		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
 				healthcareprovider.getHealthcareProviderName(), healthcareprovider.getProviderGender(),
@@ -39,8 +42,10 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	}
 
 	@Override
-	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException {
-		healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(()-> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto)
+			throws NoSuchHealthCareProviderFoundException {
+		healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(
+				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
 				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
 				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
@@ -50,7 +55,9 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	}
 
 	@Override
-	public boolean deleteHealthCareProvider(long healthCareProviderId) {
+	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+		healthCareRepo.findById(healthCareProviderId).orElseThrow(
+				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		healthCareRepo.deleteById(healthCareProviderId);
 		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElse(null);
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");

@@ -2,8 +2,6 @@ package com.hexaware.careassist.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IPatientService;
 
 @RestController
@@ -31,18 +30,18 @@ public class PatientRestController {
 	}
 
 	@PutMapping("/update")
-	public Patient updatePatient(@RequestBody PatientDTO patientDto) {
+	public Patient updatePatient(@RequestBody PatientDTO patientDto) throws NoSuchPatientFoundException {
 		return service.updatePatient(patientDto);
 	}
 
 	@DeleteMapping("/delete/{patientId}")
-	public String deletePatientById(@PathVariable long patientId) {
+	public String deletePatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		boolean isDeleted = service.deletePatientById(patientId);
 		return isDeleted ? "Patient has been deleted" : "Deletion unsuccessful";
 	}
 
 	@GetMapping("/getbyid/{patientId}")
-	public PatientDTO getPatientById(@PathVariable long patientId) {
+	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
 

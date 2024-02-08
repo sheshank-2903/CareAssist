@@ -1,7 +1,6 @@
 package com.hexaware.careassist.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
+import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
 @SpringBootTest
 class InvoicesServiceImpTest {
@@ -21,11 +22,9 @@ class InvoicesServiceImpTest {
 
 	@Test
 //	@Disabled
-	void testAddInvoice() {
+	void testAddInvoice() throws NoSuchPatientFoundException {
 		InvoicesDTO invoice=new InvoicesDTO(2,LocalDate.now(),LocalDate.now(),"Yash","abc abc", 0, 0, 0, 0, 0);
-		
 		Invoices inv=service.addInvoice(invoice, 1);
-		
 		assertEquals(2,inv.getInvoiceId());
 	}
 
@@ -33,24 +32,21 @@ class InvoicesServiceImpTest {
 //	@Disabled
 	void testGetAllInvoices() {
 		List<Invoices> list=service.getAllInvoices();
-		
-		assertTrue(list.size()==2);
+		assertEquals(2,list.size());
 	}
 
 	@Test
 //	@Disabled
-	void testGetInvoiceById() {
+	void testGetInvoiceById() throws NoSuchInvoiceFoundException {
 		Invoices inv=service.getInvoiceById(1);
-		
 		assertEquals(1,inv.getInvoiceId());
 	}
 
 	@Test
 //	@Disabled
-	void testGetInvoicesByPatientId() {
+	void testGetInvoicesByPatientId() throws NoSuchPatientFoundException {
 		List<Invoices> list=service.getInvoicesByPatientId(1);
-		//System.out.println(list);
-		assertTrue(list.size()==2);
+		assertEquals(2,list.size());
 	}
 
 }

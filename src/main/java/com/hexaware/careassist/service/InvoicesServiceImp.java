@@ -5,13 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.repository.InvoicesRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 
@@ -30,9 +30,11 @@ public class InvoicesServiceImp implements IInvoicesService {
 	PatientRepository patientRepo;
 	
 	@Override
-	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) {
+	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException {
 		
-		Patient patient=patientRepo.findById(patientId).orElse(null);
+		Patient patient=patientRepo.findById(patientId)
+				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+		
 		
 		Invoices invoice=new Invoices();
 		invoice.setInvoiceId(invoiceDto.getInvoiceId());
@@ -65,17 +67,33 @@ public class InvoicesServiceImp implements IInvoicesService {
 	}
 
 	@Override
-	public Invoices getInvoiceById(long invoiceId) {
+	public Invoices getInvoiceById(long invoiceId) throws NoSuchInvoiceFoundException {
 
 		logger.info("InvoicesServiceImp-- Invoice with invoiceId: {} fetched successfully",invoiceId);
-		return invoiceRepo.findById(invoiceId).orElse(null);
+		return invoiceRepo.findById(invoiceId).orElseThrow(()->new NoSuchInvoiceFoundException("No such Invoice exists in the database")); 
+		
 	}
 	
 
 	@Override
-	public List<Invoices> getInvoicesByPatientId(long patientId) {
+	public List<Invoices> getInvoicesByPatientId(long patientId) throws NoSuchPatientFoundException {
+		patientRepo.findById(patientId)
+		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+
 		logger.info("InvoicesServiceImp-- Invoice with PatientId: {} fetched successfully",patientId);
 		return invoiceRepo.findByByPatientId(patientId);
+	}
+
+
+
+	@Override
+	public boolean deleteInvoiceById(long invoiceId) throws NoSuchInvoiceFoundException {
+		invoiceRepo.findById(invoiceId)
+		.orElseThrow(()->new NoSuchInvoiceFoundException("No such Invoice exists in the database")); 
+		
+		invoiceRepo.deleteById(invoiceId);
+		
+		return invoiceRepo.findById(invoiceId).orElse(null)==null;
 	}
 
 	

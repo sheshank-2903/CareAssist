@@ -1,8 +1,9 @@
 package com.hexaware.careassist.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -15,7 +16,7 @@ import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 
 @SpringBootTest
-class InsuranceCompanyImpTest {
+class InsuranceCompanyServiceImpTest {
 	
 	@Autowired
 	IInsuranceCompanyService service;
@@ -28,19 +29,19 @@ class InsuranceCompanyImpTest {
 	@Disabled
 	void testGetInsuranceCompanyById() throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompanyDTO response=service.getInsuranceCompanyById(1);
-		assertTrue(response.getInsuranceCompanyId()==1);
+		assertEquals(1,response.getInsuranceCompanyId());
 	}
 
 	@Test
 	@Disabled
 	void testUpdateInsuranceCompany() throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompany response= service.updateInsuranceCompany(new InsuranceCompanyDTO((long)1,"askdjf  ","abas","6367016451","abc@gmail.com","Yash@123"));
-		assertTrue(response.getCompanyName()=="abas");
+		assertSame("abas",response.getCompanyName());
 	}
 
 	@Test
 	@Disabled
-	void testDeleteInsuranceCompanyById() {
+	void testDeleteInsuranceCompanyById() throws NoSuchInsuranceCompanyFoundException {
 		boolean response=service.deleteInsuranceCompanyById(1);
 		assertTrue(response);
 	}
@@ -54,9 +55,9 @@ class InsuranceCompanyImpTest {
 
 	@Test
 	@Disabled
-	void testGetInsuranceCompanyByName() {
-		List<InsuranceCompany> response=service.getInsuranceCompanyByName("name2");
-		assertTrue(response.size()==1);
+	void testGetInsuranceCompanyByName() throws NoSuchInsuranceCompanyFoundException {
+		InsuranceCompany response=service.getInsuranceCompanyByName("name2");
+		assertNotNull(response);
 		
 	}
 

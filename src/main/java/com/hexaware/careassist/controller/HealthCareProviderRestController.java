@@ -2,8 +2,6 @@ package com.hexaware.careassist.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
@@ -42,7 +41,7 @@ public class HealthCareProviderRestController {
 	}
 
 	@DeleteMapping("/delete")
-	public boolean deleteHealthCareProvider(@RequestBody long healthCareProviderId) {
+	public boolean deleteHealthCareProvider(@RequestBody long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.deleteHealthCareProvider(healthCareProviderId);
 	}
 	

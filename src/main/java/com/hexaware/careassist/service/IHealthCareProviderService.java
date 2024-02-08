@@ -10,6 +10,6 @@ public interface IHealthCareProviderService {
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto);
 	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException;
-	public boolean deleteHealthCareProvider(long healthCareProviderId);
+	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getAllHealthCareProvider();
 }

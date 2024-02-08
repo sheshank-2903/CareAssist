@@ -4,14 +4,16 @@ import java.util.List;
 
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
 public interface IPlansService {
-	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId);
-	public Plans updatePlan(String planName,String description,double coverageAmount,long planId);
-	public boolean deletePlanById(long planId);
-	public PlansDTO getPlanById(long planId);
+	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException;
+	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) throws NoSuchPlanFoundException;
+	public boolean deletePlanById(long planId) throws NoSuchPlanFoundException;
+	public PlansDTO getPlanById(long planId) throws NoSuchPlanFoundException;
 	public List<Plans> getAllPlans();
 	public List<Plans> getPlanByName(String planName);
-	public List<Plans> getPlanByInsuranceCompanyName(String companyName);
+	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException;
 	
 }

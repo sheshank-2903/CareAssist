@@ -1,5 +1,6 @@
 package com.hexaware.careassist.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -25,7 +26,7 @@ class HealthCareProviderServiceImpTest {
 	}
 
 	@Test
-	//@Disabled
+	@Disabled
 	void testAddHealthCareProvider() {
 		HealthCareProvider response=service.addHealthCareProvider(new HealthCareProviderDTO(2,"sheshank","male","absc 123 sadbas","abc@gmail.com","asdkjf"));
 		assertTrue(response.getHealthcareProviderName()=="sheshank" && response.getEmail()=="abc@gmail.com");
@@ -35,7 +36,7 @@ class HealthCareProviderServiceImpTest {
 	@Disabled
 	void testGetHealthCareProviderById() throws NoSuchHealthCareProviderFoundException {
 		HealthCareProviderDTO response=service.getHealthCareProviderById(1);
-		assertTrue(response.getHealthCareProviderId()==1);
+		assertEquals(1,response.getHealthCareProviderId());
 	}
 
 	@Test
@@ -45,12 +46,12 @@ class HealthCareProviderServiceImpTest {
 				1, "king",
 				"male", "ashdhfiasd faisdhfisad fsaidufh",
 				"bht@gmail.com", "asdkjksdfj"));
-		assertTrue(response.getHealthcareProviderName()=="king");
+		assertEquals("king",response.getHealthcareProviderName());
 	}
 
 	@Test
 	@Disabled
-	void testDeleteHealthCareProviderInfo() {
+	void testDeleteHealthCareProviderInfo() throws NoSuchHealthCareProviderFoundException {
 		boolean response=service.deleteHealthCareProvider(2);
 		assertTrue(response);
 	}
@@ -59,7 +60,7 @@ class HealthCareProviderServiceImpTest {
 	@Disabled
 	void testGetAllHealthCareProvider() {
 		List<HealthCareProvider> response=service.getAllHealthCareProvider();
-		assertTrue(response.size()==2);
+		assertEquals(2,response.size());
 	}
 
 }

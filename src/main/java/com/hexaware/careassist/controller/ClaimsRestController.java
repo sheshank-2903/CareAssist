@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IClaimsService;
 
 @RestController
@@ -25,7 +27,7 @@ public class ClaimsRestController {
 	IClaimsService claimService;
 	
 	@PostMapping("/add/{patientId}/{planId}")
-	public Claims addClaim(@RequestBody ClaimsDTO claimDto,@PathVariable long patientId,@PathVariable long planId) {
+	public Claims addClaim(@RequestBody ClaimsDTO claimDto,@PathVariable long patientId,@PathVariable long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException {
 		return claimService.addClaim(claimDto, patientId, planId);
 	}
 	

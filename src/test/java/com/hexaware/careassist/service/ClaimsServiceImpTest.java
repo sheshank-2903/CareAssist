@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
 @SpringBootTest
 class ClaimsServiceImpTest {
@@ -26,7 +28,7 @@ class ClaimsServiceImpTest {
 
 	@Test
 	@Disabled
-	void testAddClaim() {
+	void testAddClaim() throws NoSuchPatientFoundException, NoSuchPlanFoundException {
 		Claims claims = service.addClaim(new ClaimsDTO(2,1000.00,"askjb"), 1, 1);
 		assertTrue(claims.getClaimStatus()=="pending" && claims.getClaimAmount()==1000.00);
 	}
@@ -54,7 +56,7 @@ class ClaimsServiceImpTest {
 
 	@Test
 	@Disabled
-	void testDeleteClaimById() {
+	void testDeleteClaimById() throws NoSuchClaimFoundException {
 		boolean response = service.deleteClaimById((long) 1);
 		assertTrue(response);
 	}

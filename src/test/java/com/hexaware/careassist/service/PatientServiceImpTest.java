@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
 @SpringBootTest
 class PatientServiceImpTest {
@@ -36,7 +37,7 @@ class PatientServiceImpTest {
 
 	@Test
 	@Disabled
-	void testGetPatientById() {
+	void testGetPatientById() throws NoSuchPatientFoundException {
 		PatientDTO res = service.getPatientById(1);
 
 		assertNotNull(res);
@@ -44,7 +45,7 @@ class PatientServiceImpTest {
 
 	@Test
 	@Disabled
-	void testUpdatePatient() {
+	void testUpdatePatient() throws NoSuchPatientFoundException {
 		PatientDTO patientDto = new PatientDTO(2, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "Kumar",
 				"Male", "Kamar Dard", "kumar@gmail.com", "abc123");
 
@@ -55,7 +56,7 @@ class PatientServiceImpTest {
 
 	@Test
 	@Disabled
-	void testDeletePatientById() {
+	void testDeletePatientById() throws NoSuchPatientFoundException {
 		
 		boolean bool=service.deletePatientById(2);
 		assertTrue(bool);
@@ -67,7 +68,7 @@ class PatientServiceImpTest {
 	void testGetAllPatient() {
 		List<Patient> list=service.getAllPatient();
 		
-		assertTrue(list.size()==2);
+		assertEquals(2,list.size());
 	}
 
 	@Test
@@ -75,7 +76,7 @@ class PatientServiceImpTest {
 	void testGetPatientByName() {
 		List<Patient> list=service.getPatientByName("Yash");
 		
-		assertTrue(list.size()==1);
+		assertEquals(1,list.size());
 	}
 
 }

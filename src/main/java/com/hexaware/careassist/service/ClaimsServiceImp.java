@@ -12,6 +12,8 @@ import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.ClaimRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
@@ -33,10 +35,10 @@ public class ClaimsServiceImp implements IClaimsService {
 	Logger logger =LoggerFactory.getLogger(ClaimsServiceImp.class);
 	
 	@Override
-	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) {
+	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException{
 		
-		Patient patient = patientRepo.findById(patientId).orElse(null);
-		Plans plans = planRepo.findById(planId).orElse(null);
+		Patient patient = patientRepo.findById(patientId).orElseThrow(()-> new NoSuchPatientFoundException("No such Patient exists in database"));
+		Plans plans = planRepo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
 		Claims claims = claimRepo.save(new Claims(claimDto.getClaimId(),
 											claimDto.getClaimAmount(),
 											claimDto.getClaimStatus(),
@@ -71,7 +73,8 @@ public class ClaimsServiceImp implements IClaimsService {
 	}
 
 	@Override
-	public boolean deleteClaimById(Long claimId) {
+	public boolean deleteClaimById(Long claimId) throws NoSuchClaimFoundException {
+		claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
 		claimRepo.deleteById(claimId);
 		Claims claim=claimRepo.findById(claimId).orElse(null);
 		logger.info("ClaimsServiceImp - Claim deleted successfully");

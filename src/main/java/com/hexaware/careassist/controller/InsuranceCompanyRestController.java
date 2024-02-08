@@ -38,7 +38,7 @@ public class InsuranceCompanyRestController {
 	}
 
 	@DeleteMapping("/delete/{insuranceCompanyId}")
-	public boolean deleteInsuranceCompanyById(@PathVariable long insuranceCompanyId) {
+	public boolean deleteInsuranceCompanyById(@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyRestController - InsuranceCompany deleted successfully");
 		return insuranceCompanyService.deleteInsuranceCompanyById(insuranceCompanyId);
 	}
@@ -50,7 +50,7 @@ public class InsuranceCompanyRestController {
 	}
 	
 	@GetMapping("/getbyname/{insuranceCompanyName}")
-	public List<InsuranceCompany> getInsuranceCompanyByName(@PathVariable String insuranceCompanyName) {
+	public InsuranceCompany getInsuranceCompanyByName(@PathVariable String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
 		return insuranceCompanyService.getInsuranceCompanyByName(insuranceCompanyName);
 	}

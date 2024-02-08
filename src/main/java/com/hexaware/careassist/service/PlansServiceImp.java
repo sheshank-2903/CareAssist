@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
@@ -27,9 +29,9 @@ public class PlansServiceImp implements IPlansService {
 	Logger logger =LoggerFactory.getLogger(PlansServiceImp.class);
 	
 	@Override
-	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId) {
+	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
 		
-		InsuranceCompany insuranceCompany=insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
+		InsuranceCompany insuranceCompany=insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		
 		Plans plans=new Plans();
 		plans.setPlanId(plansDto.getPlanId());
@@ -46,8 +48,10 @@ public class PlansServiceImp implements IPlansService {
 
 	@Transactional
 	@Override
-	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) {
+	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) throws NoSuchPlanFoundException {
 
+		repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		
 		repo.updatePlan( planName, description, coverageAmount, planId);
 		Plans plan=repo.findById(planId).orElse(null);
 		
@@ -58,8 +62,9 @@ public class PlansServiceImp implements IPlansService {
 	}
 
 	@Override
-	public boolean deletePlanById(long planId) {
-
+	public boolean deletePlanById(long planId) throws NoSuchPlanFoundException {
+		repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		
 		repo.deleteById(planId);
 		Plans plans=repo.findById(planId).orElse(null);
 		
@@ -72,9 +77,9 @@ public class PlansServiceImp implements IPlansService {
 	}
 
 	@Override
-	public PlansDTO getPlanById(long planId) {
+	public PlansDTO getPlanById(long planId) throws NoSuchPlanFoundException {
 
-		Plans plans=repo.findById(planId).orElse(null);
+		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
 		
 		PlansDTO plansDto=new PlansDTO();
 		plansDto.setPlanId(plans.getPlanId());
@@ -100,7 +105,8 @@ public class PlansServiceImp implements IPlansService {
 	}
 
 	@Override
-	public List<Plans> getPlanByInsuranceCompanyName(String companyName) {
+	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException {
+		insuranceCompanyRepo.findBycompanyName(companyName).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		logger.info("PlansServiceImp-- Plan details with company name:{}  fetched successfully",companyName);
 		return repo.findByCompanyName(companyName);
 	}
