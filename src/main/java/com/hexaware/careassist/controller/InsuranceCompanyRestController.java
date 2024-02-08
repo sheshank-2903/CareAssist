@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.service.IInsuranceCompanyService;
 
 @RestController
@@ -25,13 +26,13 @@ public class InsuranceCompanyRestController {
 	Logger logger =LoggerFactory.getLogger(InsuranceCompanyRestController.class);
 	
 	@GetMapping("/get/{insuranceCompanyId}")
-	public InsuranceCompanyDTO getInsuranceCompanyById(@PathVariable long insuranceCompanyId) {
+	public InsuranceCompanyDTO getInsuranceCompanyById(@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyRestController - InsuranceCompany data by Id fetched successfully");
 		return insuranceCompanyService.getInsuranceCompanyById(insuranceCompanyId);
 	}
 	
 	@PutMapping("/update")
-	public InsuranceCompany updateInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) {
+	public InsuranceCompany updateInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyRestController - InsuranceCompany updated successfully");
 		return insuranceCompanyService.updateInsuranceCompany(insuranceCompanyDto);
 	}

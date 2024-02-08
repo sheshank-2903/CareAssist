@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.service.IHealthCareProviderService;
 
 
@@ -31,12 +32,12 @@ public class HealthCareProviderRestController {
 	}
 	
 	@GetMapping("/get/{healthCareProviderId}")
-	public HealthCareProviderDTO getHealthCareProviderById(@PathVariable long healthCareProviderId) {
+	public HealthCareProviderDTO getHealthCareProviderById(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.getHealthCareProviderById(healthCareProviderId);
 	} 
 	
 	@PutMapping("/update")
-	public HealthCareProvider updateHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) {
+	public HealthCareProvider updateHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.updateHealthCareProvider(healthCareProviderDto);
 	}
 

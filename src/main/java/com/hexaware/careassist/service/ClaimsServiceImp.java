@@ -11,6 +11,7 @@ import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.repository.ClaimRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
@@ -49,16 +50,16 @@ public class ClaimsServiceImp implements IClaimsService {
 
 	@Transactional
 	@Override
-	public Claims updateClaim(String newStatus, long claimId) {
+	public Claims updateClaim(String newStatus, long claimId) throws NoSuchClaimFoundException {
+		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
 		claimRepo.updateClaimStatus(newStatus,claimId);
-		Claims claim=claimRepo.findById(claimId).orElse(null);
 		logger.info("ClaimsServiceImp - Claim status updated successfully");
 		return claim;
 	}
 
 	@Override
-	public ClaimsDTO getClaimById(long claimId) {
-		Claims claim=claimRepo.findById(claimId).orElse(null);
+	public ClaimsDTO getClaimById(long claimId)throws NoSuchClaimFoundException {
+		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
 		logger.info("ClaimsServiceImp - Claim data fetched successfully");
 		return new ClaimsDTO(claim.getClaimId(),claim.getClaimAmount(),claim.getClaimStatus());
 	}

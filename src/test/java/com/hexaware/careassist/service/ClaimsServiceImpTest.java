@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 
 @SpringBootTest
 class ClaimsServiceImpTest {
@@ -32,14 +33,14 @@ class ClaimsServiceImpTest {
 
 	@Test
 	@Disabled
-	void testUpdateclaim() {
+	void testUpdateclaim() throws NoSuchClaimFoundException {
 		Claims claims = service.updateClaim("pending",1);
 		assertEquals("pending",claims.getClaimStatus());
 	}
 
 	@Test
 	@Disabled
-	void testGetClaimById() {
+	void testGetClaimById() throws NoSuchClaimFoundException {
 		ClaimsDTO claim=service.getClaimById(1);
 		assertEquals("pending",claim.getClaimStatus());
 	}

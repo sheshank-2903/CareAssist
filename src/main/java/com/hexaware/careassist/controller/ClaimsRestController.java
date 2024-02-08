@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.service.IClaimsService;
 
 @RestController
@@ -29,12 +30,12 @@ public class ClaimsRestController {
 	}
 	
 	@PutMapping("/update/claimId")
-	public Claims updateClaim(@RequestBody String newStatus,@PathVariable long claimId) {
+	public Claims updateClaim(@RequestBody String newStatus,@PathVariable long claimId) throws NoSuchClaimFoundException {
 		return claimService.updateClaim(newStatus, claimId);
 	}
 	
 	@GetMapping("/get/{claimId}")
-	public ClaimsDTO getClaimById(@PathVariable long claimId) {
+	public ClaimsDTO getClaimById(@PathVariable long claimId) throws NoSuchClaimFoundException {
 		return claimService.getClaimById(claimId);
 	}
 	
@@ -44,7 +45,7 @@ public class ClaimsRestController {
 	}
 	
 	@DeleteMapping("/delete/{claimId}")
-	public boolean deleteClaimById(@PathVariable long claimId) {
+	public boolean deleteClaimById(@PathVariable long claimId) throws NoSuchClaimFoundException {
 		return claimService.deleteClaimById(claimId);
 	}
 	

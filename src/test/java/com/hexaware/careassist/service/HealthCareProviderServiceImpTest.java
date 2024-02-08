@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
 @SpringBootTest
 class HealthCareProviderServiceImpTest {
@@ -32,14 +33,14 @@ class HealthCareProviderServiceImpTest {
 
 	@Test
 	@Disabled
-	void testGetHealthCareProviderById() {
+	void testGetHealthCareProviderById() throws NoSuchHealthCareProviderFoundException {
 		HealthCareProviderDTO response=service.getHealthCareProviderById(1);
 		assertTrue(response.getHealthCareProviderId()==1);
 	}
 
 	@Test
 	@Disabled
-	void testUpdateHealthCareProviderInfo() {
+	void testUpdateHealthCareProviderInfo() throws NoSuchHealthCareProviderFoundException {
 		HealthCareProvider response= service.updateHealthCareProvider(new HealthCareProviderDTO(
 				1, "king",
 				"male", "ashdhfiasd faisdhfisad fsaidufh",

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
@@ -24,8 +25,8 @@ public class InsuranceCompanyImp implements IInsuranceCompanyService {
 	Logger logger =LoggerFactory.getLogger(InsuranceCompanyImp.class);
 
 	@Override
-	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId) {
-		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
+	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by Id fetched successfully");
 		return new InsuranceCompanyDTO(insuranceCompany.getInsuranceCompanyId(),
 										insuranceCompany.getInsuranceCompanyDescription(),
@@ -36,7 +37,8 @@ public class InsuranceCompanyImp implements IInsuranceCompanyService {
 	}
 
 	@Override
-	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
+	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException {
+		insuranceCompanyRepo.findById(insuranceCompanyDto.getInsuranceCompanyId()).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
 																		insuranceCompanyDto.getInsuranceCompanyId(),
 																		insuranceCompanyDto.getInsuranceCompanyDescription(),

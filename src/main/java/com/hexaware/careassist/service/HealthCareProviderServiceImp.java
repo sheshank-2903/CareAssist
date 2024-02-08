@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
 
 @Service
@@ -29,8 +30,8 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	}
 
 	@Override
-	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) {
-		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElse(null);
+	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+		HealthCareProvider healthcareprovider=healthCareRepo.findById(healthCareProviderId).orElseThrow(()-> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
 		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
 				healthcareprovider.getHealthcareProviderName(), healthcareprovider.getProviderGender(),
@@ -38,7 +39,8 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	}
 
 	@Override
-	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
+	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException {
+		healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(()-> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
 				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
 				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),

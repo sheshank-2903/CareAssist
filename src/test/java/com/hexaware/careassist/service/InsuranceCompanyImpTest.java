@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 
 @SpringBootTest
 class InsuranceCompanyImpTest {
@@ -25,14 +26,14 @@ class InsuranceCompanyImpTest {
 
 	@Test
 	@Disabled
-	void testGetInsuranceCompanyById() {
+	void testGetInsuranceCompanyById() throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompanyDTO response=service.getInsuranceCompanyById(1);
 		assertTrue(response.getInsuranceCompanyId()==1);
 	}
 
 	@Test
 	@Disabled
-	void testUpdateInsuranceCompany() {
+	void testUpdateInsuranceCompany() throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompany response= service.updateInsuranceCompany(new InsuranceCompanyDTO((long)1,"askdjf  ","abas","6367016451","abc@gmail.com","Yash@123"));
 		assertTrue(response.getCompanyName()=="abas");
 	}
