@@ -36,6 +36,8 @@ public class InsuranceCompany {
     @OneToMany(cascade=CascadeType.ALL,mappedBy="insuranceCompany") 
     @JsonBackReference
 	private Set<Plans> planSet=new HashSet<>();
+    
+    private static final String ROLE="INSURANCE_COMPANY";
 
 	public InsuranceCompany() {
 		super();
@@ -120,6 +122,8 @@ public class InsuranceCompany {
 				+ companyContactNumber + ", email=" + email + ", password=" + password + ", planSet=" + planSet + "]";
 	}
     
-    
+	public static String getRole() {
+		return ROLE;
+	}
     
 }

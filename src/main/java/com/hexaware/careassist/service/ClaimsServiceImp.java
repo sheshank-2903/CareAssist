@@ -90,8 +90,8 @@ public class ClaimsServiceImp implements IClaimsService {
 	}
 
 	@Override
-	public List<Claims> getClaimsByStatus(String status) {
-		List<Claims> claim=claimRepo.getClaimByStatus(status);
+	public List<Claims> getClaimsByStatus(String status,Long patientId) {
+		List<Claims> claim=claimRepo.getClaimByStatus(status,patientId);
 		logger.info("ClaimsServiceImp - All Claim by status fetched successfully");
 		return claim;
 	}

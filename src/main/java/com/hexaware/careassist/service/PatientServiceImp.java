@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.PatientDTO;
@@ -22,6 +23,9 @@ public class PatientServiceImp implements IPatientService {
 	
 	@Autowired
 	PatientRepository repo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Override
 	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException {
@@ -51,6 +55,8 @@ public class PatientServiceImp implements IPatientService {
 		repo.findById(patientDto.getPatientId())
 		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 
+		patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
+		
 		Patient patient=new Patient();
 		patient.setPatientId(patientDto.getPatientId());
 		patient.setPatientName(patientDto.getPatientName());
@@ -105,6 +111,9 @@ public class PatientServiceImp implements IPatientService {
 	@Override
 	public Patient addPatient(PatientDTO patientDto) {
 		//already exists in db...
+		
+		patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
+		
 		Patient patient=new Patient();
 		patient.setPatientId(patientDto.getPatientId());
 		patient.setPatientName(patientDto.getPatientName());

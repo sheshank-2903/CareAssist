@@ -11,4 +11,6 @@ import com.hexaware.careassist.entities.InsuranceCompany;
 public interface InsuranceCompanyRepository extends JpaRepository<InsuranceCompany, Long>{
 	
 	public Optional<InsuranceCompany> findBycompanyName(String companyName);
+
+	public Optional<InsuranceCompany> findByEmail(String email);
 }

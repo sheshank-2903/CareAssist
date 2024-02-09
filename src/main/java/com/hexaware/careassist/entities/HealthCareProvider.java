@@ -28,6 +28,8 @@ public class HealthCareProvider {
 	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
 			,message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
+	
+	private static final String ROLE="HEALTH_CARE_PROVIDER";
 
 	public HealthCareProvider() {
 		super();
@@ -106,7 +108,9 @@ public class HealthCareProvider {
 				+ password + "]";
 	} 
 	
-    
+	public static String getRole() {
+		return ROLE;
+	}
    
     
 }

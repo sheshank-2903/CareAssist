@@ -71,7 +71,7 @@ class ClaimsServiceImpTest {
 	@Test
 	@Disabled
 	void testGetClaimsByStatus() {
-		List<Claims> response = service.getClaimsByStatus("rejected");
+		List<Claims> response = service.getClaimsByStatus("rejected",1L);
 		assertTrue(response.size()==0);
 	}
 

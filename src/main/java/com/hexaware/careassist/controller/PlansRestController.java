@@ -3,6 +3,7 @@ package com.hexaware.careassist.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,20 +20,23 @@ import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPlansService;
 
 @RestController
-@RequestMapping("/api/plans")
+@RequestMapping("/api/v1/plans")
 public class PlansRestController {
 	
 	@Autowired
 	IPlansService service;
 	
 	
+	
 	@PostMapping("/add")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public Plans addPlan(@RequestBody PlansDTO plansDto,@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {		
 		return service.addPlan(plansDto, insuranceCompanyId);
 	}
 	
 	
 	@PutMapping("/update/{planName}/{description}/{coverageAmount}/{planId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public Plans updatePlan(@PathVariable String planName,@PathVariable String description,@PathVariable double coverageAmount,@PathVariable long planId) throws NoSuchPlanFoundException {	
 		return service.updatePlan(planName, description, coverageAmount, planId);
 	}
@@ -40,6 +44,7 @@ public class PlansRestController {
 	
 	
 	@DeleteMapping("/delete/{planId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('ADMIN')")
 	public String deletePlanById(@PathVariable long planId) throws NoSuchPlanFoundException {
 		boolean isDeleted=service.deletePlanById(planId);
 		return isDeleted?"Plan has been deleted":"Deletion unsuccessful";
@@ -49,6 +54,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getbyid/{planId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT')")
 	public PlansDTO getPlanById(@PathVariable long planId) throws NoSuchPlanFoundException {
 		return service.getPlanById(planId);
 	}
@@ -56,6 +62,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getall")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Plans> getAllPlans(){
 		return service.getAllPlans();
 	}
@@ -63,6 +70,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getbyname/{planName}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT')")
 	public List<Plans> getPlanByName(@PathVariable String planName){
 		return service.getPlanByName(planName);
 	}
@@ -70,8 +78,10 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getbyCompanyName/{companyName}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Plans> getPlanByInsuranceCompanyName(@PathVariable String companyName) throws NoSuchInsuranceCompanyFoundException{
 		return service.getPlanByInsuranceCompanyName(companyName);
 	}
-
+	
+	
 }

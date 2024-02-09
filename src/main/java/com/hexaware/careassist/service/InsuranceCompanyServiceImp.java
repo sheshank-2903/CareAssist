@@ -5,6 +5,7 @@ import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
@@ -21,6 +22,10 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	
 	@Autowired
 	PlansRepository plansRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	Logger logger =LoggerFactory.getLogger(InsuranceCompanyServiceImp.class);
 
 	@Override
@@ -38,6 +43,9 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	@Override
 	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException {
 		insuranceCompanyRepo.findById(insuranceCompanyDto.getInsuranceCompanyId()).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		
+		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
+		
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
 																		insuranceCompanyDto.getInsuranceCompanyId(),
 																		insuranceCompanyDto.getInsuranceCompanyDescription(),
@@ -65,6 +73,8 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 
 	@Override
 	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
+		
+		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(insuranceCompanyDto.getInsuranceCompanyId(),
 														insuranceCompanyDto.getInsuranceCompanyDescription(),
 														insuranceCompanyDto.getCompanyName(),

@@ -15,7 +15,7 @@ public interface IClaimsService {
 	public List<Claims> getAllClaims();
 	public boolean deleteClaimById(Long claimId) throws NoSuchClaimFoundException;
 	public List<Claims> getClaimsByPatientId(long patientId);
-	public List<Claims> getClaimsByStatus(String status);
+	public List<Claims> getClaimsByStatus(String status,Long patientId);
 	public List<Claims> getClaimsByPlanId(long planId);
 	
 }

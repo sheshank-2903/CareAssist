@@ -59,6 +59,8 @@ public class Patient {
     @OneToMany(cascade=CascadeType.ALL,mappedBy="patient")
     @JsonBackReference
     private Set<Invoices> invoiceSet=new HashSet<>();
+    
+    private static final String ROLE="PATIENT";
 
     
 	public Patient(long patientId, @NotNull LocalDate dob,
@@ -226,7 +228,9 @@ public class Patient {
 	}
     
 	
-    
+	public static String getRole() {
+		return ROLE;
+	}
     
    
     

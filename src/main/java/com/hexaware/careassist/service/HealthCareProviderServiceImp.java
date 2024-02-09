@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
@@ -17,11 +18,16 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 
 	@Autowired
 	HealthCareProviderRepository healthCareRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
 
 	@Override
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
+		healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
+		
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
 				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
 				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
@@ -46,6 +52,9 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 			throws NoSuchHealthCareProviderFoundException {
 		healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(
 				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+		
+		healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
+		
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
 				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
 				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
