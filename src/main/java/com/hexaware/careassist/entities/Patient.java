@@ -12,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -61,15 +64,25 @@ public class Patient {
     
     private final String ROLE="PATIENT";
 
+    @ManyToMany
+    @JsonBackReference
+    @JoinTable(
+        name = "patient_insurance_plan",
+        joinColumns = @JoinColumn(name = "patient_id"),
+        inverseJoinColumns = @JoinColumn(name = "insurance_plan_id")
+    )
+    private Set<Plans> insurancePlans = new HashSet<>();
     
+	
+
 	public Patient(long patientId, @NotNull LocalDate dob,
 			@Pattern(regexp = "[\\d]{10}", message = "Please enter 10 digit number") String contact,
 			@NotBlank String address,
-			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String patientName,
+			@Pattern(regexp = "^[a-zA-Z ]{1,20}$", message = "Invalid name provided; should have only alphabets with a maximum length of 20") String patientName,
 			@Pattern(regexp = "MALE|FEMALE", message = "Gender Provided can only be MALE|FEMALE") String patientGender,
 			@NotBlank String descriptionOfTreatment, @Email String email,
-			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
-			Set<Claims> claimSet, Set<Invoices> invoiceSet) {
+			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			Set<Claims> claimSet, Set<Invoices> invoiceSet, Set<Plans> insurancePlans) {
 		super();
 		this.patientId = patientId;
 		this.dob = dob;
@@ -82,6 +95,7 @@ public class Patient {
 		this.password = password;
 		this.claimSet = claimSet;
 		this.invoiceSet = invoiceSet;
+		this.insurancePlans = insurancePlans;
 	}
 
 
@@ -231,7 +245,15 @@ public class Patient {
 	public String getRole() {
 		return this.ROLE;
 	}
-    
-   
-    
+
+
+	public Set<Plans> getInsurancePlans() {
+		return insurancePlans;
+	}
+
+
+	public void setInsurancePlans(Set<Plans> insurancePlans) {
+		this.insurancePlans = insurancePlans;
+	}
+     
 }

@@ -1,6 +1,7 @@
 package com.hexaware.careassist.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPatientService;
 import com.hexaware.careassist.service.JwtService;
 
@@ -80,6 +83,18 @@ public class PatientRestController {
 		return service.getAllPatient();
 	}
 	
+	@PutMapping("/purchasePlan/{patientId}/{planId}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public String purchasePlan(@PathVariable long patientId,@PathVariable long planId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
+		return service.purchasePlan(patientId,planId);
+	}
+	
+	@GetMapping("/getAllPurchasedPlans/{patientId}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public Set<Plans> purchasePlan(@PathVariable long patientId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
+		return service.getAllPurchasedPlans(patientId);
+	}
+	
 	@PostMapping("/authenticate")
 	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) {
 
@@ -101,4 +116,5 @@ public class PatientRestController {
 
 	}
 
+	
 }

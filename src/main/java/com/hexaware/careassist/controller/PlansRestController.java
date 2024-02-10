@@ -83,5 +83,4 @@ public class PlansRestController {
 		return service.getPlanByInsuranceCompanyName(companyName);
 	}
 	
-	
 }

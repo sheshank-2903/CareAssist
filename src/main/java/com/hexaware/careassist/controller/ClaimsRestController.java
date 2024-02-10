@@ -38,7 +38,6 @@ public class ClaimsRestController {
 	@PutMapping("/update/{claimId}/{newStatus}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public Claims updateClaim(@PathVariable String newStatus,@PathVariable long claimId) throws NoSuchClaimFoundException {
-		System.out.println("**********************" + newStatus);
 		return claimService.updateClaim(newStatus, claimId);
 	}
 	

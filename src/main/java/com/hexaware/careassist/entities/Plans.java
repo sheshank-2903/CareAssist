@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
@@ -45,6 +46,10 @@ public class Plans {
     @JoinColumn(name="insuranceCompanyId")
     @JsonBackReference
     private InsuranceCompany insuranceCompany;
+    
+    @ManyToMany(mappedBy = "insurancePlans")
+    @JsonBackReference
+    private Set<Patient> patients = new HashSet<>();
 
 	public Plans() {
 		super();
@@ -52,10 +57,13 @@ public class Plans {
 
 	
 
+	
+
+
 	public Plans(long planId,
-			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String planName,
+			@Pattern(regexp = "^[a-zA-Z ]{1,20}$", message = "Invalid name provided; should have only alphabets with a maximum length of 20") String planName,
 			@NotBlank String description, @NotNull LocalDate dateOfIssue, @NotNull @Min(10000) double coverageAmount,
-			Set<Claims> claimSet, InsuranceCompany insuranceCompany) {
+			Set<Claims> claimSet, InsuranceCompany insuranceCompany, Set<Patient> patients) {
 		super();
 		this.planId = planId;
 		this.planName = planName;
@@ -64,7 +72,11 @@ public class Plans {
 		this.coverageAmount = coverageAmount;
 		this.claimSet = claimSet;
 		this.insuranceCompany = insuranceCompany;
+		this.patients = patients;
 	}
+
+
+
 
 
 
@@ -123,6 +135,19 @@ public class Plans {
 	public void setInsuranceCompany(InsuranceCompany insuranceCompany) {
 		this.insuranceCompany = insuranceCompany;
 	}
+	
+	public Set<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(Set<Patient> patients) {
+		this.patients = patients;
+	}
+
+
+
+
+
 
 	@Override
 	public String toString() {
@@ -130,5 +155,6 @@ public class Plans {
 				+ dateOfIssue + ", coverage_amount=" + coverageAmount + ", claimSet=" + claimSet
 				+ ", insuranceCompany=" + insuranceCompany + "]";
 	}
+	
    
 }

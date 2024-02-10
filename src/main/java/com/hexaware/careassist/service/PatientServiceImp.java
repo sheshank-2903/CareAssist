@@ -1,6 +1,7 @@
 package com.hexaware.careassist.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.PatientRepository;
+import com.hexaware.careassist.repository.PlansRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -23,7 +27,10 @@ public class PatientServiceImp implements IPatientService {
 	Logger logger = LoggerFactory.getLogger(PatientServiceImp.class);
 	
 	@Autowired
-	PatientRepository repo;
+	PatientRepository patientRepo;
+	
+	@Autowired
+	PlansRepository plansRepo;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -31,7 +38,7 @@ public class PatientServiceImp implements IPatientService {
 	@Override
 	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException {
 		
-		Patient patient=repo.findById(patientId)
+		Patient patient=patientRepo.findById(patientId)
 				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 		
 		PatientDTO patientdto=new PatientDTO();
@@ -53,7 +60,7 @@ public class PatientServiceImp implements IPatientService {
 	@Override
 	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException {
 
-		repo.findById(patientDto.getPatientId())
+		patientRepo.findById(patientDto.getPatientId())
 		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 
 		patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
@@ -71,18 +78,18 @@ public class PatientServiceImp implements IPatientService {
 		
 		logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
 		
-		return repo.save(patient);
+		return patientRepo.save(patient);
 	}
 
 	@Override
 	public boolean deletePatientById(long patientId) throws NoSuchPatientFoundException {
 		
-		repo.findById(patientId)
+		patientRepo.findById(patientId)
 		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 
-		repo.deleteById(patientId);
+		patientRepo.deleteById(patientId);
 		
-		Patient patient=repo.findById(patientId).orElse(null); 
+		Patient patient=patientRepo.findById(patientId).orElse(null); 
 
 		
 		boolean bool=false;
@@ -98,7 +105,7 @@ public class PatientServiceImp implements IPatientService {
 	@Override
 	public List<Patient> getAllPatient() {
 		logger.info("PatientServiceImp-- All the Patients Data is received!!!");
-		return repo.findAll();
+		return patientRepo.findAll();
 	}
 
 	@Override
@@ -106,12 +113,12 @@ public class PatientServiceImp implements IPatientService {
 		
 		logger.info("PatientServiceImp-- Patients with name: {}  are fetched!!!",patientName);
 		
-		return repo.findByPatientName(patientName);
+		return patientRepo.findByPatientName(patientName);
 	}
 
 	@Override
 	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException {
-		if(repo.findByEmail(patientDto.getEmail()).orElse(null)!=null) {
+		if(patientRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		
@@ -130,8 +137,32 @@ public class PatientServiceImp implements IPatientService {
 		
 		logger.info("PatientServiceImp-- Patient with id: {} is added successfully!!!!",patient.getPatientId());
 		
-		return repo.save(patient);
+		return patientRepo.save(patient);
 	}
 
+	@Override
+	public String purchasePlan(long patientId, long planId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
+		 	Patient patient = patientRepo.findById(patientId)
+	                .orElseThrow(() -> new NoSuchPatientFoundException("Patient not found with ID: " + patientId));
+
+	        Plans insurancePlan = plansRepo.findById(planId)
+	                .orElseThrow(() -> new NoSuchPlanFoundException("Insurance plan not found with ID: " + planId));
+
+	        int initialSize=patient.getInsurancePlans().size();
+	        patient.getInsurancePlans().add(insurancePlan);
+	        int finalSize=patient.getInsurancePlans().size();
+	        patientRepo.save(patient);
+		return finalSize>initialSize?"Purchase Successfull":"Purchase failed";
+	}
+
+	@Override
+	public Set<Plans> getAllPurchasedPlans(long patientId) throws NoSuchPatientFoundException {
+
+		Patient patient = patientRepo.findById(patientId)
+                .orElseThrow(() -> new NoSuchPatientFoundException("Patient not found with ID: " + patientId));
+		return patient.getInsurancePlans();
+	}
+	
+	
 
 }
