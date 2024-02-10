@@ -14,8 +14,8 @@ public class HealthCareProvider {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private long healthCareProviderId;
 	
-	@Pattern(regexp="^[a-zA-Z]{1,20}$",message="Invalid name provided should have only alphabet with max length 20")
-	private String healthcareProviderName;
+	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")
+	private String healthCareProviderName;
 	
 	@Pattern(regexp = "MALE|FEMALE" , message="Gender Provided can only be MALE|FEMALE")
     private String providerGender;
@@ -25,11 +25,10 @@ public class HealthCareProvider {
 	@Email
     private String email;
 	
-	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-			,message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
+	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
 	
-	private static final String ROLE="HEALTH_CARE_PROVIDER";
+	private final String ROLE="HEALTH_CARE_PROVIDER";
 
 	public HealthCareProvider() {
 		super();
@@ -38,13 +37,13 @@ public class HealthCareProvider {
 	
 
 	public HealthCareProvider(long healthCareProviderId,
-			@Pattern(regexp = "^[a-zA-Z]{1,20}$", message = "Invalid name provided should have only alphabet with max length 20") String healthcareProviderName,
+			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String healthCareProviderName,
 			@Pattern(regexp = "MALE|FEMALE", message = "Gender Provided can only be MALE|FEMALE") String providerGender,
 			@NotBlank String address, @Email String email,
-			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password) {
+			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password) {
 		super();
 		this.healthCareProviderId = healthCareProviderId;
-		this.healthcareProviderName = healthcareProviderName;
+		this.healthCareProviderName = healthCareProviderName;
 		this.providerGender = providerGender;
 		this.address = address;
 		this.email = email;
@@ -61,12 +60,12 @@ public class HealthCareProvider {
 		this.healthCareProviderId = healthCareProviderId;
 	}
 
-	public String getHealthcareProviderName() {
-		return healthcareProviderName;
+	public String getHealthCareProviderName() {
+		return healthCareProviderName;
 	}
 
-	public void setHealthcareProviderName(String healthcareProviderName) {
-		this.healthcareProviderName = healthcareProviderName;
+	public void setHealthCareProviderName(String healthcareProviderName) {
+		this.healthCareProviderName = healthcareProviderName;
 	}
 
 	public String getProviderGender() {
@@ -103,14 +102,14 @@ public class HealthCareProvider {
 
 	@Override
 	public String toString() {
-		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthcareProviderName=" + healthcareProviderName
+		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthCareProviderName=" + healthCareProviderName
 				+ ", providerGender=" + providerGender + ", address=" + address + ", email=" + email + ", password="
 				+ password + "]";
 	} 
 	
-	public static String getRole() {
-		return ROLE;
+	public String getRole() {
+		return this.ROLE;
 	}
-   
+    
     
 }

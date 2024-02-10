@@ -50,14 +50,13 @@ public class PlansServiceImp implements IPlansService {
 	@Override
 	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) throws NoSuchPlanFoundException {
 
-		repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
-		
-		repo.updatePlan( planName, description, coverageAmount, planId);
-		Plans plan=repo.findById(planId).orElse(null);
-		
+		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		plans.setPlanName(planName);
+		plans.setDescription(description);
+		plans.setCoverageAmount(coverageAmount);
+		plans.setPlanId(planId);
+		Plans plan=repo.save(plans);
 		logger.warn("PlansServiceImp-- Plan with plan id: {} has been updated successfully",plan.getPlanId());			
-		
-		
 		return plan;
 	}
 
@@ -106,7 +105,7 @@ public class PlansServiceImp implements IPlansService {
 
 	@Override
 	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException {
-		insuranceCompanyRepo.findBycompanyName(companyName).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		insuranceCompanyRepo.findByCompanyName(companyName).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		logger.info("PlansServiceImp-- Plan details with company name:{}  fetched successfully",companyName);
 		return repo.findByCompanyName(companyName);
 	}

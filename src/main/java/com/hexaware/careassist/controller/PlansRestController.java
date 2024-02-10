@@ -28,7 +28,7 @@ public class PlansRestController {
 	
 	
 	
-	@PostMapping("/add")
+	@PostMapping("/add/{insuranceCompanyId}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public Plans addPlan(@RequestBody PlansDTO plansDto,@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {		
 		return service.addPlan(plansDto, insuranceCompanyId);

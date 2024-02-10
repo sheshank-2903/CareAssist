@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.service.IHealthCareProviderService;
 import com.hexaware.careassist.service.JwtService;
@@ -43,8 +44,7 @@ public class HealthCareProviderRestController {
 	private Logger logger=LoggerFactory.getLogger(HealthCareProviderRestController.class);
 	
 	@PostMapping("/add")
-	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
-	public HealthCareProvider addHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) {
+	public HealthCareProvider addHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws EmailAlreadyPresentException {
 		return healthCareProviderService.addHealthCareProvider(healthCareProviderDto);
 	}
 	
@@ -56,13 +56,13 @@ public class HealthCareProviderRestController {
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('ADMIN')")
-	public HealthCareProvider updateHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException {
+	public HealthCareProvider updateHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
 		return healthCareProviderService.updateHealthCareProvider(healthCareProviderDto);
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{healthCareProviderId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public boolean deleteHealthCareProvider(@RequestBody long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+	public boolean deleteHealthCareProvider(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.deleteHealthCareProvider(healthCareProviderId);
 	}
 	

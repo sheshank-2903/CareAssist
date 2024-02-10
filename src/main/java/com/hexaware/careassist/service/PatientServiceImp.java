@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.repository.PatientRepository;
 
@@ -109,8 +110,10 @@ public class PatientServiceImp implements IPatientService {
 	}
 
 	@Override
-	public Patient addPatient(PatientDTO patientDto) {
-		//already exists in db...
+	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException {
+		if(repo.findByEmail(patientDto.getEmail()).orElse(null)!=null) {
+			throw new EmailAlreadyPresentException("This email is already present in database");
+		}
 		
 		patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
 		

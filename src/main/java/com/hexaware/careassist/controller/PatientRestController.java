@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IPatientService;
 import com.hexaware.careassist.service.JwtService;
@@ -43,7 +44,7 @@ public class PatientRestController {
 
 	@PostMapping("/add")
 	//@PreAuthorize("hasAuthority('PATIENT')")
-	public Patient addPatient(@RequestBody PatientDTO patientDto) {
+	public Patient addPatient(@RequestBody PatientDTO patientDto) throws EmailAlreadyPresentException {
 		return service.addPatient(patientDto);
 	}
 

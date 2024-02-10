@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
 @SpringBootTest
@@ -24,7 +25,7 @@ class PatientServiceImpTest {
 
 	@Test
 	@Disabled
-	void testAddPatient() {
+	void testAddPatient() throws EmailAlreadyPresentException {
 
 		PatientDTO patientDto = new PatientDTO(101, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "king",
 				"Male", "Pet Dard", "yash@gmail.com", "abc123");

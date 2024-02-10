@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
 @SpringBootTest
@@ -27,9 +28,9 @@ class HealthCareProviderServiceImpTest {
 
 	@Test
 	@Disabled
-	void testAddHealthCareProvider() {
+	void testAddHealthCareProvider() throws EmailAlreadyPresentException {
 		HealthCareProvider response=service.addHealthCareProvider(new HealthCareProviderDTO(2,"sheshank","male","absc 123 sadbas","abc@gmail.com","asdkjf"));
-		assertTrue(response.getHealthcareProviderName()=="sheshank" && response.getEmail()=="abc@gmail.com");
+		assertTrue(response.getHealthCareProviderName()=="sheshank" && response.getEmail()=="abc@gmail.com");
 	}
 
 	@Test
@@ -41,12 +42,12 @@ class HealthCareProviderServiceImpTest {
 
 	@Test
 	@Disabled
-	void testUpdateHealthCareProviderInfo() throws NoSuchHealthCareProviderFoundException {
+	void testUpdateHealthCareProviderInfo() throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
 		HealthCareProvider response= service.updateHealthCareProvider(new HealthCareProviderDTO(
 				1, "king",
 				"male", "ashdhfiasd faisdhfisad fsaidufh",
 				"bht@gmail.com", "asdkjksdfj"));
-		assertEquals("king",response.getHealthcareProviderName());
+		assertEquals("king",response.getHealthCareProviderName());
 	}
 
 	@Test

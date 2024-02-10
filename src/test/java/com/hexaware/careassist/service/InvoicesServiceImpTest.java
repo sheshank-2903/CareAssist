@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
+import com.hexaware.careassist.exceptions.InvalidDueDateException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
@@ -22,8 +23,9 @@ class InvoicesServiceImpTest {
 
 	@Test
 //	@Disabled
-	void testAddInvoice() throws NoSuchPatientFoundException {
-		InvoicesDTO invoice=new InvoicesDTO(2,LocalDate.now(),LocalDate.now(),"Yash","abc abc", 0, 0, 0, 0, 0);
+	void testAddInvoice() throws NoSuchPatientFoundException, InvalidDueDateException {
+		//InvoicesDTO invoice=new InvoicesDTO(2,LocalDate.now(),LocalDate.now(),"Yash","abc abc", 0, 0, 0, 0, 0);
+		InvoicesDTO invoice=new InvoicesDTO(2,LocalDate.now(),LocalDate.now(),0, 0, 0, 0);
 		Invoices inv=service.addInvoice(invoice, 1);
 		assertEquals(2,inv.getInvoiceId());
 	}

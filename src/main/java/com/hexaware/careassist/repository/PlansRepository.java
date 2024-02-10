@@ -17,10 +17,5 @@ public interface PlansRepository extends JpaRepository<Plans, Long>{
 	
 	@Query("select plans from Plans  plans where plans.insuranceCompany.companyName=?1")
 	List<Plans> findByCompanyName(String companyName);
-		
-	@Modifying
-	@Query("update Plans p set p.planName=:newPlanName,p.description=:newDescription,p.coverageAmount=:newCoverageAmount where p.planId=:newPlanId")
-	public void updatePlan(@Param("newPlanName")String planName,@Param("newDescription")String description,@Param("newCoverageAmount")double coverageAmount,@Param("newPlanId")long planId);
-
 
 }

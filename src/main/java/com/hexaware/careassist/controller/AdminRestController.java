@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.entities.Admin;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
@@ -42,13 +43,13 @@ public class AdminRestController {
 	
 	@PostMapping("/add")
 	//@PreAuthorize("hasAuthority('ADMIN')")
-	public Admin addAdmin(@RequestBody AdminDTO adminDto) {
+	public Admin addAdmin(@RequestBody AdminDTO adminDto) throws EmailAlreadyPresentException {
 		return adminService.addAdmin(adminDto);
 	}
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Admin updateAdmin(@RequestBody AdminDTO adminDto) throws NoSuchAdminFoundException  {
+	public Admin updateAdmin(@RequestBody AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException  {
 		return adminService.updateAdmin(adminDto);
 	}
 	

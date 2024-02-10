@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
 
@@ -25,7 +26,10 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
 
 	@Override
-	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) {
+	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws EmailAlreadyPresentException {
+		if(healthCareRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null) {
+			throw new EmailAlreadyPresentException("This email is already present in database");
+		}
 		healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
 		
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
@@ -43,13 +47,13 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
 		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
-				healthcareprovider.getHealthcareProviderName(), healthcareprovider.getProviderGender(),
+				healthcareprovider.getHealthCareProviderName(), healthcareprovider.getProviderGender(),
 				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword());
 	}
 
 	@Override
 	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto)
-			throws NoSuchHealthCareProviderFoundException {
+			throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
 		healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(
 				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
 		

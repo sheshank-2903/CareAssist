@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
+import com.hexaware.careassist.exceptions.InvalidDueDateException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
 public interface IInvoicesService {
-	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException;
+	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException;
 	
 	public List<Invoices> getAllInvoices();
 	public Invoices getInvoiceById(long invoiceId) throws NoSuchInvoiceFoundException;

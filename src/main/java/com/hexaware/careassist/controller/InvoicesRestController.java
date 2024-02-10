@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
+import com.hexaware.careassist.exceptions.InvalidDueDateException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IInvoicesService;
@@ -25,11 +26,9 @@ public class InvoicesRestController {
 	@Autowired
 	IInvoicesService service;
 	
-	
-	
 	@PostMapping("/add/{patientId}")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
-	public Invoices addInvoice(@RequestBody InvoicesDTO invoiceDto,@PathVariable long patientId) throws NoSuchPatientFoundException {
+	public Invoices addInvoice(@RequestBody InvoicesDTO invoiceDto,@PathVariable long patientId) throws NoSuchPatientFoundException, InvalidDueDateException {
 		return service.addInvoice(invoiceDto, patientId);
 	}
 
@@ -41,7 +40,7 @@ public class InvoicesRestController {
 	}
 
 	
-	@GetMapping("/getbyid/{invoiceId}")
+	@GetMapping("/get/{invoiceId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public Invoices getInvoiceById(@PathVariable long invoiceId) throws NoSuchInvoiceFoundException {
 		return service.getInvoiceById(invoiceId);
@@ -54,7 +53,7 @@ public class InvoicesRestController {
 		return service.getInvoicesByPatientId(patientId);
 	}
 	
-	@DeleteMapping("/deletebyid/{invoiceId}")
+	@DeleteMapping("/delete/{invoiceId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public String deleteInvoiceById(@PathVariable long invoiceId) throws NoSuchInvoiceFoundException {
 		boolean isDeleted=service.deleteInvoiceById(invoiceId);

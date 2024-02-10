@@ -35,7 +35,7 @@ public class Patient {
 	@NotBlank
     private String address;
 	
-	@NotBlank
+	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")
     private String patientName;
 	
 	@Pattern(regexp = "MALE|FEMALE" , message="Gender Provided can only be MALE|FEMALE")
@@ -47,8 +47,7 @@ public class Patient {
 	@Email
     private String email;
 	
-	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-			,message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
+	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
 	
     @OneToMany(cascade=CascadeType.ALL,mappedBy="patient")
@@ -60,15 +59,16 @@ public class Patient {
     @JsonBackReference
     private Set<Invoices> invoiceSet=new HashSet<>();
     
-    private static final String ROLE="PATIENT";
+    private final String ROLE="PATIENT";
 
     
 	public Patient(long patientId, @NotNull LocalDate dob,
 			@Pattern(regexp = "[\\d]{10}", message = "Please enter 10 digit number") String contact,
-			@NotBlank String address, @NotBlank String patientName,
+			@NotBlank String address,
+			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String patientName,
 			@Pattern(regexp = "MALE|FEMALE", message = "Gender Provided can only be MALE|FEMALE") String patientGender,
 			@NotBlank String descriptionOfTreatment, @Email String email,
-			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
 			Set<Claims> claimSet, Set<Invoices> invoiceSet) {
 		super();
 		this.patientId = patientId;
@@ -228,8 +228,8 @@ public class Patient {
 	}
     
 	
-	public static String getRole() {
-		return ROLE;
+	public String getRole() {
+		return this.ROLE;
 	}
     
    

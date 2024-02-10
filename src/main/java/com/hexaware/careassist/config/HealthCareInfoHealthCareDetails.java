@@ -22,7 +22,7 @@ public class HealthCareInfoHealthCareDetails implements UserDetails {
 		super();
 		this.email = healthCareProvider.getEmail();
 		this.password = healthCareProvider.getPassword();
-		this.authorities = Arrays.stream(HealthCareProvider.getRole().split(","))
+		this.authorities = Arrays.stream(healthCareProvider.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 

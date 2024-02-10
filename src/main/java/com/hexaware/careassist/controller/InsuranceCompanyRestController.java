@@ -1,5 +1,7 @@
 package com.hexaware.careassist.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.service.IInsuranceCompanyService;
 import com.hexaware.careassist.service.JwtService;
@@ -54,6 +57,12 @@ public class InsuranceCompanyRestController {
 		
 		return insuranceCompanyService.updateInsuranceCompany(insuranceCompanyDto);
 	}
+	
+	@GetMapping("/getall")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public List<InsuranceCompany> getAllInsuranceCompany(){
+		return insuranceCompanyService.getAllInsuranceCompany();
+	}
 
 	@DeleteMapping("/delete/{insuranceCompanyId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -63,8 +72,7 @@ public class InsuranceCompanyRestController {
 	}
 	
 	@PostMapping("/add")
-	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
-	public InsuranceCompany addInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) {
+	public InsuranceCompany addInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) throws EmailAlreadyPresentException {
 		
 		return insuranceCompanyService.addInsuranceCompany(insuranceCompanyDto);
 	}

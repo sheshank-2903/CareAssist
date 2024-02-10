@@ -22,32 +22,31 @@ public class InsuranceCompany {
 	private long insuranceCompanyId;
 	@NotBlank
 	private String insuranceCompanyDescription;
-	@Pattern(regexp="^[a-zA-Z]{1,20}$",message="Invalid name provided should have only alphabet with max length 20")
+	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")
     private String companyName;
     @Pattern(regexp="\\d{10}",message="Please enter 10 digit number")
     private String companyContactNumber;
     @Email
     private String email;
     
-    @Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-			,message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
+    @Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="insuranceCompany") 
     @JsonBackReference
 	private Set<Plans> planSet=new HashSet<>();
     
-    private static final String ROLE="INSURANCE_COMPANY";
+    private final String ROLE="INSURANCE_COMPANY";
 
 	public InsuranceCompany() {
 		super();
 	}
 
 	public InsuranceCompany(long insuranceCompanyId, @NotBlank String insuranceCompanyDescription,
-			@Pattern(regexp = "^[a-zA-Z]{1,20}$", message = "Invalid name provided should have only alphabet with max length 20") String companyName,
+			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String companyName,
 			@Pattern(regexp = "\\d{10}", message = "Please enter 10 digit number") String companyContactNumber,
 			@Email String email,
-			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
 			Set<Plans> planSet) {
 		super();
 		this.insuranceCompanyId = insuranceCompanyId;
@@ -122,8 +121,8 @@ public class InsuranceCompany {
 				+ companyContactNumber + ", email=" + email + ", password=" + password + ", planSet=" + planSet + "]";
 	}
     
-	public static String getRole() {
-		return ROLE;
+	public String getRole() {
+		return this.ROLE;
 	}
     
 }

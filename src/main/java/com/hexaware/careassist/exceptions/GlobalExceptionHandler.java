@@ -53,4 +53,20 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<String>("No such plan exists in database", HttpStatus.NOT_FOUND);
 
 	}
+	
+	@ExceptionHandler(EmailAlreadyPresentException.class)
+
+	public ResponseEntity<String> handleEmailAlreadyPresentException(EmailAlreadyPresentException ex) {
+
+		return new ResponseEntity<String>("This email is already present in database", HttpStatus.FOUND);
+
+	}
+	
+	@ExceptionHandler(InvalidDueDateException.class)
+
+	public ResponseEntity<String> handleInvalidDueDateException(InvalidDueDateException ex) {
+
+		return new ResponseEntity<String>("Due Date cannot be less then Invoice Date of issue", HttpStatus.FOUND);
+
+	}
 }

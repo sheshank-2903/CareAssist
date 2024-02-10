@@ -22,7 +22,7 @@ public class PatientInfoPatientDetails implements UserDetails {
 		super();
 		this.email = patient.getEmail();
 		this.password = patient.getPassword();
-		this.authorities = Arrays.stream(Patient.getRole().split(","))
+		this.authorities = Arrays.stream(patient.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 

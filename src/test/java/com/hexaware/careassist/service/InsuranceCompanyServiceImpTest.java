@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 
 @SpringBootTest
@@ -47,8 +50,8 @@ class InsuranceCompanyServiceImpTest {
 	}
 
 	@Test
-//	@Disabled
-	void testAddInsuranceCompany() {
+	@Disabled
+	void testAddInsuranceCompany() throws EmailAlreadyPresentException {
 		InsuranceCompany response=service.addInsuranceCompany(new InsuranceCompanyDTO((long)5,"description","name","6367016451","abc@gmail.com","Yash@123"));
 		assertTrue(response.getCompanyName()=="name" && response.getInsuranceCompanyDescription()=="description");
 	}
@@ -58,6 +61,14 @@ class InsuranceCompanyServiceImpTest {
 	void testGetInsuranceCompanyByName() throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompany response=service.getInsuranceCompanyByName("name2");
 		assertNotNull(response);
+		
+	}
+	
+	@Test
+	@Disabled
+	void testGetAllInsuranceCompany() {
+		List<InsuranceCompany> response=service.getAllInsuranceCompany();
+		assertTrue(response.size()>0);
 		
 	}
 

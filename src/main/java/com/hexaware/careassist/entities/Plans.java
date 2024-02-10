@@ -25,7 +25,7 @@ public class Plans {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long planId;
 	
-	@Pattern(regexp="^[a-zA-Z]{1,20}$",message="Invalid name provided should have only alphabet with max length 20")
+	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")
 	private String planName;
 	@NotBlank
 	private String description; 
@@ -53,7 +53,7 @@ public class Plans {
 	
 
 	public Plans(long planId,
-			@Pattern(regexp = "^[a-zA-Z]{1,20}$", message = "Invalid name provided should have only alphabet with max length 20") String planName,
+			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String planName,
 			@NotBlank String description, @NotNull LocalDate dateOfIssue, @NotNull @Min(10000) double coverageAmount,
 			Set<Claims> claimSet, InsuranceCompany insuranceCompany) {
 		super();

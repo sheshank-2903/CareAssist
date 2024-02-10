@@ -22,7 +22,7 @@ public class CompanyInfoCompanyDetails implements UserDetails {
 		super();
 		this.email = insuranceCompany.getEmail();
 		this.password = insuranceCompany.getPassword();
-		this.authorities = Arrays.stream(InsuranceCompany.getRole().split(","))
+		this.authorities = Arrays.stream(insuranceCompany.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 

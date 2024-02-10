@@ -41,7 +41,7 @@ public class ClaimsServiceImp implements IClaimsService {
 		Plans plans = planRepo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
 		Claims claims = claimRepo.save(new Claims(claimDto.getClaimId(),
 											claimDto.getClaimAmount(),
-											claimDto.getClaimStatus(),
+											"PENDING",
 											patient,
 											plans
 											));
@@ -54,7 +54,8 @@ public class ClaimsServiceImp implements IClaimsService {
 	@Override
 	public Claims updateClaim(String newStatus, long claimId) throws NoSuchClaimFoundException {
 		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
-		claimRepo.updateClaimStatus(newStatus,claimId);
+		claim.setClaimStatus(newStatus);
+		claim=claimRepo.save(claim);
 		logger.info("ClaimsServiceImp - Claim status updated successfully");
 		return claim;
 	}

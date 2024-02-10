@@ -1,6 +1,7 @@
 package com.hexaware.careassist.service;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
+import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PlansRepository;
@@ -72,8 +74,10 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	}
 
 	@Override
-	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) {
-		
+	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws EmailAlreadyPresentException {
+		if(insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null) {
+			throw new EmailAlreadyPresentException("This email is already present in database");
+		}
 		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(insuranceCompanyDto.getInsuranceCompanyId(),
 														insuranceCompanyDto.getInsuranceCompanyDescription(),
@@ -89,7 +93,13 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	@Override
 	public InsuranceCompany getInsuranceCompanyByName(String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
-		return insuranceCompanyRepo.findBycompanyName(insuranceCompanyName).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+	}
+	
+	@Override
+	public List<InsuranceCompany> getAllInsuranceCompany() {
+		logger.info("InsuranceCompanyImp - All InsuranceCompany data fetched successfully");
+		return insuranceCompanyRepo.findAll();
 	}
 
 

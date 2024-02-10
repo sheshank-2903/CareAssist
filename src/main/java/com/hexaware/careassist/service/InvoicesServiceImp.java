@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.exceptions.InvalidDueDateException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.repository.InvoicesRepository;
@@ -30,18 +31,21 @@ public class InvoicesServiceImp implements IInvoicesService {
 	PatientRepository patientRepo;
 	
 	@Override
-	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException {
-		
+	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException {
+		System.out.println("invoias a****************************  " + invoiceDto.getCalculatedAmount());
 		Patient patient=patientRepo.findById(patientId)
 				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 		
-		
+		if (invoiceDto.getInvoiceDueDate().isBefore(invoiceDto.getInvoiceDate())) {
+		    throw new InvalidDueDateException("Due Date must be on or after the Invoice Date of issue");
+		}
+	
 		Invoices invoice=new Invoices();
 		invoice.setInvoiceId(invoiceDto.getInvoiceId());
 		invoice.setInvoiceDate(invoiceDto.getInvoiceDate());
 		invoice.setInvoiceDueDate(invoiceDto.getInvoiceDueDate());
-		invoice.setPatientName(invoiceDto.getPatientName());
-		invoice.setPatientAddress(invoiceDto.getPatientAddress());
+		invoice.setPatientName(patient.getPatientName());
+		invoice.setPatientAddress(patient.getAddress());
 		invoice.setInvoiceTax(invoiceDto.getInvoiceTax());
 		invoice.setConsultingFees(invoiceDto.getConsultingFees());
 		invoice.setDiagnosticTestFees(invoiceDto.getDiagnosticTestFees());
