@@ -13,7 +13,7 @@ import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 public interface IPatientService {
 	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException;
 	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException;
-	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException;
+	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException, EmailAlreadyPresentException;
 	public boolean deletePatientById(long patientId) throws NoSuchPatientFoundException;
 	public List<Patient> getAllPatient();
 	public List<Patient> getPatientByName(String patientName);

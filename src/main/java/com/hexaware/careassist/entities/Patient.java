@@ -21,7 +21,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-
+/*
+@Author :  Yash Dubey
+Modified Date : 26-10-2023
+Description : Entity class for Admin containing various properties
+*/
 
 @Entity
 public class Patient {

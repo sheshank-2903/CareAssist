@@ -53,12 +53,12 @@ public class InsuranceCompanyRestController {
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('ADMIN')")
-	public InsuranceCompany updateInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException {
+	public InsuranceCompany updateInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException, EmailAlreadyPresentException {
 		
 		return insuranceCompanyService.updateInsuranceCompany(insuranceCompanyDto);
 	}
 	
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<InsuranceCompany> getAllInsuranceCompany(){
 		return insuranceCompanyService.getAllInsuranceCompany();
@@ -78,7 +78,7 @@ public class InsuranceCompanyRestController {
 	}
 	
 	
-	@GetMapping("/getbyname/{insuranceCompanyName}")
+	@GetMapping("/getByName/{insuranceCompanyName}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('ADMIN')")
 	public InsuranceCompany getInsuranceCompanyByName(@PathVariable String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException {
 		

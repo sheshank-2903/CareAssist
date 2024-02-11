@@ -58,27 +58,38 @@ public class PatientServiceImp implements IPatientService {
 	}
 
 	@Override
-	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException {
+	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException, EmailAlreadyPresentException {
 
-		patientRepo.findById(patientDto.getPatientId())
+		Patient isPresent =patientRepo.findById(patientDto.getPatientId())
 		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 
-		patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
+		Patient checkIfNew= patientRepo.findByEmail(patientDto.getEmail()).orElse(null);
+
+		if( checkIfNew == null ||(isPresent.getEmail().equals(patientDto.getEmail()) )) {
+			
+			patientDto.setPassword(passwordEncoder.encode(patientDto.getPassword()));
+			
+			Patient patient=new Patient();
+			patient.setPatientId(patientDto.getPatientId());
+			patient.setPatientName(patientDto.getPatientName());
+			patient.setAddress(patientDto.getAddress());
+			patient.setContact(patientDto.getContact());
+			patient.setDob(patientDto.getDob());
+			patient.setDescriptionOfTreatment(patientDto.getDescriptionOfTreatment());
+			patient.setEmail(patientDto.getEmail());
+			patient.setPassword(patientDto.getPassword());
+			patient.setPatientGender(patientDto.getPatientGender());
+			
+			logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
+			
+			return patientRepo.save(patient);
+			
+		}else {
+			
+			throw new EmailAlreadyPresentException("This email is already registered in our database");
+			
+		}	
 		
-		Patient patient=new Patient();
-		patient.setPatientId(patientDto.getPatientId());
-		patient.setPatientName(patientDto.getPatientName());
-		patient.setAddress(patientDto.getAddress());
-		patient.setContact(patientDto.getContact());
-		patient.setDob(patientDto.getDob());
-		patient.setDescriptionOfTreatment(patientDto.getDescriptionOfTreatment());
-		patient.setEmail(patientDto.getEmail());
-		patient.setPassword(patientDto.getPassword());
-		patient.setPatientGender(patientDto.getPatientGender());
-		
-		logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
-		
-		return patientRepo.save(patient);
 	}
 
 	@Override

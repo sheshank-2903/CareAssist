@@ -37,7 +37,7 @@ class InsuranceCompanyServiceImpTest {
 
 	@Test
 	@Disabled
-	void testUpdateInsuranceCompany() throws NoSuchInsuranceCompanyFoundException {
+	void testUpdateInsuranceCompany() throws NoSuchInsuranceCompanyFoundException, EmailAlreadyPresentException {
 		InsuranceCompany response= service.updateInsuranceCompany(new InsuranceCompanyDTO((long)1,"askdjf  ","abas","6367016451","abc@gmail.com","Yash@123"));
 		assertSame("abas",response.getCompanyName());
 	}

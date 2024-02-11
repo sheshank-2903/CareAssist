@@ -66,7 +66,7 @@ public class HealthCareProviderRestController {
 		return healthCareProviderService.deleteHealthCareProvider(healthCareProviderId);
 	}
 	
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<HealthCareProvider> getAllHealthCareProvider() {
 		return healthCareProviderService.getAllHealthCareProvider();

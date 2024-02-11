@@ -39,7 +39,10 @@ public class SecurityConfig {
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
     	
     		return http.csrf().disable()
-    			.authorizeHttpRequests().requestMatchers("/api/v1/healthcareprovider/add"
+    			.authorizeHttpRequests().requestMatchers("/v3/api-docs/**"
+    					, "/swagger-ui/**"
+    					, "/swagger-resources/**"
+    					,"/api/v1/healthcareprovider/add"
     					,"/api/v1/insurancecompany/add"
     					,"/api/v1/patient/add"
     					,"/api/v1/healthcareprovider/authenticate"

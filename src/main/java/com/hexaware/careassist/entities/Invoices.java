@@ -14,6 +14,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 26-10-2023
+Description : Entity class for Admin containing various properties
+*/
+
+
 @Entity
 public class Invoices {
 	@Id

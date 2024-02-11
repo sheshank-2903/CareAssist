@@ -35,17 +35,24 @@ public class AdminServiceImp implements IAdminService {
 
 	@Override
 	public Admin updateAdmin(AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException {
-		if(repo.findByEmail(adminDto.getEmail()).orElse(null)!=null) {
-			throw new EmailAlreadyPresentException("This email is already present in database");
-		}
-		repo.findById(adminDto.getAdminId()).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));
-		adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-		Admin admin = repo.save(new Admin(adminDto.getAdminId()
-								,adminDto.getAdminName()
-								,adminDto.getEmail()
-								,adminDto.getPassword()));
-		logger.info("AdminServiceImp - Admin has added updated successfull ");
-		return admin;
+		
+		Admin isPresent=repo.findById(adminDto.getAdminId()).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));
+		
+		Admin checkIfNew=repo.findByEmail(adminDto.getEmail()).orElse(null);
+		
+		if( checkIfNew == null ||(isPresent.getEmail().equals(adminDto.getEmail()) )) {
+			
+			adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
+			Admin admin = repo.save(new Admin(adminDto.getAdminId()
+									,adminDto.getAdminName()
+									,adminDto.getEmail()
+									,adminDto.getPassword()));
+			logger.info("AdminServiceImp - Admin has added updated successfully");
+			return admin;
+			}else {
+				throw new EmailAlreadyPresentException("This email is already registered in our database");
+			}
+		
 	}
 
 	@Override
@@ -54,7 +61,6 @@ public class AdminServiceImp implements IAdminService {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-		System.out.println("Password ************** " + adminDto.getPassword());
 		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
 		logger.info("AdminServiceImp - Admin has added successfull ");
 		return admin;

@@ -33,7 +33,7 @@ public class InvoicesRestController {
 	}
 
 	
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Invoices> getAllInvoices() {
 		return service.getAllInvoices();
@@ -47,7 +47,7 @@ public class InvoicesRestController {
 	}
 
 	
-	@GetMapping("/getbypatientid/{patientId}")
+	@GetMapping("/getByPatientId/{patientId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public List<Invoices> getInvoicesByPatientId(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getInvoicesByPatientId(patientId);

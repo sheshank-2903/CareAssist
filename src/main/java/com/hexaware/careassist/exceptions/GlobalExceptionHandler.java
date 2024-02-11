@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
 	public ResponseEntity<String> handleNoSuchAdminFoundException(NoSuchAdminFoundException ex) {
 
-		return new ResponseEntity<String>("Invalid admin ID ", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>("No such admin exists in database", HttpStatus.NOT_FOUND);
 
 	}
 
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
 
 	public ResponseEntity<String> handleEmailAlreadyPresentException(EmailAlreadyPresentException ex) {
 
-		return new ResponseEntity<String>("This email is already present in database", HttpStatus.FOUND);
+		return new ResponseEntity<String>("This email is already registered in our database", HttpStatus.FOUND);
 
 	}
 	

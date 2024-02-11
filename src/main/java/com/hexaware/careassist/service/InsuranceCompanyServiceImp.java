@@ -18,89 +18,95 @@ import com.hexaware.careassist.repository.PlansRepository;
 
 @Service
 public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
-	
+
 	@Autowired
 	InsuranceCompanyRepository insuranceCompanyRepo;
-	
+
 	@Autowired
 	PlansRepository plansRepo;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
-	Logger logger =LoggerFactory.getLogger(InsuranceCompanyServiceImp.class);
+
+	Logger logger = LoggerFactory.getLogger(InsuranceCompanyServiceImp.class);
 
 	@Override
-	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
-		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId)
+			throws NoSuchInsuranceCompanyFoundException {
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(
+				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by Id fetched successfully");
 		return new InsuranceCompanyDTO(insuranceCompany.getInsuranceCompanyId(),
-										insuranceCompany.getInsuranceCompanyDescription(),
-										insuranceCompany.getCompanyName(),
-										insuranceCompany.getCompanyContactNumber(),
-										insuranceCompany.getEmail(),
-										insuranceCompany.getPassword());
+				insuranceCompany.getInsuranceCompanyDescription(), insuranceCompany.getCompanyName(),
+				insuranceCompany.getCompanyContactNumber(), insuranceCompany.getEmail(),
+				insuranceCompany.getPassword());
 	}
 
 	@Override
-	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws NoSuchInsuranceCompanyFoundException {
-		insuranceCompanyRepo.findById(insuranceCompanyDto.getInsuranceCompanyId()).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
-		
-		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
-		
-		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
-																		insuranceCompanyDto.getInsuranceCompanyId(),
-																		insuranceCompanyDto.getInsuranceCompanyDescription(),
-																		insuranceCompanyDto.getCompanyName(),
-																		insuranceCompanyDto.getCompanyContactNumber(),
-																		insuranceCompanyDto.getEmail(),
-																		insuranceCompanyDto.getPassword(),
-																		new HashSet<>()));
-		
-		
-		
-		logger.info("InsuranceCompanyImp - InsuranceCompany updated successfully");
-		return insuranceCompany;
+	public InsuranceCompany updateInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto)
+			throws NoSuchInsuranceCompanyFoundException, EmailAlreadyPresentException {
+
+		InsuranceCompany isPresent = insuranceCompanyRepo.findById(insuranceCompanyDto.getInsuranceCompanyId())
+				.orElseThrow(
+						() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+
+		InsuranceCompany checkIfNew = insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null);
+
+		if (checkIfNew == null || (isPresent.getEmail().equals(insuranceCompanyDto.getEmail()))) {
+			insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
+
+			InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
+					insuranceCompanyDto.getInsuranceCompanyId(), insuranceCompanyDto.getInsuranceCompanyDescription(),
+					insuranceCompanyDto.getCompanyName(), insuranceCompanyDto.getCompanyContactNumber(),
+					insuranceCompanyDto.getEmail(), insuranceCompanyDto.getPassword(), new HashSet<>()));
+
+			logger.info("InsuranceCompanyImp - InsuranceCompany updated successfully");
+			return insuranceCompany;
+
+		} else {
+			throw new EmailAlreadyPresentException("This email is already registered in our database");
+		}
+
 	}
 
 	@Override
 	public boolean deleteInsuranceCompanyById(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
-		
-		insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+
+		insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(
+				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		insuranceCompanyRepo.deleteById(insuranceCompanyId);
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
 		logger.info("InsuranceCompanyImp - InsuranceCompany deleted successfully");
-		return insuranceCompany==null;
+		return insuranceCompany == null;
 	}
 
 	@Override
-	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws EmailAlreadyPresentException {
-		if(insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null) {
+	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto)
+			throws EmailAlreadyPresentException {
+		if (insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null) != null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
-		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(insuranceCompanyDto.getInsuranceCompanyId(),
-														insuranceCompanyDto.getInsuranceCompanyDescription(),
-														insuranceCompanyDto.getCompanyName(),
-														insuranceCompanyDto.getCompanyContactNumber(),
-														insuranceCompanyDto.getEmail(),
-														insuranceCompanyDto.getPassword(),
-														new HashSet<>()));
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.save(new InsuranceCompany(
+				insuranceCompanyDto.getInsuranceCompanyId(), insuranceCompanyDto.getInsuranceCompanyDescription(),
+				insuranceCompanyDto.getCompanyName(), insuranceCompanyDto.getCompanyContactNumber(),
+				insuranceCompanyDto.getEmail(), insuranceCompanyDto.getPassword(), new HashSet<>()));
 		logger.info("InsuranceCompanyImp - InsuranceCompany added successfully");
 		return insuranceCompany;
 	}
 
 	@Override
-	public InsuranceCompany getInsuranceCompanyByName(String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException {
+	public InsuranceCompany getInsuranceCompanyByName(String insuranceCompanyName)
+			throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
-		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName).orElseThrow(() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName).orElseThrow(
+				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 	}
-	
+
 	@Override
 	public List<InsuranceCompany> getAllInsuranceCompany() {
 		logger.info("InsuranceCompanyImp - All InsuranceCompany data fetched successfully");
 		return insuranceCompanyRepo.findAll();
 	}
-
 
 }

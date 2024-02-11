@@ -53,7 +53,7 @@ public class PatientRestController {
 
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public Patient updatePatient(@RequestBody PatientDTO patientDto) throws NoSuchPatientFoundException {
+	public Patient updatePatient(@RequestBody PatientDTO patientDto) throws NoSuchPatientFoundException, EmailAlreadyPresentException {
 		return service.updatePatient(patientDto);
 	}
 
@@ -64,20 +64,20 @@ public class PatientRestController {
 		return isDeleted ? "Patient has been deleted" : "Deletion unsuccessful";
 	}
 
-	@GetMapping("/getbyid/{patientId}")
+	@GetMapping("/getById/{patientId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
 
 	
-	@GetMapping("/getbyname/{patientName}")
+	@GetMapping("/getByName/{patientName}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Patient> getPatientByName(@PathVariable String patientName) {
 		return service.getPatientByName(patientName);
 	}
 
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Patient> getAllPatient() {
 		return service.getAllPatient();

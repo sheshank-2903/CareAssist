@@ -47,7 +47,7 @@ public class ClaimsRestController {
 		return claimService.getClaimById(claimId);
 	}
 	
-	@GetMapping("/getall")
+	@GetMapping("/getAll")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Claims> getAllClaims() {
 		return claimService.getAllClaims();
@@ -59,19 +59,19 @@ public class ClaimsRestController {
 		return claimService.deleteClaimById(claimId);
 	}
 	
-	@GetMapping("/getbypatientid/{patientId}")
+	@GetMapping("/getByPatientId/{patientId}")
 	@PreAuthorize("hasAuthority('PATIENT') || hasAuthority('ADMIN')")
 	public List<Claims> getClaimsByPatientId(@PathVariable long patientId) {
 		return claimService.getClaimsByPatientId(patientId);
 	}
 	
-	@GetMapping("/getbystatus/{status}/{patientId}")
+	@GetMapping("/getByStatus/{status}/{patientId}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT')")
 	public List<Claims> getClaimsByStatus(@PathVariable String status,@PathVariable long patientId) {
 		return claimService.getClaimsByStatus(status,patientId);
 	}
 	
-	@GetMapping("/getbyplanId/{planId}")
+	@GetMapping("/getByPlanId/{planId}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public List<Claims> getClaimsByPlanId(@PathVariable long planId) {
 		return claimService.getClaimsByPlanId(planId);
