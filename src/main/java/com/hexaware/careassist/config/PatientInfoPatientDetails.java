@@ -13,6 +13,10 @@ import com.hexaware.careassist.entities.Patient;
 
 public class PatientInfoPatientDetails implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
 	private List<GrantedAuthority> authorities;

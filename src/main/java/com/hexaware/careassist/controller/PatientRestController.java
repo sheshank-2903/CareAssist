@@ -43,9 +43,9 @@ public class PatientRestController {
 	@Autowired
 	AuthenticationManager authenticationManager;
 	
-	private Logger logger=LoggerFactory.getLogger(AdminRestController.class);
+	private Logger logger=LoggerFactory.getLogger(PatientRestController.class);
 
-	@PostMapping("/add")
+	@PostMapping("/register")
 	//@PreAuthorize("hasAuthority('PATIENT')")
 	public Patient addPatient(@RequestBody PatientDTO patientDto) throws EmailAlreadyPresentException {
 		return service.addPatient(patientDto);
@@ -91,20 +91,20 @@ public class PatientRestController {
 	
 	@GetMapping("/getAllPurchasedPlans/{patientId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public Set<Plans> purchasePlan(@PathVariable long patientId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
+	public Set<Plans> purchasePlan(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getAllPurchasedPlans(patientId);
 	}
 	
-	@PostMapping("/authenticate")
+	@PostMapping("/login")
 	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) {
 
 		Authentication authenticate = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
 
-		// If authentication is successful, generate a JWT
-		String Token = null;
+		
+		String token = null;
 		if (authenticate.isAuthenticated()) {
-			Token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail());
 			logger.info("JWT Token successfully generated!!!");
 		}
 
@@ -112,7 +112,7 @@ public class PatientRestController {
 			logger.info("EMAIL Not Found!!!!");
 			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
 		}
-		return Token;
+		return token;
 
 	}
 

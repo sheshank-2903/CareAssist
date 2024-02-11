@@ -33,21 +33,7 @@ public class InvoicesDTO {
 
 
 
-//	public InvoicesDTO(long invoiceId, LocalDate invoiceDate, LocalDate invoiceDueDate, String patientName,
-//			String patientAddress, double invoiceTax, double consultingFees, double diagnosticTestFees,
-//			double diagnosticScanFees, double calculatedAmount) {
-//		super();
-//		this.invoiceId = invoiceId;
-//		this.invoiceDate = invoiceDate;
-//		this.invoiceDueDate = invoiceDueDate;
-//		this.patientName = patientName;
-//		this.patientAddress = patientAddress;
-//		this.invoiceTax = invoiceTax;
-//		this.consultingFees = consultingFees;
-//		this.diagnosticTestFees = diagnosticTestFees;
-//		this.diagnosticScanFees = diagnosticScanFees;
-//		this.calculatedAmount = calculatedAmount;
-//	}
+
 	
 	public InvoicesDTO(long invoiceId, LocalDate invoiceDate, LocalDate invoiceDueDate,double invoiceTax, double consultingFees, double diagnosticTestFees,
 			double diagnosticScanFees) {
@@ -178,7 +164,7 @@ public class InvoicesDTO {
 
 
 
-	public void setCalculatedAmount(double calculatedAmount) {
+	public void setCalculatedAmount() {
 		this.calculatedAmount = (consultingFees+diagnosticTestFees+diagnosticScanFees)*(1+(invoiceTax/100.0));
 	}
 

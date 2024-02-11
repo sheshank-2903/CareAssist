@@ -71,7 +71,7 @@ public class InsuranceCompanyRestController {
 		return insuranceCompanyService.deleteInsuranceCompanyById(insuranceCompanyId);
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/register")
 	public InsuranceCompany addInsuranceCompany(@RequestBody InsuranceCompanyDTO insuranceCompanyDto) throws EmailAlreadyPresentException {
 		
 		return insuranceCompanyService.addInsuranceCompany(insuranceCompanyDto);
@@ -85,16 +85,16 @@ public class InsuranceCompanyRestController {
 		return insuranceCompanyService.getInsuranceCompanyByName(insuranceCompanyName);
 	}
 	
-	@PostMapping("/authenticate")
+	@PostMapping("/login")
 	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) {
 
 		Authentication authenticate = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
 
-		// If authentication is successful, generate a JWT
-		String Token = null;
+		
+		String token = null;
 		if (authenticate.isAuthenticated()) {
-			Token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail());
 			logger.info("JWT Token successfully generated!!!");
 		}
 
@@ -102,7 +102,7 @@ public class InsuranceCompanyRestController {
 			logger.info("EMAIL Not Found!!!!");
 			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
 		}
-		return Token;
+		return token;
 
 	}
 }

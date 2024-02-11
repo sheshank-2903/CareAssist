@@ -1,6 +1,8 @@
 package com.hexaware.careassist.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,7 @@ class AdminServiceImpTest {
 	@Disabled
 	void testGetAdminInfo() throws NoSuchAdminFoundException {
 		AdminDTO response=service.getAdminById(1);
-		assertTrue(response.getAdminId()==1);
+		assertEquals(1l,response.getAdminId());
 	}
 
 	@Test

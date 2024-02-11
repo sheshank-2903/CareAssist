@@ -29,27 +29,27 @@ public class SecurityConfig {
 	
 	
 	@Bean
-	public UserDetailsService userDetailService() {
+	 UserDetailsService userDetailService() {
 		
 		return new UserInfoDetailsService();
 	}
 	
 	
 	@Bean
-    public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
+     SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
     	
     		return http.csrf().disable()
     			.authorizeHttpRequests().requestMatchers("/v3/api-docs/**"
     					, "/swagger-ui/**"
     					, "/swagger-resources/**"
-    					,"/api/v1/healthcareprovider/add"
-    					,"/api/v1/insurancecompany/add"
-    					,"/api/v1/patient/add"
-    					,"/api/v1/healthcareprovider/authenticate"
-    					,"/api/v1/insurancecompany/authenticate"
-    					,"/api/v1/patient/authenticate"
-    					,"/api/v1/admin/authenticate"
-    					,"/api/v1/admin/add"
+    					,"/api/v1/healthcareprovider/register"
+    					,"/api/v1/insurancecompany/register"
+    					,"/api/v1/patient/register"
+    					,"/api/v1/healthcareprovider/login"
+    					,"/api/v1/insurancecompany/login"
+    					,"/api/v1/patient/login"
+    					,"/api/v1/admin/login"
+    					,"/api/v1/admin/register"
     					).permitAll()
     			.and()
     			.authorizeHttpRequests().requestMatchers("/api/v1/healthcareprovider/**"
@@ -71,7 +71,7 @@ public class SecurityConfig {
 	
 
 	@Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
     	
     	return config.getAuthenticationManager();
     	
@@ -80,12 +80,12 @@ public class SecurityConfig {
     
 
     @Bean    
-    public PasswordEncoder passwordEncoder() {          
+     PasswordEncoder passwordEncoder() {          
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+     AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());

@@ -51,7 +51,7 @@ class ClaimsServiceImpTest {
 	@Disabled
 	void testGetAllClaims() {
 		List<Claims> response = service.getAllClaims();
-		assertTrue(response.size()==2);
+		assertEquals(2,response.size());
 	}
 
 	@Test
@@ -65,21 +65,21 @@ class ClaimsServiceImpTest {
 	@Disabled
 	void testGetClaimsByPatientId() {
 		List<Claims> response = service.getClaimsByPatientId(1);
-		assertTrue(response.size()==2);
+		assertEquals(2,response.size());
 	}
 
 	@Test
 	@Disabled
 	void testGetClaimsByStatus() {
-		List<Claims> response = service.getClaimsByStatus("rejected",1L);
-		assertTrue(response.size()==0);
+		List<Claims> response = service.getClaimsByStatus("REJECTED",1L);
+		assertEquals(0,response.size());
 	}
 
 	@Test
 	@Disabled
 	void testGetClaimsByPlanId() {
 		List<Claims> response = service.getClaimsByPlanId(1);
-		assertTrue(response.size()==2);
+		assertEquals(2,response.size());
 	}
 
 }

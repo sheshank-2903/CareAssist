@@ -29,9 +29,9 @@ public class AdminServiceImp implements IAdminService {
 	public AdminDTO getAdminById(long adminId) throws NoSuchAdminFoundException {
 		Admin admin = repo.findById(adminId).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));
 		logger.info("AdminServiceImp - Admin data fetched successfully");
-		AdminDTO adminDto = new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
-		return adminDto;
+		return new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
 	}
+	
 
 	@Override
 	public Admin updateAdmin(AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException {

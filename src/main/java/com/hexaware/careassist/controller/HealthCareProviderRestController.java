@@ -43,7 +43,7 @@ public class HealthCareProviderRestController {
 	
 	private Logger logger=LoggerFactory.getLogger(HealthCareProviderRestController.class);
 	
-	@PostMapping("/add")
+	@PostMapping("/register")
 	public HealthCareProvider addHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws EmailAlreadyPresentException {
 		return healthCareProviderService.addHealthCareProvider(healthCareProviderDto);
 	}
@@ -72,16 +72,16 @@ public class HealthCareProviderRestController {
 		return healthCareProviderService.getAllHealthCareProvider();
 	}
 	
-	@PostMapping("/authenticate")
+	@PostMapping("/login")
 	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) {
 
 		Authentication authenticate = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
 
-		// If authentication is successful, generate a JWT
-		String Token = null;
+		
+		String token = null;
 		if (authenticate.isAuthenticated()) {
-			Token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail());
 			logger.info("JWT Token successfully generated!!!");
 		}
 
@@ -89,7 +89,7 @@ public class HealthCareProviderRestController {
 			logger.info("EMAIL Not Found!!!!");
 			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
 		}
-		return Token;
+		return token;
 
 	}
 }

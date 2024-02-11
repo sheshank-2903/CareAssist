@@ -32,7 +32,7 @@ public class InvoicesServiceImp implements IInvoicesService {
 	
 	@Override
 	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException {
-		System.out.println("invoias a****************************  " + invoiceDto.getCalculatedAmount());
+		
 		Patient patient=patientRepo.findById(patientId)
 				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 		
