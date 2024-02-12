@@ -1,6 +1,10 @@
 # Care Assist: Comprehensive Medical Billing and Claim Management System
 
+
 Care Assist is an advanced medical billing and claim management system designed to streamline and enhance the healthcare process. This platform ensures a seamless experience for patients, healthcare providers, insurance companies, and administrators.
+
+
+
 
 ## Key Features
 
@@ -29,3 +33,5 @@ Care Assist is an advanced medical billing and claim management system designed 
 - Spring Data JPA for simplified data access and manipulation.
 - JUnit 5 for rigorous testing to ensure a robust and error-free system.
 - REST API architecture for efficient communication between components.
+
+### Authors- Sheshank Sharma, Yash Dubey
