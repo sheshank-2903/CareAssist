@@ -71,7 +71,7 @@ public class PatientRestController {
 	}
 
 	@GetMapping("/getById/{patientId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER')")
 	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
@@ -84,7 +84,7 @@ public class PatientRestController {
 	}
 
 	@GetMapping("/getAll")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER')")
 	public List<Patient> getAllPatient() {
 		return service.getAllPatient();
 	}

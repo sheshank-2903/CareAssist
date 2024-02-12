@@ -15,6 +15,9 @@ import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
+import com.hexaware.careassist.repository.AdminRepository;
+import com.hexaware.careassist.repository.HealthCareProviderRepository;
+import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
@@ -37,6 +40,15 @@ public class PatientServiceImp implements IPatientService {
 	
 	@Autowired
 	PlansRepository plansRepo;
+	
+	@Autowired
+	InsuranceCompanyRepository insuranceCompanyRepo;
+	
+	@Autowired 
+	AdminRepository adminRepo;
+	
+	@Autowired
+	HealthCareProviderRepository healthCareRepo;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -137,7 +149,10 @@ public class PatientServiceImp implements IPatientService {
 
 	@Override
 	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException {
-		if(patientRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null) {
+		if(adminRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null || 
+				patientRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null ||
+				healthCareRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null ||
+				insuranceCompanyRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		

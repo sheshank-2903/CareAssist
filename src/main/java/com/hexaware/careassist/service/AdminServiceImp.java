@@ -10,6 +10,9 @@ import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
+import com.hexaware.careassist.repository.HealthCareProviderRepository;
+import com.hexaware.careassist.repository.InsuranceCompanyRepository;
+import com.hexaware.careassist.repository.PatientRepository;
 
 /*
 @Author :  Yash Dubey,Sheshank Sharma
@@ -22,6 +25,15 @@ public class AdminServiceImp implements IAdminService {
 	
 	@Autowired 
 	AdminRepository repo;
+	
+	@Autowired
+	PatientRepository patientRepo;
+	
+	@Autowired
+	HealthCareProviderRepository healthCareRepo;
+	
+	@Autowired
+	InsuranceCompanyRepository insuranceRepo;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -61,7 +73,10 @@ public class AdminServiceImp implements IAdminService {
 
 	@Override
 	public Admin addAdmin(AdminDTO adminDto) throws EmailAlreadyPresentException {
-		if(repo.findByEmail(adminDto.getEmail()).orElse(null)!=null) {
+		if(repo.findByEmail(adminDto.getEmail()).orElse(null)!=null || 
+				patientRepo.findByEmail(adminDto.getEmail()).orElse(null)!=null ||
+				healthCareRepo.findByEmail(adminDto.getEmail()).orElse(null)!=null ||
+				insuranceRepo.findByEmail(adminDto.getEmail()).orElse(null)!=null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));

@@ -12,7 +12,10 @@ import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
+import com.hexaware.careassist.repository.AdminRepository;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
+import com.hexaware.careassist.repository.InsuranceCompanyRepository;
+import com.hexaware.careassist.repository.PatientRepository;
 
 /*
 @Author :  Sheshank Sharma
@@ -29,6 +32,16 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	InsuranceCompanyRepository insuranceCompanyRepo;
+	
+	@Autowired 
+	AdminRepository adminRepo;
+	
+	@Autowired
+	PatientRepository patientRepo;
+	
+	
 	String exceptionMessage="No such Health Care Provider exists in database";
 		
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
@@ -37,7 +50,10 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto)
 			throws EmailAlreadyPresentException {
 		
-		if (healthCareRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null) != null) {
+		if(adminRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null || 
+				patientRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null ||
+				healthCareRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null ||
+				insuranceCompanyRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		

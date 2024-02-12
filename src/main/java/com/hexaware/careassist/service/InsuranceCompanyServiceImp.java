@@ -13,7 +13,10 @@ import com.hexaware.careassist.dto.InsuranceCompanyDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
+import com.hexaware.careassist.repository.AdminRepository;
+import com.hexaware.careassist.repository.HealthCareProviderRepository;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
+import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
 /*
@@ -30,6 +33,16 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 
 	@Autowired
 	PlansRepository plansRepo;
+	
+	@Autowired 
+	AdminRepository adminRepo;
+	
+	@Autowired
+	PatientRepository patientRepo;
+	
+	@Autowired
+	HealthCareProviderRepository healthCareRepo;
+	
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -91,7 +104,10 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	@Override
 	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto)
 			throws EmailAlreadyPresentException {
-		if (insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null) != null) {
+		if(adminRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null || 
+				patientRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null ||
+				healthCareRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null ||
+				insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null)!=null) {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		insuranceCompanyDto.setPassword(passwordEncoder.encode(insuranceCompanyDto.getPassword()));
