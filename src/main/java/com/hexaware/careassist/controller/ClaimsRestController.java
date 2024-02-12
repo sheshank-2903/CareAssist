@@ -20,6 +20,12 @@ import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IClaimsService;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 05-02-2024
+Description : Creation of ClaimsRestController
+*/
+
 @RestController
 @RequestMapping("/api/v1/claims")
 public class ClaimsRestController {

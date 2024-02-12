@@ -20,6 +20,12 @@ import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 04-02-2024
+Description : Testing of PatientService
+*/
+
 @SpringBootTest
 class PatientServiceImpTest {
 

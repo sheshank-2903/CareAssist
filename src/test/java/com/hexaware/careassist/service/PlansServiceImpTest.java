@@ -16,6 +16,12 @@ import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 04-02-2024
+Description : Testing of PlansService
+*/
+
 @SpringBootTest
 class PlansServiceImpTest {
 

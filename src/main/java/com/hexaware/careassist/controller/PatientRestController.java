@@ -30,6 +30,12 @@ import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPatientService;
 import com.hexaware.careassist.service.JwtService;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 05-02-2024
+Description : Creation of PatientRestController
+*/
+
 @RestController
 @RequestMapping("/api/v1/patient")
 public class PatientRestController {

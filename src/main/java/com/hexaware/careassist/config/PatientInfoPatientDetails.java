@@ -11,6 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hexaware.careassist.entities.Patient;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : Creation of PatientInfoPatientDetails
+*/
+
 public class PatientInfoPatientDetails implements UserDetails {
 
 	/**

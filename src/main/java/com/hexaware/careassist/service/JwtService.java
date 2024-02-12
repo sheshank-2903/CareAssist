@@ -17,6 +17,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : implementation of JwtService
+*/
+
 @Service
 public class JwtService {
 	private static final Logger logger = LoggerFactory.getLogger(JwtService.class);

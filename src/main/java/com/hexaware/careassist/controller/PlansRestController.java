@@ -19,6 +19,12 @@ import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPlansService;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 05-02-2024
+Description : Creation of PlansRestController
+*/
+
 @RestController
 @RequestMapping("/api/v1/plans")
 public class PlansRestController {

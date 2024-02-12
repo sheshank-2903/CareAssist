@@ -20,6 +20,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 31-01-2024
+Description : Entity class for Plans containing various properties
+*/
+
 @Entity
 public class Plans {  
 	@Id

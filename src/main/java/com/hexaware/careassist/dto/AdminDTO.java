@@ -3,6 +3,12 @@ package com.hexaware.careassist.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 31-01-2024
+Description : DTO class for Admin containing various properties
+*/
+
 public class AdminDTO {
 
 	private long adminId;

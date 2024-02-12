@@ -1,7 +1,11 @@
 package com.hexaware.careassist.dto;
 
 
-
+/*
+@Author :  Sheshank Sharma
+Modified Date : 31-01-2024
+Description : DTO class for InsuranceCompanyDTO containing various properties
+*/
 
 public class InsuranceCompanyDTO {
 	

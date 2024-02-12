@@ -27,6 +27,12 @@ import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.service.IInsuranceCompanyService;
 import com.hexaware.careassist.service.JwtService;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 05-02-2024
+Description : Creation of InsuranceCompanyRestController
+*/
+
 @RestController
 @RequestMapping("/api/v1/insurancecompany")
 public class InsuranceCompanyRestController {

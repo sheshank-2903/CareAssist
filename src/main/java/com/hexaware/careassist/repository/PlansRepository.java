@@ -8,6 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import com.hexaware.careassist.entities.Plans;
 
+
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : PlansRepository extending JpaRepository
+*/
+
 @Repository
 public interface PlansRepository extends JpaRepository<Plans, Long>{
 

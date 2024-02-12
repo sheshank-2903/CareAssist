@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 import com.hexaware.careassist.entities.HealthCareProvider;
 
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : HealthCareProviderRepository extending JpaRepository
+*/
+
 @Repository
 public interface HealthCareProviderRepository extends JpaRepository<HealthCareProvider, Long>{
 

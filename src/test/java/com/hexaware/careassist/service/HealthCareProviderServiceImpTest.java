@@ -16,6 +16,12 @@ import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 04-02-2024
+Description : Testing of HealthCareProviderService
+*/
+
 @SpringBootTest
 class HealthCareProviderServiceImpTest {
 

@@ -17,6 +17,13 @@ import com.hexaware.careassist.repository.PlansRepository;
 
 import jakarta.transaction.Transactional;
 
+
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : implementation of PlansService
+*/
+
 @Service
 public class PlansServiceImp implements IPlansService {
 
@@ -25,6 +32,8 @@ public class PlansServiceImp implements IPlansService {
 	
 	@Autowired
 	InsuranceCompanyRepository insuranceCompanyRepo;
+	
+	String exceptionMessage="No such Plan exists in database";
 	
 	Logger logger =LoggerFactory.getLogger(PlansServiceImp.class);
 	
@@ -50,7 +59,7 @@ public class PlansServiceImp implements IPlansService {
 	@Override
 	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) throws NoSuchPlanFoundException {
 
-		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException(exceptionMessage));
 		plans.setPlanName(planName);
 		plans.setDescription(description);
 		plans.setCoverageAmount(coverageAmount);
@@ -62,7 +71,7 @@ public class PlansServiceImp implements IPlansService {
 
 	@Override
 	public boolean deletePlanById(long planId) throws NoSuchPlanFoundException {
-		repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException(exceptionMessage));
 		
 		repo.deleteById(planId);
 		Plans plans=repo.findById(planId).orElse(null);
@@ -78,7 +87,7 @@ public class PlansServiceImp implements IPlansService {
 	@Override
 	public PlansDTO getPlanById(long planId) throws NoSuchPlanFoundException {
 
-		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		Plans plans=repo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException(exceptionMessage));
 		
 		PlansDTO plansDto=new PlansDTO();
 		plansDto.setPlanId(plans.getPlanId());

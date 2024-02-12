@@ -19,6 +19,12 @@ import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IInvoicesService;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 05-02-2024
+Description : Creation of InvoicesRestController
+*/
+
 @RestController
 @RequestMapping("/api/v1/invoice")
 public class InvoicesRestController {

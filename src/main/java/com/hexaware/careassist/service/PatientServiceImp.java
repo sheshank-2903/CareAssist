@@ -20,6 +20,12 @@ import com.hexaware.careassist.repository.PlansRepository;
 
 import jakarta.transaction.Transactional;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : implementation of PatientService
+*/
+
 @Service
 @Transactional
 public class PatientServiceImp implements IPatientService {
@@ -35,11 +41,13 @@ public class PatientServiceImp implements IPatientService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	String exceptionMessage="No such patient exists in the database";
+	
 	@Override
 	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException {
 		
 		Patient patient=patientRepo.findById(patientId)
-				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+				.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage)); 
 		
 		PatientDTO patientdto=new PatientDTO();
 		patientdto.setPatientId(patient.getPatientId());  
@@ -61,7 +69,7 @@ public class PatientServiceImp implements IPatientService {
 	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException, EmailAlreadyPresentException {
 
 		Patient isPresent =patientRepo.findById(patientDto.getPatientId())
-		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+		.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage)); 
 
 		Patient checkIfNew= patientRepo.findByEmail(patientDto.getEmail()).orElse(null);
 
@@ -96,7 +104,7 @@ public class PatientServiceImp implements IPatientService {
 	public boolean deletePatientById(long patientId) throws NoSuchPatientFoundException {
 		
 		patientRepo.findById(patientId)
-		.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
+		.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage)); 
 
 		patientRepo.deleteById(patientId);
 		

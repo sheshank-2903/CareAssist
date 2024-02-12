@@ -23,8 +23,8 @@ import jakarta.validation.constraints.Pattern;
 
 /*
 @Author :  Yash Dubey
-Modified Date : 26-10-2023
-Description : Entity class for Admin containing various properties
+Modified Date : 31-01-2024
+Description : Entity class for Patient containing various properties
 */
 
 @Entity

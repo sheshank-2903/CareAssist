@@ -15,6 +15,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+/*
+@Author : Sheshank Sharma
+Modified Date : 31-01-2024
+Description : Entity class for InsuranceCompany containing various properties
+*/
+
 @Entity
 public class InsuranceCompany {
 	@Id

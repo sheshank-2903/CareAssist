@@ -8,6 +8,12 @@ import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
+/*
+@Author : Sheshank Sharma
+Modified Date : 02-02-2024
+Description : Creation of ClaimsService Interface
+*/
+
 public interface IClaimsService {
 	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException;
 	public Claims updateClaim(String newStatus, long claimId) throws NoSuchClaimFoundException;

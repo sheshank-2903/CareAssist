@@ -10,6 +10,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 31-01-2024
+Description : Entity class for Claims containing various properties
+*/
+
 @Entity
 public class Claims {
 	@Id

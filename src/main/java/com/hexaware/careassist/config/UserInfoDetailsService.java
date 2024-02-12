@@ -17,6 +17,12 @@ import com.hexaware.careassist.repository.HealthCareProviderRepository;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : Creation of UserInfoDetailsService
+*/
+
 @Component
 public class UserInfoDetailsService implements UserDetailsService {
 

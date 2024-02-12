@@ -10,6 +10,12 @@ import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : creation of PatientService Interface
+*/
+
 public interface IPatientService {
 	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException;
 	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException;

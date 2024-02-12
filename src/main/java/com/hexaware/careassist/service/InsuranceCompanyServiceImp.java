@@ -16,6 +16,12 @@ import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : implementation of InsuranceCompanyService
+*/
+
 @Service
 public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 
@@ -28,13 +34,15 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	String exceptionMessage="No such Insurance Company exists in database";
+	
 	Logger logger = LoggerFactory.getLogger(InsuranceCompanyServiceImp.class);
 
 	@Override
 	public InsuranceCompanyDTO getInsuranceCompanyById(long insuranceCompanyId)
 			throws NoSuchInsuranceCompanyFoundException {
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(
-				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+				() -> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by Id fetched successfully");
 		return new InsuranceCompanyDTO(insuranceCompany.getInsuranceCompanyId(),
 				insuranceCompany.getInsuranceCompanyDescription(), insuranceCompany.getCompanyName(),
@@ -48,7 +56,7 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 
 		InsuranceCompany isPresent = insuranceCompanyRepo.findById(insuranceCompanyDto.getInsuranceCompanyId())
 				.orElseThrow(
-						() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+						() -> new NoSuchInsuranceCompanyFoundException( exceptionMessage));
 
 		InsuranceCompany checkIfNew = insuranceCompanyRepo.findByEmail(insuranceCompanyDto.getEmail()).orElse(null);
 
@@ -73,7 +81,7 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	public boolean deleteInsuranceCompanyById(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
 
 		insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(
-				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+				() -> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
 		insuranceCompanyRepo.deleteById(insuranceCompanyId);
 		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findById(insuranceCompanyId).orElse(null);
 		logger.info("InsuranceCompanyImp - InsuranceCompany deleted successfully");
@@ -100,7 +108,7 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 			throws NoSuchInsuranceCompanyFoundException {
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
 		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName).orElseThrow(
-				() -> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+				() -> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
 	}
 
 	@Override

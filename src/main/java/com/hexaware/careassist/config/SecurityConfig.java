@@ -1,5 +1,4 @@
 package com.hexaware.careassist.config;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hexaware.careassist.filter.JWTAuthFilter;
+
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : Creation of SecurityConfig
+*/
 
 @Configuration
 @EnableWebSecurity

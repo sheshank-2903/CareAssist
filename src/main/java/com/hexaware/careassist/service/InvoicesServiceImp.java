@@ -18,6 +18,12 @@ import com.hexaware.careassist.repository.PatientRepository;
 
 import jakarta.transaction.Transactional;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : implementation of InvoicesService
+*/
+
 @Service
 @Transactional
 public class InvoicesServiceImp implements IInvoicesService {

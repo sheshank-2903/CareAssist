@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import com.hexaware.careassist.entities.Claims;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : ClaimRepository extending JpaRepository
+*/
+
 @Repository
 public interface ClaimRepository extends JpaRepository<Claims, Long> {
 

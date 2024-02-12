@@ -20,6 +20,12 @@ import com.hexaware.careassist.repository.PlansRepository;
 
 import jakarta.transaction.Transactional;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : implementation of ClaimsService
+*/
+
 @Service
 public class ClaimsServiceImp implements IClaimsService {
 	
@@ -32,11 +38,12 @@ public class ClaimsServiceImp implements IClaimsService {
 	@Autowired
 	PlansRepository planRepo;
 	
+	String exceptionMessage="No such claim exists in database";
+	
 	Logger logger =LoggerFactory.getLogger(ClaimsServiceImp.class);
 	
 	@Override
 	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException{
-		
 		Patient patient = patientRepo.findById(patientId).orElseThrow(()-> new NoSuchPatientFoundException("No such Patient exists in database"));
 		Plans plans = planRepo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
 		Claims claims = claimRepo.save(new Claims(claimDto.getClaimId(),
@@ -53,7 +60,7 @@ public class ClaimsServiceImp implements IClaimsService {
 	@Transactional
 	@Override
 	public Claims updateClaim(String newStatus, long claimId) throws NoSuchClaimFoundException {
-		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
+		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException(exceptionMessage));
 		claim.setClaimStatus(newStatus);
 		claim=claimRepo.save(claim);
 		logger.info("ClaimsServiceImp - Claim status updated successfully");
@@ -62,7 +69,7 @@ public class ClaimsServiceImp implements IClaimsService {
 
 	@Override
 	public ClaimsDTO getClaimById(long claimId)throws NoSuchClaimFoundException {
-		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
+		Claims claim=claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException(exceptionMessage));
 		logger.info("ClaimsServiceImp - Claim data fetched successfully");
 		return new ClaimsDTO(claim.getClaimId(),claim.getClaimAmount(),claim.getClaimStatus());
 	}
@@ -75,7 +82,7 @@ public class ClaimsServiceImp implements IClaimsService {
 
 	@Override
 	public boolean deleteClaimById(Long claimId) throws NoSuchClaimFoundException {
-		claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException("No such claim exists in database"));
+		claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException(exceptionMessage));
 		claimRepo.deleteById(claimId);
 		Claims claim=claimRepo.findById(claimId).orElse(null);
 		logger.info("ClaimsServiceImp - Claim deleted successfully");

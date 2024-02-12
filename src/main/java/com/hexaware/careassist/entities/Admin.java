@@ -7,6 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 31-01-2024
+Description : Entity class for Admin containing various properties
+*/
 
 @Entity
 public class Admin {

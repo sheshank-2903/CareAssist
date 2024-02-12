@@ -18,6 +18,12 @@ import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 04-02-2024
+Description : Testing of InsuranceCompanyService
+*/
+
 @SpringBootTest
 class InsuranceCompanyServiceImpTest {
 	

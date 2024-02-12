@@ -6,6 +6,11 @@ import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : creation of InsuranceCompanyService Interface
+*/
 
 
 public interface IInsuranceCompanyService {

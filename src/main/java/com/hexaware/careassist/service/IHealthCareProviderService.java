@@ -6,6 +6,11 @@ import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : creation of HealthCareProvider Interface
+*/
 
 public interface IHealthCareProviderService {
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws EmailAlreadyPresentException;

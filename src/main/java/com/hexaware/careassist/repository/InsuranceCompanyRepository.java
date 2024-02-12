@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.hexaware.careassist.entities.InsuranceCompany;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : InsuranceCompanyRepository extending JpaRepository
+*/
+
 @Repository
 public interface InsuranceCompanyRepository extends JpaRepository<InsuranceCompany, Long>{
 	

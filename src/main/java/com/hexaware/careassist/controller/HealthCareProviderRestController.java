@@ -27,6 +27,11 @@ import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException
 import com.hexaware.careassist.service.IHealthCareProviderService;
 import com.hexaware.careassist.service.JwtService;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 05-02-2024
+Description : Creation of HealthCareProviderRestController
+*/
 
 @RestController
 @RequestMapping("/api/v1/healthcareprovider")

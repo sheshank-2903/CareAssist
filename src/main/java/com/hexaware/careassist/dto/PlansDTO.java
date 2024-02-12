@@ -2,6 +2,11 @@ package com.hexaware.careassist.dto;
 
 import java.time.LocalDate;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 31-01-2024
+Description : DTO class for PlansDTO containing various properties
+*/
 
 public class PlansDTO {  
 	

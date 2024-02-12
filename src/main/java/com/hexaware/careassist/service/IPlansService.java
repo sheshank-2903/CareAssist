@@ -7,6 +7,12 @@ import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
+/*
+@Author :  Yash Dubey
+Modified Date : 02-02-2024
+Description : creation of PlansService Interface
+*/
+
 public interface IPlansService {
 	public Plans addPlan(PlansDTO plansDto,long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException;
 	public Plans updatePlan(String planName,String description,double coverageAmount,long planId) throws NoSuchPlanFoundException;

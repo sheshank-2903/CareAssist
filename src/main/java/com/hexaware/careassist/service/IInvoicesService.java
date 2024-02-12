@@ -8,6 +8,12 @@ import com.hexaware.careassist.exceptions.InvalidDueDateException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : creation of InvoiceService Interface
+*/
+
 public interface IInvoicesService {
 	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException;
 	

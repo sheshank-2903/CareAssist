@@ -14,6 +14,12 @@ import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
 
+/*
+@Author :  Sheshank Sharma
+Modified Date : 02-02-2024
+Description : implementation of HealthCareProviderService
+*/
+
 @Service
 public class HealthCareProviderServiceImp implements IHealthCareProviderService {
 
@@ -22,7 +28,9 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
+	
+	String exceptionMessage="No such Health Care Provider exists in database";
+		
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
 
 	@Override
@@ -50,7 +58,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 			throws NoSuchHealthCareProviderFoundException {
 		
 		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElseThrow(
-				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
 		
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
 		
@@ -64,7 +72,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 			throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
 		
 		HealthCareProvider isPresent = healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(
-				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
 
 		
 		HealthCareProvider checkIfNew= healthCareRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null);
@@ -94,7 +102,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	@Override
 	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		healthCareRepo.findById(healthCareProviderId).orElseThrow(
-				() -> new NoSuchHealthCareProviderFoundException("No such Health Care Provider exists in database"));
+				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
 		healthCareRepo.deleteById(healthCareProviderId);
 		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElse(null);
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");

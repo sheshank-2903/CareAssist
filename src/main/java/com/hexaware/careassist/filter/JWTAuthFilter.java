@@ -18,6 +18,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : implementation of JWTAuthFilter
+*/
+
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter{
 

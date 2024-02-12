@@ -11,7 +11,11 @@ import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
 
-
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 02-02-2024
+Description : implementation of AdminService
+*/
 
 @Service
 public class AdminServiceImp implements IAdminService {

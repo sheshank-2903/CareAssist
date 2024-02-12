@@ -24,6 +24,12 @@ import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 05-02-2024
+Description : Creation of AdminRestController
+*/
+
 
 @RestController
 @RequestMapping("/api/v1/admin")

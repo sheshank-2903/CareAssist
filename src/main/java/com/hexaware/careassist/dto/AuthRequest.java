@@ -1,5 +1,11 @@
 package com.hexaware.careassist.dto;
 
+/*
+@Author :  Yash Dubey,Sheshank Sharma
+Modified Date : 09-02-2024
+Description : AuthRequest Class containing various properties
+*/
+
 public class AuthRequest {
 
 	private String email;
