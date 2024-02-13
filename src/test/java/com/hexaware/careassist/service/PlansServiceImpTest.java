@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
@@ -68,7 +69,7 @@ class PlansServiceImpTest {
 	@Test
 	@Disabled
 	void testGetPlanByName() {
-		List<Plans> list=service.getPlanByName("aaaa");  //name se multiple plans??
+		List<Plans> list=service.getPlanByName("aaaa");  
 		assertEquals(1,list.size());
 	}
 
@@ -76,6 +77,13 @@ class PlansServiceImpTest {
 	@Disabled
 	void testGetPlanByInsuranceCompanyName() throws NoSuchInsuranceCompanyFoundException {
 		List<Plans> list=service.getPlanByInsuranceCompanyName("abas");
+		assertEquals(1,list.size());
+	}
+	
+	@Test
+	@Disabled
+	void testGetPlanByCoverageAmountLessthan() throws InvalidInputException {
+		List<Plans> list=service.getPlanyByAmountLessThan(25000);
 		assertEquals(1,list.size());
 	}
 

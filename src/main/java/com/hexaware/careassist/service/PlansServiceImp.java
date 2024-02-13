@@ -1,5 +1,6 @@
 package com.hexaware.careassist.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.InsuranceCompany;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
@@ -117,6 +119,26 @@ public class PlansServiceImp implements IPlansService {
 		insuranceCompanyRepo.findByCompanyName(companyName).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
 		logger.info("PlansServiceImp-- Plan details with company name:{}  fetched successfully",companyName);
 		return repo.findByCompanyName(companyName);
+	}
+
+	@Override
+	public List<Plans> getPlanyByAmountLessThan(double coverageAmount) throws InvalidInputException {
+
+		if(coverageAmount<10000) {
+			throw new InvalidInputException("Coverage Amount Cannot be less than 10000");
+		}
+		return repo.findByCoverageAmountLessThan(coverageAmount);
+	}
+
+	@Override
+	public List<Plans> getPlanyByPatientId(long patientId) {
+		List<Long> list=repo.findByPatientId(patientId);
+		List<Plans> planList=new ArrayList<>();
+		
+		for(long l : list) {
+			planList.add(repo.findById(l).get());
+		}
+		return planList;
 	}
 
 

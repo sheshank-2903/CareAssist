@@ -72,7 +72,19 @@ public class GlobalExceptionHandler {
 
 	public ResponseEntity<String> handleInvalidDueDateException(InvalidDueDateException ex) {
 
-		return new ResponseEntity<String>("Due Date cannot be less then Invoice Date of issue", HttpStatus.FOUND);
+		return new ResponseEntity<String>("Due Date cannot be less then Invoice Date of issue", HttpStatus.EXPECTATION_FAILED);
 
 	}
+	
+	
+	@ExceptionHandler(InvalidInputException.class)
+
+	public ResponseEntity<String> handleInvalidInputException(InvalidInputException ex) {
+
+		return new ResponseEntity<String>("Invalid Input", HttpStatus.EXPECTATION_FAILED);
+
+	}
+	
+	
+	
 }
