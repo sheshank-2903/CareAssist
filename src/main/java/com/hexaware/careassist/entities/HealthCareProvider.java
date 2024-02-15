@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +18,8 @@ Description : Entity class for HealthCareProvider containing various properties
 @Entity
 public class HealthCareProvider {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="healthCareProviderId_generator",sequenceName="healthCareProvider_seq",initialValue = 3001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="healthCareProviderId_generator")
 	private long healthCareProviderId;
 	
 	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")

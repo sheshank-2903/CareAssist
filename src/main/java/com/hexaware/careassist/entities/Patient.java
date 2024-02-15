@@ -31,7 +31,8 @@ Description : Entity class for Patient containing various properties
 @Entity
 public class Patient {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="patientId_generator",sequenceName="patient_seq",initialValue = 7001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="patientId_generator")
 	long patientId;
 	
 	@NotNull

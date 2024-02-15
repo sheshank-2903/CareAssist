@@ -76,6 +76,13 @@ public class GlobalExceptionHandler {
 
 	}
 	
+	@ExceptionHandler(InvoiceNotApprovedException.class)
+	public ResponseEntity<String> handleInvoiceNotApprovedException(InvoiceNotApprovedException ex) {
+
+		return new ResponseEntity<String>("Your Invoice is not yet approved", HttpStatus.FOUND);
+
+	}
+
 	
 	@ExceptionHandler(InvalidInputException.class)
 
@@ -84,7 +91,4 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<String>("Invalid Input", HttpStatus.EXPECTATION_FAILED);
 
 	}
-	
-	
-	
 }
