@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexaware.careassist.dto.InvoicesDTO;
 import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.exceptions.InvalidDueDateException;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IInvoicesService;
@@ -33,8 +34,8 @@ public class InvoicesRestController {
 	IInvoicesService service;
 	
 	@PostMapping("/add/{patientId}")
-	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
-	public Invoices addInvoice(@RequestBody InvoicesDTO invoiceDto,@PathVariable long patientId) throws NoSuchPatientFoundException, InvalidDueDateException {
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public Invoices addInvoice(@RequestBody InvoicesDTO invoiceDto,@PathVariable long patientId) throws NoSuchPatientFoundException, InvalidDueDateException, NoSuchHealthCareProviderFoundException {
 		return service.addInvoice(invoiceDto, patientId);
 	}
 
@@ -57,6 +58,18 @@ public class InvoicesRestController {
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public List<Invoices> getInvoicesByPatientId(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getInvoicesByPatientId(patientId);
+	}
+	
+	@GetMapping("/getByHealthCareProviderId/{healthCareProviderId}")
+	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
+	public List<Invoices> getInvoicesByHealthCareProviderId(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+		return service.getInvoicesByHealthCareProviderId(healthCareProviderId);
+	}
+	
+	@GetMapping("/updateInvoiceStatus/{invoiceId}/{invoiceStatus}")
+	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
+	public Invoices updateInvoiceStatus(@PathVariable long invoiceId,@PathVariable String invoiceStatus) throws NoSuchInvoiceFoundException {
+		return service.updateInvoiceStatusById(invoiceId, invoiceStatus);
 	}
 	
 	@DeleteMapping("/delete/{invoiceId}")

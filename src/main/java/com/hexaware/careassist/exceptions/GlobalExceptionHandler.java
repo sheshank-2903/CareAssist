@@ -75,4 +75,11 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<String>("Due Date cannot be less then Invoice Date of issue", HttpStatus.FOUND);
 
 	}
+	
+	@ExceptionHandler(InvoiceNotApprovedException.class)
+	public ResponseEntity<String> handleInvoiceNotApprovedException(InvoiceNotApprovedException ex) {
+
+		return new ResponseEntity<String>("Your Invoice is not yet approved", HttpStatus.FOUND);
+
+	}
 }

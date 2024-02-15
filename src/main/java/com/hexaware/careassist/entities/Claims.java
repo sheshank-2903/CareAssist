@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
@@ -19,7 +20,8 @@ Description : Entity class for Claims containing various properties
 @Entity
 public class Claims {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="claimId_generator",sequenceName="claim_seq",initialValue = 2001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="claimId_generator")
 	private long claimId;
 	
 	@Min(10000)
