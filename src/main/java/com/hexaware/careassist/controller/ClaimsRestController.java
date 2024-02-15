@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IClaimsService;
@@ -35,10 +37,10 @@ public class ClaimsRestController {
 
 	
 	
-	@PostMapping("/add/{patientId}/{planId}")
+	@PostMapping("/add/{patientId}/{planId}/{invoiceId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public Claims addClaim(@RequestBody ClaimsDTO claimDto,@PathVariable long patientId,@PathVariable long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException {
-		return claimService.addClaim(claimDto, patientId, planId);
+	public Claims addClaim(@RequestBody ClaimsDTO claimDto,@PathVariable long patientId,@PathVariable long planId,@PathVariable long invoiceId) throws NoSuchPatientFoundException, NoSuchPlanFoundException, NoSuchInvoiceFoundException, InvoiceNotApprovedException {
+		return claimService.addClaim(claimDto, patientId, planId,invoiceId);
 	}
 	
 	@PutMapping("/update/{claimId}/{newStatus}")

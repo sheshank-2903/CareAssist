@@ -2,6 +2,9 @@ package com.hexaware.careassist.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 /*
 @Author :  Yash Dubey
 Modified Date : 31-01-2024
@@ -29,10 +32,13 @@ public class InvoicesDTO {
 	
 	private double calculatedAmount;
 	
+	private String invoiceStatus;
 	
+	private Long healthCareProviderId;
 
 	public InvoicesDTO() {
 		super();
+		this.invoiceStatus = "PENDING";
 	}
 
 
@@ -40,7 +46,7 @@ public class InvoicesDTO {
 
 	
 	public InvoicesDTO(long invoiceId, LocalDate invoiceDate, LocalDate invoiceDueDate,double invoiceTax, double consultingFees, double diagnosticTestFees,
-			double diagnosticScanFees) {
+			double diagnosticScanFees, long healthCareProviderId) {
 		super();
 		this.invoiceId = invoiceId;
 		this.invoiceDate = invoiceDate;
@@ -50,6 +56,8 @@ public class InvoicesDTO {
 		this.diagnosticTestFees = diagnosticTestFees;
 		this.diagnosticScanFees = diagnosticScanFees;
 		this.calculatedAmount = (consultingFees+diagnosticTestFees+diagnosticScanFees)*(1+(invoiceTax/100.0));
+		this.invoiceStatus = "PENDING";
+		this.healthCareProviderId=healthCareProviderId;
 	}
 
 
@@ -174,14 +182,61 @@ public class InvoicesDTO {
 
 
 
+
+
+	public String getInvoiceStatus() {
+		return invoiceStatus;
+	}
+
+
+
+
+
+	public void setInvoiceStatus(String invoiceStatus) {
+		this.invoiceStatus = invoiceStatus;
+	}
+
+
+
+
+
+	public Long getHealthCareProviderId() {
+		return healthCareProviderId;
+	}
+
+
+
+
+
+	public void setHealthCareProviderId(Long healthCareProviderId) {
+		this.healthCareProviderId = healthCareProviderId;
+	}
+
+
+
+
+
+	public void setCalculatedAmount(double calculatedAmount) {
+		this.calculatedAmount = calculatedAmount;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "Invoices [invoiceId=" + invoiceId + ", invoiceDate=" + invoiceDate + ", InvoiceDueDate="
-				+ invoiceDueDate +", patientName=" + patientName + ", patientAddress="
-				+ patientAddress + ", invoiceTax=" + invoiceTax + ", consultingFees=" + consultingFees
-				+ ", diagnosticTestFees=" + diagnosticTestFees + ", diagnosticScanFees=" + diagnosticScanFees
-				+ ", calculatedAmount=" + calculatedAmount + "]";
+		return "InvoicesDTO [invoiceId=" + invoiceId + ", invoiceDate=" + invoiceDate + ", invoiceDueDate="
+				+ invoiceDueDate + ", patientName=" + patientName + ", patientAddress=" + patientAddress
+				+ ", invoiceTax=" + invoiceTax + ", consultingFees=" + consultingFees + ", diagnosticTestFees="
+				+ diagnosticTestFees + ", diagnosticScanFees=" + diagnosticScanFees + ", calculatedAmount="
+				+ calculatedAmount + ", invoiceStatus=" + invoiceStatus + ", healthCareProviderId="
+				+ healthCareProviderId + "]";
 	}
+
+
+
+	
 
 	
 	

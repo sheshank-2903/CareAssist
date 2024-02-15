@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -24,7 +25,8 @@ Description : Entity class for InsuranceCompany containing various properties
 @Entity
 public class InsuranceCompany {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="insuranceCompanyId_generator",sequenceName="insuranceCompany_seq",initialValue = 4001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="insuranceCompanyId_generator")
 	private long insuranceCompanyId;
 	@NotBlank
 	private String insuranceCompanyDescription;

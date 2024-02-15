@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,7 +17,8 @@ Description : Entity class for Admin containing various properties
 @Entity
 public class Admin {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="adminId_generator",sequenceName="admin_seq",initialValue = 1001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="adminId_generator")
 	private long adminId;
 	
 	@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20")

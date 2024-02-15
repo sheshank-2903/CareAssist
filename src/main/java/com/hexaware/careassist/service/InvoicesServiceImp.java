@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
+import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.InvalidDueDateException;
+import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
+import com.hexaware.careassist.repository.HealthCareProviderRepository;
 import com.hexaware.careassist.repository.InvoicesRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 
@@ -34,17 +38,25 @@ public class InvoicesServiceImp implements IInvoicesService {
 	InvoicesRepository invoiceRepo;
 	
 	@Autowired
+	HealthCareProviderRepository healthCareProviderRepo;
+	
+	@Autowired
 	PatientRepository patientRepo;
 	
 	@Override
-	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException {
+	public Invoices addInvoice(InvoicesDTO invoiceDto,long patientId) throws NoSuchPatientFoundException, InvalidDueDateException, NoSuchHealthCareProviderFoundException {
 		
 		Patient patient=patientRepo.findById(patientId)
 				.orElseThrow(()->new NoSuchPatientFoundException("No such patient exists in the database")); 
 		
+		healthCareProviderRepo.findById(invoiceDto.getHealthCareProviderId())
+		.orElseThrow(()->new NoSuchHealthCareProviderFoundException("No such HealthCareProvider Found in the database")); 
+		
 		if (invoiceDto.getInvoiceDueDate().isBefore(invoiceDto.getInvoiceDate())) {
 		    throw new InvalidDueDateException("Due Date must be on or after the Invoice Date of issue");
 		}
+		
+		
 	
 		Invoices invoice=new Invoices();
 		invoice.setInvoiceId(invoiceDto.getInvoiceId());
@@ -58,6 +70,8 @@ public class InvoicesServiceImp implements IInvoicesService {
 		invoice.setDiagnosticScanFees(invoiceDto.getDiagnosticScanFees());
 		invoice.setCalculatedAmount(invoiceDto.getCalculatedAmount());
 		invoice.setPatient(patient);
+		invoice.setHealthCareProviderId(invoiceDto.getHealthCareProviderId());
+		invoice.setInvoiceStatus(invoiceDto.getInvoiceStatus());
 		
 		logger.info("InvoicesServiceImp-- Invoice with invoiceId: {} generated successfully",invoice.getInvoiceId());
 		
@@ -102,8 +116,29 @@ public class InvoicesServiceImp implements IInvoicesService {
 		.orElseThrow(()->new NoSuchInvoiceFoundException("No such Invoice exists in the database")); 
 		
 		invoiceRepo.deleteById(invoiceId);
-		
+		logger.info("InvoicesServiceImp -- invoice deleted successfully");
 		return invoiceRepo.findById(invoiceId).orElse(null)==null;
+	}
+
+
+
+	@Override
+	public Invoices updateInvoiceStatusById(long invoiceId,String invoiceStatus) throws NoSuchInvoiceFoundException {
+		Invoices invoice=invoiceRepo.findById(invoiceId).orElseThrow(()-> new NoSuchInvoiceFoundException("No such Invoice exists in the database")); 
+		invoice.setInvoiceStatus(invoiceStatus);
+		invoiceRepo.save(invoice);
+		logger.info("InvoicesServiceImp-- Invoice updated successfully");
+		return invoice;
+	}
+
+
+
+	@Override
+	public List<Invoices> getInvoicesByHealthCareProviderId(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+		healthCareProviderRepo.findById(healthCareProviderId)
+		.orElseThrow(()->new NoSuchHealthCareProviderFoundException("No such HealthCareProvider Found in the database")); 
+		
+		return invoiceRepo.findByHealthCareProviderId(healthCareProviderId);
 	}
 
 	

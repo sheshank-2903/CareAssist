@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.ClaimRepository;
+import com.hexaware.careassist.repository.InvoicesRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
 
@@ -38,12 +42,20 @@ public class ClaimsServiceImp implements IClaimsService {
 	@Autowired
 	PlansRepository planRepo;
 	
+	@Autowired
+	InvoicesRepository invoiceRepo;
+	
 	String exceptionMessage="No such claim exists in database";
 	
 	Logger logger =LoggerFactory.getLogger(ClaimsServiceImp.class);
 	
 	@Override
-	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException{
+	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId,long invoiceId) throws NoSuchPatientFoundException, NoSuchPlanFoundException, NoSuchInvoiceFoundException, InvoiceNotApprovedException{
+		
+		Invoices invoice=invoiceRepo.findById(invoiceId).orElseThrow(()-> new NoSuchInvoiceFoundException("You dont have invoice to have this claim"));
+		if(!"APPROVED".equals(invoice.getInvoiceStatus()))
+			throw new InvoiceNotApprovedException("Your Invoice is not yet approved");
+		
 		Patient patient = patientRepo.findById(patientId).orElseThrow(()-> new NoSuchPatientFoundException("No such Patient exists in database"));
 		Plans plans = planRepo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
 		

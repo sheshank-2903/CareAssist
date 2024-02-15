@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
@@ -15,7 +17,7 @@ Description : Creation of ClaimsService Interface
 */
 
 public interface IClaimsService {
-	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId) throws NoSuchPatientFoundException, NoSuchPlanFoundException;
+	public Claims addClaim(ClaimsDTO claimDto, long patientId, long planId,long invoiceId) throws NoSuchPatientFoundException, NoSuchPlanFoundException, NoSuchInvoiceFoundException, InvoiceNotApprovedException;
 	public Claims updateClaim(String newStatus, long claimId) throws NoSuchClaimFoundException;
 	public ClaimsDTO getClaimById(long claimId) throws NoSuchClaimFoundException;
 	public List<Claims> getAllClaims();

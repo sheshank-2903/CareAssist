@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ Description : Entity class for Patient containing various properties
 @Entity
 public class Patient {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="patientId_generator",sequenceName="patient_seq",initialValue = 7001)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="patientId_generator")
 	long patientId;
 	
 	@NotNull
