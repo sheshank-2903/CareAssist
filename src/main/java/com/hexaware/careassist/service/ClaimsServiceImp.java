@@ -58,13 +58,17 @@ public class ClaimsServiceImp implements IClaimsService {
 		
 		Patient patient = patientRepo.findById(patientId).orElseThrow(()-> new NoSuchPatientFoundException("No such Patient exists in database"));
 		Plans plans = planRepo.findById(planId).orElseThrow(()-> new NoSuchPlanFoundException("No such Plan exists in database"));
+		
+		if(!patient.getInsurancePlans().contains(plans)) {
+			throw new NoSuchPlanFoundException("No such Plan exists in database");
+		}
+		
 		Claims claims = claimRepo.save(new Claims(claimDto.getClaimId(),
 											claimDto.getClaimAmount(),
 											"PENDING",
 											patient,
 											plans
 											));
-		//check ki data jaa rh h ya nhi in ClaimS-Set of Patient Entity
 		logger.info("ClaimsServiceImp - Claim added successfully");
 		return claims;
 	}
@@ -98,7 +102,6 @@ public class ClaimsServiceImp implements IClaimsService {
 		claimRepo.deleteById(claimId);
 		Claims claim=claimRepo.findById(claimId).orElse(null);
 		logger.info("ClaimsServiceImp - Claim deleted successfully");
-		//check ki data jaa rh h ya nhi in ClaimS-Set of Patient Entity
 		return claim==null;
 	}
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPlansService;
@@ -89,4 +90,18 @@ public class PlansRestController {
 		return service.getPlanByInsuranceCompanyName(companyName);
 	}
 	
+	
+	@GetMapping("/getByCoverageAmountLessThan/{coverageAmount}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public List<Plans> getPlanByCoverageAmountLessthan(@PathVariable double coverageAmount) throws InvalidInputException{
+		return service.getPlanyByAmountLessThan(coverageAmount);
+	}
+	
+	
+	
+	@GetMapping("/getByPatientId/{patientId}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public List<Plans> getPlanyByPatientId(@PathVariable long patientId){
+		return service.getPlanyByPatientId(patientId);
+	}
 }

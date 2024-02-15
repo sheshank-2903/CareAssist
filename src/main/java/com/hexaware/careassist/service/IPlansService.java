@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hexaware.careassist.dto.PlansDTO;
 import com.hexaware.careassist.entities.Plans;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
@@ -21,5 +22,7 @@ public interface IPlansService {
 	public List<Plans> getAllPlans();
 	public List<Plans> getPlanByName(String planName);
 	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException;
+	public List<Plans> getPlanyByAmountLessThan(double coverageAmount) throws InvalidInputException;
+	public List<Plans> getPlanyByPatientId(long patientId);
 	
 }
