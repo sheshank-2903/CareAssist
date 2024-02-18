@@ -66,7 +66,7 @@ public class InvoicesRestController {
 		return service.getInvoicesByHealthCareProviderId(healthCareProviderId);
 	}
 	
-	@GetMapping("/updateInvoiceStatus/{invoiceId}/{invoiceStatus}")
+	@PutMapping("/updateInvoiceStatus/{invoiceId}/{invoiceStatus}")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
 	public Invoices updateInvoiceStatus(@PathVariable long invoiceId,@PathVariable String invoiceStatus) throws NoSuchInvoiceFoundException {
 		return service.updateInvoiceStatusById(invoiceId, invoiceStatus);
