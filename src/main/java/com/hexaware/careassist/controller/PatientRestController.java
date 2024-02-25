@@ -105,7 +105,7 @@ public class PatientRestController {
 	
 	@GetMapping("/getAllPurchasedPlans/{patientId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public Set<Plans> purchasePlan(@PathVariable long patientId) throws NoSuchPatientFoundException {
+	public Set<Plans> getAllPurchasedPlans(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getAllPurchasedPlans(patientId);
 	}
 	
