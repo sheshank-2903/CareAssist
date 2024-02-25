@@ -133,4 +133,16 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 		return insuranceCompanyRepo.findAll();
 	}
 
+	@Override
+	public InsuranceCompanyDTO getInsuranceCompanyByEmail(String email) throws NoSuchInsuranceCompanyFoundException {
+		
+		InsuranceCompany insuranceCompany = insuranceCompanyRepo.findByEmail(email).orElseThrow(
+				() -> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
+		logger.info("InsuranceCompanyImp - InsuranceCompany data by Email fetched successfully");
+		return new InsuranceCompanyDTO(insuranceCompany.getInsuranceCompanyId(),
+				insuranceCompany.getInsuranceCompanyDescription(), insuranceCompany.getCompanyName(),
+				insuranceCompany.getCompanyContactNumber(), insuranceCompany.getEmail(),
+				insuranceCompany.getPassword());
+	}
+
 }

@@ -76,7 +76,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElseThrow(
 				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
 		
-		logger.info("HealthCareProviderServiceImp - HealthCareProvider deleted successfully");
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider fetched successfully");
 		
 		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
 				healthcareprovider.getHealthCareProviderName(), healthcareprovider.getProviderGender(),
@@ -129,6 +129,20 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	public List<HealthCareProvider> getAllHealthCareProvider() {
 		logger.info("HealthCareProviderServiceImp - All HealthCareProvider data fetched successfully");
 		return healthCareRepo.findAll();
+	}
+
+	@Override
+	public HealthCareProviderDTO getHealthCareProviderByEmail(String email)
+			throws NoSuchHealthCareProviderFoundException {
+		
+		HealthCareProvider healthcareprovider = healthCareRepo.findByEmail(email).orElseThrow(
+				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
+		
+		logger.info("HealthCareProviderServiceImp - HealthCareProvider fetched successfully");
+		
+		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
+				healthcareprovider.getHealthCareProviderName(), healthcareprovider.getProviderGender(),
+				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword());
 	}
 
 }

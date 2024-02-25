@@ -86,4 +86,12 @@ public class AdminServiceImp implements IAdminService {
 	}
 
 
+	@Override
+	public AdminDTO getAdminByEmail(String email) throws NoSuchAdminFoundException {
+		Admin admin=repo.findByEmail(email).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));;
+		logger.info("AdminServiceImp - Admin data fetched successfully");
+		return new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
+	}
+
+
 }
