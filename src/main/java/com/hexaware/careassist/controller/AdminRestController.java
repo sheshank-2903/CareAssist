@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ Description : Creation of AdminRestController
 
 @RestController
 @RequestMapping("/api/v1/admin")
+@CrossOrigin(origins="http://localhost:4200")
 public class AdminRestController {
 	
 	@Autowired
@@ -66,7 +68,7 @@ public class AdminRestController {
 	}
 	
 	@PostMapping("/login")
-	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) {
+	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) throws NoSuchAdminFoundException {
 
 		Authentication authenticate = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
@@ -80,7 +82,8 @@ public class AdminRestController {
 
 		else {
 			logger.info("EMAIL Not Found!!!!");
-			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
+			throw new NoSuchAdminFoundException("No Such Admin Found");
+//			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
 		}
 		return token;
 
