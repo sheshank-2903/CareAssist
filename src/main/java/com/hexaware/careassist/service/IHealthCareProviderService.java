@@ -18,4 +18,5 @@ public interface IHealthCareProviderService {
 	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException;
 	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getAllHealthCareProvider();
+	public HealthCareProviderDTO getHealthCareProviderByEmail(String email) throws NoSuchHealthCareProviderFoundException;
 }

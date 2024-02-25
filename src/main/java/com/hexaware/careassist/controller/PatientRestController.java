@@ -76,6 +76,12 @@ public class PatientRestController {
 	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
+	
+	@GetMapping("/getByEmail/{email}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public PatientDTO getPatientByEmail(@PathVariable String email) throws NoSuchPatientFoundException {
+		return service.getPatientByEmail(email);
+	}
 
 	
 	@GetMapping("/getByName/{patientName}")

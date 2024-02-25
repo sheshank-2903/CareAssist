@@ -67,6 +67,12 @@ public class AdminRestController {
 		return adminService.getAdminById(adminId);
 	}
 	
+	@GetMapping("/getByEmail/{email}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public AdminDTO getAdminByEmail(@PathVariable String email) throws NoSuchAdminFoundException {
+		return adminService.getAdminByEmail(email);
+	}
+	
 	@PostMapping("/login")
 	public String authenticateAndGenerateToken(@RequestBody AuthRequest authReq) throws NoSuchAdminFoundException {
 

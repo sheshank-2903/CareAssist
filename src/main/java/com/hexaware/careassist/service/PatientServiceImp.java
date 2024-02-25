@@ -196,6 +196,28 @@ public class PatientServiceImp implements IPatientService {
                 .orElseThrow(() -> new NoSuchPatientFoundException("Patient not found with ID: " + patientId));
 		return patient.getInsurancePlans();
 	}
+
+	@Override
+	public PatientDTO getPatientByEmail(String email) throws NoSuchPatientFoundException {
+		
+		Patient patient=patientRepo.findByEmail(email)
+				.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage)); 
+		
+		PatientDTO patientdto=new PatientDTO();
+		patientdto.setPatientId(patient.getPatientId());  
+		patientdto.setPatientName(patient.getPatientName());
+		patientdto.setAddress(patient.getAddress());
+		patientdto.setContact(patient.getContact());
+		patientdto.setDob(patient.getDob());
+		patientdto.setDescriptionOfTreatment(patient.getDescriptionOfTreatment());
+		patientdto.setEmail(patient.getEmail());
+		patientdto.setPassword(patient.getPassword());
+		patientdto.setPatientGender(patient.getPatientGender());
+		
+		logger.info("PatientServiceImp-- Patient  has been fetched successfully");
+		
+		return patientdto;
+	}
 	
 	
 

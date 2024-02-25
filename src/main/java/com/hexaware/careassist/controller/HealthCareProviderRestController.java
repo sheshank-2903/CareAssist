@@ -61,6 +61,12 @@ public class HealthCareProviderRestController {
 		return healthCareProviderService.getHealthCareProviderById(healthCareProviderId);
 	} 
 	
+	@GetMapping("/getByEmail/{email}")
+	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
+	public HealthCareProviderDTO getHealthCareProviderByEmail(@PathVariable String email) throws NoSuchHealthCareProviderFoundException {
+		return healthCareProviderService.getHealthCareProviderByEmail(email);
+	}
+	
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('ADMIN')")
 	public HealthCareProvider updateHealthCareProvider(@RequestBody HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
