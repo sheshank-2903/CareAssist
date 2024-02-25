@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ Description : Creation of PatientRestController
 
 @RestController
 @RequestMapping("/api/v1/patient")
+@CrossOrigin(origins="http://localhost:4200")
 public class PatientRestController {
 
 	@Autowired
@@ -74,6 +76,12 @@ public class PatientRestController {
 	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER')")
 	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
+	}
+	
+	@GetMapping("/getByEmail/{email}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public PatientDTO getPatientByEmail(@PathVariable String email) throws NoSuchPatientFoundException {
+		return service.getPatientByEmail(email);
 	}
 
 	

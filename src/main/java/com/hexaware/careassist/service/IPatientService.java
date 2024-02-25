@@ -25,4 +25,5 @@ public interface IPatientService {
 	public List<Patient> getPatientByName(String patientName);
 	public String purchasePlan(long patientId,long planId) throws NoSuchPlanFoundException, NoSuchPatientFoundException;
 	public Set<Plans> getAllPurchasedPlans(long patientId) throws NoSuchPatientFoundException;
+	public PatientDTO getPatientByEmail(String email) throws NoSuchPatientFoundException;
 }

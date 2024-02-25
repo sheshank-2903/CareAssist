@@ -26,4 +26,6 @@ public interface IInsuranceCompanyService {
 
 	List<InsuranceCompany> getAllInsuranceCompany();
 	
+	public InsuranceCompanyDTO getInsuranceCompanyByEmail(String email) throws NoSuchInsuranceCompanyFoundException;
+	
 }
