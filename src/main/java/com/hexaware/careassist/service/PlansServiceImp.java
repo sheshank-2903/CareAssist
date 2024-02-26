@@ -141,5 +141,13 @@ public class PlansServiceImp implements IPlansService {
 		return planList;
 	}
 
+	@Override
+	public List<Plans> getPlanByInsuranceCompanyId(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
+		insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		logger.info("PlansServiceImp-- Plan details with  fetched successfully");
+		return repo.findByCompanyId(insuranceCompanyId);
+		
+	}
+
 
 }

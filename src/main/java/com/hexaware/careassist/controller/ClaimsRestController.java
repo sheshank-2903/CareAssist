@@ -18,6 +18,7 @@ import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
@@ -85,6 +86,12 @@ public class ClaimsRestController {
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
 	public List<Claims> getClaimsByPlanId(@PathVariable long planId) {
 		return claimService.getClaimsByPlanId(planId);
+	}
+	
+	@GetMapping("/getByCompanyId/{insuranceCompanyId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
+	public List<Claims> getClaimsByCompanyId(@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
+		return claimService.getClaimsByInsuranceCompanyId(insuranceCompanyId);
 	}
 	
 	
