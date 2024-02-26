@@ -80,7 +80,7 @@ public class HealthCareProviderRestController {
 	}
 	
 	@GetMapping("/getAll")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')|| hasAuthority('PATIENT')")
 	public List<HealthCareProvider> getAllHealthCareProvider() {
 		return healthCareProviderService.getAllHealthCareProvider();
 	}

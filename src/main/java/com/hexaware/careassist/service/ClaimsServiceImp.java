@@ -14,10 +14,12 @@ import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
+import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.ClaimRepository;
+import com.hexaware.careassist.repository.InsuranceCompanyRepository;
 import com.hexaware.careassist.repository.InvoicesRepository;
 import com.hexaware.careassist.repository.PatientRepository;
 import com.hexaware.careassist.repository.PlansRepository;
@@ -44,6 +46,9 @@ public class ClaimsServiceImp implements IClaimsService {
 	
 	@Autowired
 	InvoicesRepository invoiceRepo;
+	
+	@Autowired
+	InsuranceCompanyRepository insuranceCompanyRepo;
 	
 	String exceptionMessage="No such claim exists in database";
 	
@@ -124,6 +129,13 @@ public class ClaimsServiceImp implements IClaimsService {
 		List<Claims> claim=claimRepo.findByplanId(planId);
 		logger.info("ClaimsServiceImp - All Claim by planId fetched successfully");
 		return claim;
+	}
+
+	@Override
+	public List<Claims> getClaimsByInsuranceCompanyId(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException {
+		insuranceCompanyRepo.findById(insuranceCompanyId).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
+		logger.info("ClaimsServiceImp - All Claim by insuranceCompanyId fetched successfully");
+		return claimRepo.findByCompanyId(insuranceCompanyId);
 	}
 
 }

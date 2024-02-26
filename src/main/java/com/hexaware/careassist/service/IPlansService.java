@@ -22,6 +22,7 @@ public interface IPlansService {
 	public List<Plans> getAllPlans();
 	public List<Plans> getPlanByName(String planName);
 	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException;
+	public List<Plans> getPlanByInsuranceCompanyId(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException;
 	public List<Plans> getPlanyByAmountLessThan(double coverageAmount) throws InvalidInputException;
 	public List<Plans> getPlanyByPatientId(long patientId);
 	

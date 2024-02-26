@@ -27,5 +27,8 @@ public interface ClaimRepository extends JpaRepository<Claims, Long> {
 
 		@Query("select c from Claims c where c.plans.planId= :planId")
 		public List<Claims> findByplanId(@Param("planId") long planId);
+		
+		@Query("select c from Claims c where c.plans.insuranceCompany.insuranceCompanyId= :insuranceComapnyId")
+		public List<Claims> findByCompanyId(@Param("insuranceComapnyId") long insuranceComapnyId);
 
 }

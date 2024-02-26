@@ -71,7 +71,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getAll")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')|| hasAuthority('PATIENT')")
 	public List<Plans> getAllPlans(){
 		return service.getAllPlans();
 	}
@@ -90,6 +90,12 @@ public class PlansRestController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Plans> getPlanByInsuranceCompanyName(@PathVariable String companyName) throws NoSuchInsuranceCompanyFoundException{
 		return service.getPlanByInsuranceCompanyName(companyName);
+	}
+	
+	@GetMapping("/getByCompanyId/{insuranceCompanyId}")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('INSURANCE_COMPANY')")
+	public List<Plans> getPlanByInsuranceCompanyId(@PathVariable long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException{
+		return service.getPlanByInsuranceCompanyId(insuranceCompanyId);
 	}
 	
 	

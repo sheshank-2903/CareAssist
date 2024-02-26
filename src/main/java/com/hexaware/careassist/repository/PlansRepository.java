@@ -23,6 +23,9 @@ public interface PlansRepository extends JpaRepository<Plans, Long>{
 	@Query("select plans from Plans  plans where plans.insuranceCompany.companyName=?1")
 	List<Plans> findByCompanyName(String companyName);
 	
+	@Query("select plans from Plans  plans where plans.insuranceCompany.insuranceCompanyId=?1")
+	List<Plans> findByCompanyId(long insuranceCompanyId);
+	
 	List<Plans> findByCoverageAmountLessThan(double coverageAmount);
 	
 	@Query(value="select insurance_plan_id from patient_insurance_plan where patient_id=?1",nativeQuery=true)
