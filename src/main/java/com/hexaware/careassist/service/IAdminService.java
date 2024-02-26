@@ -1,5 +1,7 @@
 package com.hexaware.careassist.service;
 
+import java.util.List;
+
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
@@ -16,5 +18,6 @@ public interface IAdminService {
 	public Admin updateAdmin(AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException;
 	public Admin addAdmin(AdminDTO adminDto) throws EmailAlreadyPresentException;
 	public AdminDTO getAdminByEmail(String email) throws NoSuchAdminFoundException; 
+	public List<Admin> getAllAdmin();
 	
 }

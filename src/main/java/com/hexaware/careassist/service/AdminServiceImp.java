@@ -1,4 +1,6 @@
 package com.hexaware.careassist.service;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +93,12 @@ public class AdminServiceImp implements IAdminService {
 		Admin admin=repo.findByEmail(email).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));;
 		logger.info("AdminServiceImp - Admin data fetched successfully");
 		return new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
+	}
+
+
+	@Override
+	public List<Admin> getAllAdmin() {
+		return repo.findAll();
 	}
 
 
