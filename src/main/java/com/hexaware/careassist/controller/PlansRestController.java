@@ -54,10 +54,8 @@ public class PlansRestController {
 	
 	@DeleteMapping("/delete/{planId}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('ADMIN')")
-	public String deletePlanById(@PathVariable long planId) throws NoSuchPlanFoundException {
-		boolean isDeleted=service.deletePlanById(planId);
-		return isDeleted?"Plan has been deleted":"Deletion unsuccessful";
-		
+	public boolean deletePlanById(@PathVariable long planId) throws NoSuchPlanFoundException {
+		return service.deletePlanById(planId);
 	}
 	
 	
