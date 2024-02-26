@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
 
@@ -78,6 +80,12 @@ public class AdminRestController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Admin> getAllAdmin() {
 		return adminService.getAllAdmin();
+	}
+	
+	@DeleteMapping("/delete/{adminId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public boolean deleteAdmin(@PathVariable long adminId) throws NoSuchAdminFoundException {
+		return adminService.deleteAdminById(adminId);
 	}
 	
 	

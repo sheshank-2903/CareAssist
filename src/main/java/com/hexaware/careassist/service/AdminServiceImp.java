@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
+import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
@@ -99,6 +101,17 @@ public class AdminServiceImp implements IAdminService {
 	@Override
 	public List<Admin> getAllAdmin() {
 		return repo.findAll();
+	}
+
+
+	@Override
+	public boolean deleteAdminById(long adminId) throws NoSuchAdminFoundException {
+		repo.findById(adminId).orElseThrow(
+				() -> new NoSuchAdminFoundException("No such admin exists in database"));
+		repo.deleteById(adminId);
+		Admin admin = repo.findById(adminId).orElse(null);
+		logger.info("AdminServiceImp - Admin deleted successfully");
+		return admin == null;
 	}
 
 

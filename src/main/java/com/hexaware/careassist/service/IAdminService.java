@@ -6,6 +6,7 @@ import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
+import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
 /*
 @Author :  Yash Dubey,Sheshank Sharma
@@ -19,5 +20,6 @@ public interface IAdminService {
 	public Admin addAdmin(AdminDTO adminDto) throws EmailAlreadyPresentException;
 	public AdminDTO getAdminByEmail(String email) throws NoSuchAdminFoundException; 
 	public List<Admin> getAllAdmin();
+	public boolean deleteAdminById(long adminId) throws NoSuchAdminFoundException;
 	
 }
