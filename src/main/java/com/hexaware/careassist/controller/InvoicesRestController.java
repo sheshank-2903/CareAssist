@@ -78,9 +78,8 @@ public class InvoicesRestController {
 	
 	@DeleteMapping("/delete/{invoiceId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public String deleteInvoiceById(@PathVariable long invoiceId) throws NoSuchInvoiceFoundException {
-		boolean isDeleted=service.deleteInvoiceById(invoiceId);
-		return isDeleted?"Invoice Deleted" : "Deletion unsuccessful";
+	public boolean deleteInvoiceById(@PathVariable long invoiceId) throws NoSuchInvoiceFoundException {
+		return service.deleteInvoiceById(invoiceId);
 	}
 	
 	
