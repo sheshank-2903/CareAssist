@@ -3,6 +3,7 @@ package com.hexaware.careassist.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.hexaware.careassist.entities.InsuranceCompany;
@@ -16,6 +17,7 @@ Description : InsuranceCompanyRepository extending JpaRepository
 @Repository
 public interface InsuranceCompanyRepository extends JpaRepository<InsuranceCompany, Long>{
 	
+	@Query(value = "SELECT * FROM Insurance_company WHERE company_name LIKE %?1%", nativeQuery = true)
 	public Optional<InsuranceCompany> findByCompanyName(String companyName);
 
 	public Optional<InsuranceCompany> findByEmail(String email);

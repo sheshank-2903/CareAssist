@@ -111,4 +111,10 @@ public class AdminRestController {
 
 	}
 	
+	@GetMapping("/getAdminByName")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public List<Admin> getAdminByName(@PathVariable String adminName) {
+		return adminService.getAdminByName(adminName);
+	}
+	
 }

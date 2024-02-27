@@ -145,4 +145,9 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword());
 	}
 
+	@Override
+	public List<HealthCareProvider> getHealthCareProviderByName(String healthCareProviderName) {
+		return healthCareRepo.findHealthCareProviderByName(healthCareProviderName);
+	}
+
 }

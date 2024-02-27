@@ -115,4 +115,10 @@ public class AdminServiceImp implements IAdminService {
 	}
 
 
+	@Override
+	public List<Admin> getAdminByName(String adminName) {
+		return repo.findAdminByName(adminName);
+	}
+
+
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
+import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
@@ -104,5 +105,11 @@ public class HealthCareProviderRestController {
 		}
 		return token;
 
+	}
+	
+	@GetMapping("/getHealthCareProviderByName")
+	@PreAuthorize("hasAuthority('ADMIN')|| hasAuthority('PATIENT')")
+	public List<HealthCareProvider> getHealthCareProviderByName(@PathVariable String healthCareProviderName) {
+		return healthCareProviderService.getHealthCareProviderByName(healthCareProviderName);
 	}
 }

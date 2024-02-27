@@ -21,5 +21,6 @@ public interface IAdminService {
 	public AdminDTO getAdminByEmail(String email) throws NoSuchAdminFoundException; 
 	public List<Admin> getAllAdmin();
 	public boolean deleteAdminById(long adminId) throws NoSuchAdminFoundException;
+	public List<Admin> getAdminByName(String adminName);
 	
 }

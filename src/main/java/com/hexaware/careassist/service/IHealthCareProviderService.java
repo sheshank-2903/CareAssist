@@ -19,4 +19,5 @@ public interface IHealthCareProviderService {
 	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getAllHealthCareProvider();
 	public HealthCareProviderDTO getHealthCareProviderByEmail(String email) throws NoSuchHealthCareProviderFoundException;
+	public List<HealthCareProvider> getHealthCareProviderByName(String healthCareProviderName);
 }

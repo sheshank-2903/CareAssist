@@ -20,9 +20,6 @@ Description : PatientRepository extending JpaRepository
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long>{
 	
-//	@Query(value="select * from Patient where patient_Name LIKE 1")
-//	public List<Patient> findByPatientName(String patientName);
-	
 	@Query(value = "SELECT * FROM Patient WHERE patient_Name LIKE %?1%", nativeQuery = true)
 	public List<Patient> findByPatientName(String patientName);
 
