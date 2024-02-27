@@ -10,7 +10,7 @@ public class HealthCareProviderDTO {
 	
 	private long healthCareProviderId;
 	
-	private String healthcareProviderName;
+	private String healthCareProviderName;
 	
     private String providerGender;
 	
@@ -24,11 +24,11 @@ public class HealthCareProviderDTO {
 		super();
 	}
 
-	public HealthCareProviderDTO(long healthCareId, String healthcareProviderName,
+	public HealthCareProviderDTO(long healthCareId, String healthCareProviderName,
 			String providerGender, String address, String email, String password) {
 		super();
 		this.healthCareProviderId = healthCareId;
-		this.healthcareProviderName = healthcareProviderName;
+		this.healthCareProviderName = healthCareProviderName;
 		this.providerGender = providerGender;
 		this.address = address;
 		this.email = email;
@@ -43,12 +43,12 @@ public class HealthCareProviderDTO {
 		this.healthCareProviderId = healthCareProviderId;
 	}
 
-	public String getHealthcareProviderName() {
-		return healthcareProviderName;
+	public String getHealthCareProviderName() {
+		return healthCareProviderName;
 	}
 
-	public void setHealthcareProviderName(String healthcareProviderName) {
-		this.healthcareProviderName = healthcareProviderName;
+	public void setHealthCareProviderName(String healthCareProviderName) {
+		this.healthCareProviderName = healthCareProviderName;
 	}
 
 	public String getProviderGender() {
@@ -85,7 +85,7 @@ public class HealthCareProviderDTO {
 
 	@Override
 	public String toString() {
-		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthcareProviderName=" + healthcareProviderName
+		return "HealthCareProvider [healthCareProviderId=" + healthCareProviderId + ", healthcareProviderName=" + healthCareProviderName
 				+ ", providerGender=" + providerGender + ", address=" + address + ", email=" + email + ", password="
 				+ password + "]";
 	} 

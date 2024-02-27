@@ -60,7 +60,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 		healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
 
 		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
-				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
+				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthCareProviderName(),
 				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
 				healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
 		
@@ -99,7 +99,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 			healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
 
 			HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
-					healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthcareProviderName(),
+					healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthCareProviderName(),
 					healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
 					healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
 			logger.info("HealthCareProviderServiceImp - HealthCareProvider updated successfully");
