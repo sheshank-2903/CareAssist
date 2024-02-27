@@ -109,7 +109,7 @@ public class InsuranceCompanyRestController {
 		
 		String token = null;
 		if (authenticate.isAuthenticated()) {
-			token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail(),"INSURANCE_COMPANY");
 			logger.info("JWT Token successfully generated!!!");
 		}
 

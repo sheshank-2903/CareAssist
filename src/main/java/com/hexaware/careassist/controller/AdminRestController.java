@@ -98,7 +98,7 @@ public class AdminRestController {
 		
 		String token = null;
 		if (authenticate.isAuthenticated()) {
-			token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail(),"ADMIN"); // change - 9
 			logger.info("JWT Token successfully generated!!!");
 		}
 

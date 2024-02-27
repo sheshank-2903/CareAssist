@@ -25,6 +25,7 @@ public class HealthCareInfoHealthCareDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
+	private String role; //change - 6
 	private List<GrantedAuthority> authorities;
 	
 	
@@ -32,9 +33,15 @@ public class HealthCareInfoHealthCareDetails implements UserDetails {
 		super();
 		this.email = healthCareProvider.getEmail();
 		this.password = healthCareProvider.getPassword();
+		this.role=healthCareProvider.getRole();
 		this.authorities = Arrays.stream(healthCareProvider.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
+	
+	public String getRole() { // change - 8
+		return role;
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

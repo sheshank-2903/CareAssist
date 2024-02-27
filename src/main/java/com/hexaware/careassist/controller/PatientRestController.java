@@ -117,7 +117,7 @@ public class PatientRestController {
 		
 		String token = null;
 		if (authenticate.isAuthenticated()) {
-			token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail(),"PATIENT");
 			logger.info("JWT Token successfully generated!!!");
 		}
 

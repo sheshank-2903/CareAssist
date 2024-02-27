@@ -29,21 +29,22 @@ public class JwtService {
 
 	 public static final String SECRET = "cG9zaXRpb25iYXNlYmFsbHNwcmVhZG51bWVyYWxjdXJpb3VzaHVudGFtbGVhdmluZ20=";
 	
-		public String generateToken(String email) {
+		public String generateToken(String email,String role) { //change - 3
 	        logger.info("Generating token for email: {}", email);
 
 			Map<String,Object>  claims = new HashMap<>();
 			
-			return createToken(claims, email);
+			return createToken(claims, email,role);
 			
 		}
 		
-		public String createToken(Map<String,Object> claims , String email) {
+		public String createToken(Map<String,Object> claims , String email,String role) { //change 2
 			
 	        logger.info("Creating token for email: {}", email);
 
 			return Jwts.builder()
 					   .setClaims(claims)
+					   .claim("role", role) //change - 1
 					   .setSubject(email)
 					   .setIssuedAt(new Date(System.currentTimeMillis()))
 					   .setExpiration(new Date(System.currentTimeMillis()+1000*60*120))

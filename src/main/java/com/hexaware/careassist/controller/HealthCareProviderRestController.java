@@ -95,7 +95,7 @@ public class HealthCareProviderRestController {
 		
 		String token = null;
 		if (authenticate.isAuthenticated()) {
-			token = jwtService.generateToken(authReq.getEmail());
+			token = jwtService.generateToken(authReq.getEmail(),"HEALTH_CARE_PROVIDER");
 			logger.info("JWT Token successfully generated!!!");
 		}
 

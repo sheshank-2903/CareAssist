@@ -25,6 +25,7 @@ public class PatientInfoPatientDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
+	private String role; //change - 6
 	private List<GrantedAuthority> authorities;
 	
 	
@@ -32,8 +33,13 @@ public class PatientInfoPatientDetails implements UserDetails {
 		super();
 		this.email = patient.getEmail();
 		this.password = patient.getPassword();
+		this.role=patient.getRole(); //change - 7
 		this.authorities = Arrays.stream(patient.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+	}
+
+	public String getRole() { // change - 8
+		return role;
 	}
 
 	@Override

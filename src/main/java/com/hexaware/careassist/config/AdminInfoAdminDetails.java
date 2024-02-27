@@ -26,14 +26,20 @@ public class AdminInfoAdminDetails implements UserDetails {
 	private String email;
 	private String password;
 	private List<GrantedAuthority> authorities;
+	private String role; //change -6 
 	
 	
 	public AdminInfoAdminDetails(Admin admin) {
 		super();
 		this.email = admin.getEmail();
 		this.password = admin.getPassword();
+		this.role=admin.getRole(); //- change - 7
 		this.authorities = Arrays.stream(admin.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+	}
+
+	public String getRole() {  // change - 8
+		return role;
 	}
 
 	@Override

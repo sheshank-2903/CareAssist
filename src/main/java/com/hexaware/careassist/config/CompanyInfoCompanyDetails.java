@@ -25,6 +25,8 @@ public class CompanyInfoCompanyDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
+	private String role; //change - 6
+
 	private List<GrantedAuthority> authorities;
 	
 	
@@ -32,8 +34,13 @@ public class CompanyInfoCompanyDetails implements UserDetails {
 		super();
 		this.email = insuranceCompany.getEmail();
 		this.password = insuranceCompany.getPassword();
+		this.role= insuranceCompany.getRole(); // change - 7
 		this.authorities = Arrays.stream(insuranceCompany.getRole().split(","))
 				.map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+	}
+	
+	public String getRole() { // change - 8
+		return role;
 	}
 
 	@Override
