@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
@@ -94,6 +96,16 @@ public class ClaimsRestController {
 		return claimService.getClaimsByInsuranceCompanyId(insuranceCompanyId);
 	}
 	
+	@GetMapping("/getPlanByClaimId/{claimId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')|| hasAuthority('PATIENT')")
+	public Plans getPlanByClaimId(@PathVariable long claimId) throws  NoSuchClaimFoundException {
+		return claimService.getPlanByClaimid(claimId);
+	}
 	
+	@GetMapping("/getPatientByClaimId/{claimId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
+	public Patient getPatientByClaimId(@PathVariable long claimId) throws NoSuchClaimFoundException {
+		return claimService.getPatientByClaimId(claimId);
+	}
 	
 }

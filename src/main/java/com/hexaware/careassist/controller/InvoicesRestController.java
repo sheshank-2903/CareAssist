@@ -40,6 +40,7 @@ public class InvoicesRestController {
 	@PostMapping("/add/{patientId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
 	public Invoices addInvoice(@RequestBody InvoicesDTO invoiceDto,@PathVariable long patientId) throws NoSuchPatientFoundException, InvalidDueDateException, NoSuchHealthCareProviderFoundException {
+	
 		return service.addInvoice(invoiceDto, patientId);
 	}
 

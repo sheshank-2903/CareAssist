@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.careassist.dto.InvoicesDTO;
-import com.hexaware.careassist.entities.Claims;
 import com.hexaware.careassist.entities.Invoices;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.InvalidDueDateException;
-import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInvoiceFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
@@ -71,7 +69,7 @@ public class InvoicesServiceImp implements IInvoicesService {
 		invoice.setCalculatedAmount(invoiceDto.getCalculatedAmount());
 		invoice.setPatient(patient);
 		invoice.setHealthCareProviderId(invoiceDto.getHealthCareProviderId());
-		invoice.setInvoiceStatus(invoiceDto.getInvoiceStatus());
+		invoice.setInvoiceStatus("PENDING");
 		
 		logger.info("InvoicesServiceImp-- Invoice with invoiceId: {} generated successfully",invoice.getInvoiceId());
 		

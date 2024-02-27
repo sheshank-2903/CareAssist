@@ -138,4 +138,16 @@ public class ClaimsServiceImp implements IClaimsService {
 		return claimRepo.findByCompanyId(insuranceCompanyId);
 	}
 
+	@Override
+	public Plans getPlanByClaimid(long claimId) throws NoSuchClaimFoundException {
+		claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException(exceptionMessage));
+		return claimRepo.getPlanByClaimId(claimId);
+	}
+
+	@Override
+	public Patient getPatientByClaimId(long claimId) throws NoSuchClaimFoundException {
+		claimRepo.findById(claimId).orElseThrow(()-> new NoSuchClaimFoundException(exceptionMessage));
+		return claimRepo.getPatientByClaimId(claimId);
+	}
+
 }

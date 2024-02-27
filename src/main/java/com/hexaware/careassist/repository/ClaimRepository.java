@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.entities.Plans;
 
 /*
 @Author :  Sheshank Sharma
@@ -30,5 +32,11 @@ public interface ClaimRepository extends JpaRepository<Claims, Long> {
 		
 		@Query("select c from Claims c where c.plans.insuranceCompany.insuranceCompanyId= :insuranceComapnyId")
 		public List<Claims> findByCompanyId(@Param("insuranceComapnyId") long insuranceComapnyId);
+		
+		@Query("select c.plans from Claims c where c.claimId=?1")
+		public Plans getPlanByClaimId(long claimId);
+		
+		@Query("select c.patient from Claims c where c.claimId=?1")
+		public Patient getPatientByClaimId(long claimId);
 
 }

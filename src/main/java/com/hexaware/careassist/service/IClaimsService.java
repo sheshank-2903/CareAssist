@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hexaware.careassist.dto.ClaimsDTO;
 import com.hexaware.careassist.entities.Claims;
+import com.hexaware.careassist.entities.Patient;
+import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.InvoiceNotApprovedException;
 import com.hexaware.careassist.exceptions.NoSuchClaimFoundException;
 import com.hexaware.careassist.exceptions.NoSuchInsuranceCompanyFoundException;
@@ -27,5 +29,6 @@ public interface IClaimsService {
 	public List<Claims> getClaimsByStatus(String status,Long patientId);
 	public List<Claims> getClaimsByPlanId(long planId);
 	public List<Claims> getClaimsByInsuranceCompanyId(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException;
-	
+	public Plans getPlanByClaimid(long claimId) throws NoSuchClaimFoundException;
+	public Patient getPatientByClaimId(long claimId) throws NoSuchClaimFoundException;
 }
