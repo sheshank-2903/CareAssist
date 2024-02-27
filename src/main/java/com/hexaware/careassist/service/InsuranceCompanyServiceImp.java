@@ -120,11 +120,9 @@ public class InsuranceCompanyServiceImp implements IInsuranceCompanyService {
 	}
 
 	@Override
-	public InsuranceCompany getInsuranceCompanyByName(String insuranceCompanyName)
-			throws NoSuchInsuranceCompanyFoundException {
+	public List<InsuranceCompany> getInsuranceCompanyByName(String insuranceCompanyName) {
 		logger.info("InsuranceCompanyImp - InsuranceCompany data by name fetched successfully");
-		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName).orElseThrow(
-				() -> new NoSuchInsuranceCompanyFoundException(exceptionMessage));
+		return insuranceCompanyRepo.findByCompanyName(insuranceCompanyName);
 	}
 
 	@Override

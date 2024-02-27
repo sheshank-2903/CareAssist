@@ -61,7 +61,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getById/{planId}")
-	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT')")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT') || hasAuthority('ADMIN')")
 	public PlansDTO getPlanById(@PathVariable long planId) throws NoSuchPlanFoundException {
 		return service.getPlanById(planId);
 	}
@@ -77,7 +77,7 @@ public class PlansRestController {
 	
 	
 	@GetMapping("/getByName/{planName}")
-	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT')")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('PATIENT') || hasAuthority('ADMIN')")
 	public List<Plans> getPlanByName(@PathVariable String planName){
 		return service.getPlanByName(planName);
 	}

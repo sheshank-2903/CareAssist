@@ -107,7 +107,7 @@ public class HealthCareProviderRestController {
 
 	}
 	
-	@GetMapping("/getHealthCareProviderByName")
+	@GetMapping("/getHealthCareProviderByName/{healthCareProviderName}")
 	@PreAuthorize("hasAuthority('ADMIN')|| hasAuthority('PATIENT')")
 	public List<HealthCareProvider> getHealthCareProviderByName(@PathVariable String healthCareProviderName) {
 		return healthCareProviderService.getHealthCareProviderByName(healthCareProviderName);

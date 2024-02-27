@@ -22,7 +22,7 @@ public interface IInsuranceCompanyService {
 	
 	public InsuranceCompany addInsuranceCompany(InsuranceCompanyDTO insuranceCompanyDto) throws EmailAlreadyPresentException;
 	
-	public InsuranceCompany getInsuranceCompanyByName(String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException;
+	public List<InsuranceCompany> getInsuranceCompanyByName(String insuranceCompanyName);
 
 	List<InsuranceCompany> getAllInsuranceCompany();
 	

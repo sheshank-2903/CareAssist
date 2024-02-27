@@ -95,7 +95,7 @@ public class InsuranceCompanyRestController {
 	
 	@GetMapping("/getByName/{insuranceCompanyName}")
 	@PreAuthorize("hasAuthority('INSURANCE_COMPANY') || hasAuthority('ADMIN')")
-	public InsuranceCompany getInsuranceCompanyByName(@PathVariable String insuranceCompanyName) throws NoSuchInsuranceCompanyFoundException {
+	public List<InsuranceCompany> getInsuranceCompanyByName(@PathVariable String insuranceCompanyName){
 		
 		return insuranceCompanyService.getInsuranceCompanyByName(insuranceCompanyName);
 	}

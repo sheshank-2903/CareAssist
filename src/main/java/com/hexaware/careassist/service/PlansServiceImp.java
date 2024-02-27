@@ -116,7 +116,7 @@ public class PlansServiceImp implements IPlansService {
 
 	@Override
 	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException {
-		insuranceCompanyRepo.findByCompanyName(companyName).orElseThrow(()-> new NoSuchInsuranceCompanyFoundException("No such Insurance Company exists in database"));
+		insuranceCompanyRepo.findByCompanyName(companyName);
 		logger.info("PlansServiceImp-- Plan details with company name:{}  fetched successfully",companyName);
 		return repo.findByCompanyName(companyName);
 	}
