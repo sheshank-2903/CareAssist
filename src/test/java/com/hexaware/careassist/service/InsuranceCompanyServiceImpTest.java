@@ -65,8 +65,8 @@ class InsuranceCompanyServiceImpTest {
 	@Test
 	@Disabled
 	void testGetInsuranceCompanyByName() throws NoSuchInsuranceCompanyFoundException {
-		InsuranceCompany response=service.getInsuranceCompanyByName("name2");
-		assertNotNull(response);
+		List<InsuranceCompany> response=service.getInsuranceCompanyByName("name2");
+		assertTrue(response.size()>0);
 		
 	}
 	
