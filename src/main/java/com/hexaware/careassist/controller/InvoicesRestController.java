@@ -53,7 +53,7 @@ public class InvoicesRestController {
 
 	
 	@GetMapping("/get/{invoiceId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('PATIENT')")
 	public Invoices getInvoiceById(@PathVariable long invoiceId) throws NoSuchInvoiceFoundException {
 		return service.getInvoiceById(invoiceId);
 	}

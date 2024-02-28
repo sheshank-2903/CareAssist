@@ -57,7 +57,7 @@ public class HealthCareProviderRestController {
 	}
 	
 	@GetMapping("/get/{healthCareProviderId}")
-	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('ADMIN') || hasAuthority('PATIENT')")
 	public HealthCareProviderDTO getHealthCareProviderById(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.getHealthCareProviderById(healthCareProviderId);
 	} 
