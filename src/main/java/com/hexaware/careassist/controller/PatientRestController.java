@@ -86,7 +86,7 @@ public class PatientRestController {
 
 	
 	@GetMapping("/getByName/{patientName}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER')")
 	public List<Patient> getPatientByName(@PathVariable String patientName) {
 		return service.getPatientByName(patientName);
 	}

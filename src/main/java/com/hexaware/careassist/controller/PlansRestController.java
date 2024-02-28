@@ -82,6 +82,12 @@ public class PlansRestController {
 		return service.getPlanByName(planName);
 	}
 	
+	@GetMapping("/getByNameAndCompanyId/{planName}/{insuranceCompanyId}")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
+	public List<Plans> getPlanByName(@PathVariable String planName,@PathVariable Long insuranceCompanyId){
+		return service.getPlanByNameAndCompanyId(planName, insuranceCompanyId);
+	}
+	
 	
 	
 	@GetMapping("/getByCompanyName/{companyName}")
