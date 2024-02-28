@@ -21,6 +21,9 @@ public interface PlansRepository extends JpaRepository<Plans, Long>{
 	@Query(value = "SELECT * FROM Plans WHERE plan_name LIKE %?1%", nativeQuery = true)
 	List<Plans> findByPlanName(String planName);
 	
+	@Query(value = "SELECT * FROM Plans WHERE plan_name LIKE %?1% && insurance_company_id=?2", nativeQuery = true)
+	List<Plans> findByPlanNameAndCompanyId(String planName,long insuranceCompanyId);
+	
 	@Query("select plans from Plans  plans where plans.insuranceCompany.companyName=?1")
 	List<Plans> findByCompanyName(String companyName);
 	

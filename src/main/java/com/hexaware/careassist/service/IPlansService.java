@@ -21,6 +21,7 @@ public interface IPlansService {
 	public PlansDTO getPlanById(long planId) throws NoSuchPlanFoundException;
 	public List<Plans> getAllPlans();
 	public List<Plans> getPlanByName(String planName);
+	public List<Plans> getPlanByNameAndCompanyId(String planName,long insuranceCompanyId);
 	public List<Plans> getPlanByInsuranceCompanyName(String companyName) throws NoSuchInsuranceCompanyFoundException;
 	public List<Plans> getPlanByInsuranceCompanyId(long insuranceCompanyId) throws NoSuchInsuranceCompanyFoundException;
 	public List<Plans> getPlanyByAmountLessThan(double coverageAmount) throws InvalidInputException;

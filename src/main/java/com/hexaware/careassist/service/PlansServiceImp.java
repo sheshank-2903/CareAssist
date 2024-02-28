@@ -149,5 +149,11 @@ public class PlansServiceImp implements IPlansService {
 		
 	}
 
+	@Override
+	public List<Plans> getPlanByNameAndCompanyId(String planName, long insuranceCompanyId) {
+		logger.info("PlansServiceImp-- Plan details with  name:{} and company Id {} fetched successfully",planName,insuranceCompanyId);
+		return repo.findByPlanNameAndCompanyId(planName, insuranceCompanyId);
+	}
+
 
 }
