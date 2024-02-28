@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.PatientDTO;
+import com.hexaware.careassist.dto.PurchaseResponse;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
@@ -98,8 +99,9 @@ public class PatientRestController {
 	
 	@PutMapping("/purchasePlan/{patientId}/{planId}")
 	@PreAuthorize("hasAuthority('PATIENT')")
-	public String purchasePlan(@PathVariable long patientId,@PathVariable long planId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
-		return service.purchasePlan(patientId,planId);
+	public PurchaseResponse purchasePlan(@PathVariable long patientId,@PathVariable long planId) throws NoSuchPlanFoundException, NoSuchPatientFoundException {
+		String message = service.purchasePlan(patientId, planId);
+        return new PurchaseResponse(message);
 	}
 	
 	@GetMapping("/getAllPurchasedPlans/{patientId}")
