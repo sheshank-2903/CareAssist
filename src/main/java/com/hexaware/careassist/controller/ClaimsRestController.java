@@ -55,7 +55,7 @@ public class ClaimsRestController {
 	}
 	
 	@GetMapping("/get/{claimId}")
-	@PreAuthorize("hasAuthority('PATIENT') || hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('PATIENT') || hasAuthority('ADMIN') || hasAuthority('INSURANCE_COMPANY')")
 	public ClaimsDTO getClaimById(@PathVariable long claimId) throws NoSuchClaimFoundException {
 		return claimService.getClaimById(claimId);
 	}
@@ -73,7 +73,7 @@ public class ClaimsRestController {
 	}
 	
 	@GetMapping("/getByPatientId/{patientId}")
-	@PreAuthorize("hasAuthority('PATIENT') || hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('PATIENT') || hasAuthority('ADMIN')|| hasAuthority('INSURANCE_COMPANY')")
 	public List<Claims> getClaimsByPatientId(@PathVariable long patientId) {
 		return claimService.getClaimsByPatientId(patientId);
 	}

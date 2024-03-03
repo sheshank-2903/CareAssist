@@ -76,7 +76,8 @@ public class PatientServiceImp implements IPatientService {
 		
 		return patientdto;
 	}
-
+	
+	@Transactional
 	@Override
 	public Patient updatePatient(PatientDTO patientDto) throws NoSuchPatientFoundException, EmailAlreadyPresentException {
 
@@ -102,7 +103,12 @@ public class PatientServiceImp implements IPatientService {
 			
 			logger.warn("PatientServiceImp-- Patient with id: {} is updated!!!!",patient.getPatientId());
 			
-			return patientRepo.save(patient);
+//			return patientRepo.save(patient);
+			 patientRepo.updatePatientById(patientDto.getDob(),patientDto.getContact(),patientDto.getAddress(),
+					patientDto.getPatientName(),patientDto.getPatientGender(),patientDto.getDescriptionOfTreatment(),
+					patientDto.getEmail(),patientDto.getPassword(),patientDto.getPatientId());
+			 
+			 return patientRepo.findById(patientDto.getPatientId()).orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage));
 			
 		}else {
 			
