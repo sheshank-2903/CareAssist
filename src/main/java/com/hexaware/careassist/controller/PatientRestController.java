@@ -67,13 +67,12 @@ public class PatientRestController {
 
 	@DeleteMapping("/delete/{patientId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public String deletePatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
-		boolean isDeleted = service.deletePatientById(patientId);
-		return isDeleted ? "Patient has been deleted" : "Deletion unsuccessful";
+	public boolean deletePatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
+		return service.deletePatientById(patientId);
 	}
 
 	@GetMapping("/getById/{patientId}")
-	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER')")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('PATIENT')")
 	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
