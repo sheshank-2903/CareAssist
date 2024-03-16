@@ -103,7 +103,7 @@ public class ClaimsRestController {
 	}
 	
 	@GetMapping("/getPatientByClaimId/{claimId}")
-	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')")
+	@PreAuthorize("hasAuthority('INSURANCE_COMPANY')|| hasAuthority('ADMIN')")
 	public Patient getPatientByClaimId(@PathVariable long claimId) throws NoSuchClaimFoundException {
 		return claimService.getPatientByClaimId(claimId);
 	}
