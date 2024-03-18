@@ -1,5 +1,6 @@
 package com.hexaware.careassist.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +35,7 @@ public class Admin {
 	private final String ROLE="ADMIN";
 	
 	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
     private byte[] adminProfilePic;
 
 	public Admin() {

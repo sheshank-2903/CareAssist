@@ -32,23 +32,23 @@ class PatientServiceImpTest {
 	@Autowired
 	IPatientService service;
 
-	@Test
-	@Disabled
-	void testAddPatient() throws EmailAlreadyPresentException {
-
-		PatientDTO patientDto = new PatientDTO(101, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "king",
-				"Male", "Pet Dard", "yash@gmail.com", "abc123");
-
-		Patient p = service.addPatient(patientDto);
-
-		assertEquals("king", p.getPatientName());
-
-	}
+//	@Test
+//	@Disabled
+//	void testAddPatient() throws EmailAlreadyPresentException {
+//
+//		PatientDTO patientDto = new PatientDTO(101, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "king",
+//				"Male", "Pet Dard", "yash@gmail.com", "abc123");
+//
+//		Patient p = service.addPatient(patientDto);
+//
+//		assertEquals("king", p.getPatientName());
+//
+//	}
 
 	@Test
 	@Disabled
 	void testGetPatientById() throws NoSuchPatientFoundException {
-		PatientDTO res = service.getPatientById(1);
+		Patient res = service.getPatientById(1);
 
 		assertNotNull(res);
 	}

@@ -1,5 +1,6 @@
 package com.hexaware.careassist.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -8,11 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
@@ -56,7 +59,7 @@ public class PatientServiceImp implements IPatientService {
 	String exceptionMessage="No such patient exists in the database";
 	
 	@Override
-	public PatientDTO getPatientById(long patientId) throws NoSuchPatientFoundException {
+	public Patient getPatientById(long patientId) throws NoSuchPatientFoundException {
 		
 		Patient patient=patientRepo.findById(patientId)
 				.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage)); 
@@ -74,7 +77,8 @@ public class PatientServiceImp implements IPatientService {
 		
 		logger.info("PatientServiceImp-- Patient with id {} has been fetched successfully",patientId);
 		
-		return patientdto;
+		return patientRepo.findById(patientId)
+				.orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage));
 	}
 	
 	@Transactional
@@ -154,7 +158,7 @@ public class PatientServiceImp implements IPatientService {
 	}
 
 	@Override
-	public Patient addPatient(PatientDTO patientDto) throws EmailAlreadyPresentException {
+	public Patient addPatient(PatientDTO patientDto,MultipartFile file) throws EmailAlreadyPresentException, InvalidInputException {
 		if(adminRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null || 
 				patientRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null ||
 				healthCareRepo.findByEmail(patientDto.getEmail()).orElse(null)!=null ||
@@ -174,6 +178,11 @@ public class PatientServiceImp implements IPatientService {
 		patient.setEmail(patientDto.getEmail());
 		patient.setPassword(patientDto.getPassword());
 		patient.setPatientGender(patientDto.getPatientGender());
+		try {
+			patient.setPatientProfilePic(file.getBytes());
+		} catch (IOException e) {
+			throw new InvalidInputException("image upload failed");
+		}
 		
 		logger.info("PatientServiceImp-- Patient with id: {} is added successfully!!!!",patient.getPatientId());
 		
@@ -223,6 +232,13 @@ public class PatientServiceImp implements IPatientService {
 		logger.info("PatientServiceImp-- Patient  has been fetched successfully");
 		
 		return patientdto;
+	}
+	
+	@Override
+	public Patient updateProfilePicture(long patientId,byte[] patientProfilePic) throws NoSuchPatientFoundException {
+		Patient patient=patientRepo.findById(patientId).orElseThrow(()->new NoSuchPatientFoundException(exceptionMessage));
+		patient.setPatientProfilePic(patientProfilePic);
+		return patientRepo.save(patient);
 	}
 	
 	

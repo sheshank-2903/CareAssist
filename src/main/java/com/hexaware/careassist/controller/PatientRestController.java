@@ -1,5 +1,7 @@
 package com.hexaware.careassist.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -19,14 +21,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.dto.PurchaseResponse;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 import com.hexaware.careassist.service.IPatientService;
@@ -54,9 +64,28 @@ public class PatientRestController {
 	
 	private Logger logger=LoggerFactory.getLogger(PatientRestController.class);
 
-	@PostMapping("/register")
-	public Patient addPatient(@RequestBody PatientDTO patientDto) throws EmailAlreadyPresentException {
-		return service.addPatient(patientDto);
+	@PostMapping(value="/register",consumes = "multipart/form-data")
+	public Patient addPatient(@RequestPart String patientDtoStringified,@RequestPart("file") MultipartFile file) throws EmailAlreadyPresentException,InvalidInputException {
+		ObjectMapper mapper = new ObjectMapper();
+		 PatientDTO patientDto=null;
+		try {
+			
+			JsonNode jsonNode=mapper.readTree(patientDtoStringified);
+			String dobAsString = jsonNode.get("dob").asText();
+
+			LocalDate dob = LocalDate.parse(dobAsString);
+			patientDto=new PatientDTO(1,dob, jsonNode.get("contact").asText(),
+					jsonNode.get("address").asText(),jsonNode.get("patientName").asText(),jsonNode.get("patientGender").asText(),
+					jsonNode.get("descriptionOfTreatment").asText(),jsonNode.get("email").asText(),
+					jsonNode.get("password").asText());
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return service.addPatient(patientDto,file);
 	}
 
 	@PutMapping("/update")
@@ -73,7 +102,7 @@ public class PatientRestController {
 
 	@GetMapping("/getById/{patientId}")
 	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('PATIENT')")
-	public PatientDTO getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
+	public Patient getPatientById(@PathVariable long patientId) throws NoSuchPatientFoundException {
 		return service.getPatientById(patientId);
 	}
 	
@@ -128,6 +157,23 @@ public class PatientRestController {
 		}
 		return token;
 
+	}
+	
+	@PutMapping("/updateProfilePicture/{patientId}")
+	@PreAuthorize("hasAuthority('PATIENT')")
+	public Patient updateProfilePicture(@PathVariable long patientId,@RequestParam("patientProfilePicture") MultipartFile patientProfilePicture) throws NoSuchPatientFoundException {
+		if (patientProfilePicture != null) {
+	        byte[] profilePictureBytes;
+	        try {
+	            profilePictureBytes = patientProfilePicture.getBytes();
+	        } catch (IOException e) {
+	            throw new RuntimeException("Failed to read the profile picture file", e);
+	        }
+	        return service.updateProfilePicture(patientId, profilePictureBytes);
+	    } else {
+	        throw new IllegalArgumentException("Patient profile picture is required");
+	    }
+		
 	}
 
 	

@@ -8,12 +8,14 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
@@ -59,6 +61,10 @@ public class Patient {
 	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
 	
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+    private byte[] patientProfilePic;
+	
     @OneToMany(cascade=CascadeType.ALL,mappedBy="patient")
 	 // patientId column will be created in Claims class table or we can say it is foreign key in department table
     @JsonBackReference
@@ -88,6 +94,7 @@ public class Patient {
 			@Pattern(regexp = "MALE|FEMALE", message = "Gender Provided can only be MALE|FEMALE") String patientGender,
 			@NotBlank String descriptionOfTreatment, @Email String email,
 			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			byte[] patientProfilePic,
 			Set<Claims> claimSet, Set<Invoices> invoiceSet, Set<Plans> insurancePlans) {
 		super();
 		this.patientId = patientId;
@@ -99,6 +106,7 @@ public class Patient {
 		this.descriptionOfTreatment = descriptionOfTreatment;
 		this.email = email;
 		this.password = password;
+		this.patientProfilePic=patientProfilePic;
 		this.claimSet = claimSet;
 		this.invoiceSet = invoiceSet;
 		this.insurancePlans = insurancePlans;
@@ -197,6 +205,14 @@ public class Patient {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public byte[] getPatientProfilePic() {
+		return patientProfilePic;
+	}
+
+	public void setPatientProfilePic(byte[] patientProfilePic) {
+		this.patientProfilePic = patientProfilePic;
 	}
 
 

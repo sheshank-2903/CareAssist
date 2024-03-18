@@ -37,18 +37,18 @@ class AdminServiceImpTest {
 		assertEquals(1l,response.getAdminId());
 	}
 
-	@Test
-	@Disabled
-	void testUpdateAdminInfo() throws NoSuchAdminFoundException, EmailAlreadyPresentException {
-		Admin response=service.updateAdmin(new AdminDTO(1,"name","admin@gmail.com","password"));
-		assertTrue(response.getAdminName()=="name" && response.getEmail()=="admin@gmail.com");
-	}
-
-	@Test
-	@Disabled
-	void testAddAdmin() throws EmailAlreadyPresentException {
-		Admin response=service.addAdmin(new AdminDTO(2,"king","email@gmail.com","password"));
-		assertTrue(response.getAdminName()=="king" && response.getEmail()=="email@gmail.com");
-	}
+//	@Test
+//	@Disabled
+//	void testUpdateAdminInfo() throws NoSuchAdminFoundException, EmailAlreadyPresentException {
+//		Admin response=service.updateAdmin(new AdminDTO(1,"name","admin@gmail.com","password"));
+//		assertTrue(response.getAdminName()=="name" && response.getEmail()=="admin@gmail.com");
+//	}
+//
+//	@Test
+//	@Disabled
+//	void testAddAdmin() throws EmailAlreadyPresentException {
+//		Admin response=service.addAdmin(new AdminDTO(2,"king","email@gmail.com","password"));
+//		assertTrue(response.getAdminName()=="king" && response.getEmail()=="email@gmail.com");
+//	}
 
 }
