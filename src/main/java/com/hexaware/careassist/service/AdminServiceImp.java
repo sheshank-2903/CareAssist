@@ -1,4 +1,5 @@
 package com.hexaware.careassist.service;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -6,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
@@ -54,7 +57,7 @@ public class AdminServiceImp implements IAdminService {
 	
 
 	@Override
-	public Admin updateAdmin(AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException {
+	public Admin updateAdmin(AdminDTO adminDto,MultipartFile file) throws NoSuchAdminFoundException, EmailAlreadyPresentException, InvalidInputException {
 		
 		Admin isPresent=repo.findById(adminDto.getAdminId()).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));
 		
@@ -63,10 +66,15 @@ public class AdminServiceImp implements IAdminService {
 		if( checkIfNew == null ||(isPresent.getEmail().equals(adminDto.getEmail()) )) {
 			
 			adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-			Admin admin = repo.save(new Admin(adminDto.getAdminId()
-									,adminDto.getAdminName()
-									,adminDto.getEmail()
-									,adminDto.getPassword()));
+			Admin admin;
+			try {
+				admin = repo.save(new Admin(adminDto.getAdminId()
+						,adminDto.getAdminName()
+						,adminDto.getEmail()
+						,adminDto.getPassword(),file.getBytes()));
+			} catch (IOException e) {
+				throw new InvalidInputException("image uploaded failed");
+			}
 			logger.info("AdminServiceImp - Admin has added updated successfully");
 			return admin;
 			}else {
@@ -76,7 +84,7 @@ public class AdminServiceImp implements IAdminService {
 	}
 
 	@Override
-	public Admin addAdmin(AdminDTO adminDto) throws EmailAlreadyPresentException {
+	public Admin addAdmin(AdminDTO adminDto,MultipartFile file) throws EmailAlreadyPresentException, InvalidInputException {
 		if(repo.findByEmail(adminDto.getEmail()).orElse(null)!=null || 
 				patientRepo.findByEmail(adminDto.getEmail()).orElse(null)!=null ||
 				healthCareRepo.findByEmail(adminDto.getEmail()).orElse(null)!=null ||
@@ -84,7 +92,12 @@ public class AdminServiceImp implements IAdminService {
 			throw new EmailAlreadyPresentException("This email is already present in database");
 		}
 		adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-		Admin admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword()));
+		Admin admin;
+		try {
+			admin = repo.save(new Admin(adminDto.getAdminId(),adminDto.getAdminName(),adminDto.getEmail(),adminDto.getPassword(),file.getBytes()));
+		} catch (IOException e) {
+			throw new InvalidInputException("image uploaded failed");
+		}
 		logger.info("AdminServiceImp - Admin has added successfull ");
 		return admin;
 	}

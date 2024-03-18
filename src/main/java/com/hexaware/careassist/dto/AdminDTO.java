@@ -1,7 +1,6 @@
 package com.hexaware.careassist.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Lob;
 
 /*
 @Author :  Yash Dubey,Sheshank Sharma
@@ -18,18 +17,22 @@ public class AdminDTO {
 	private String email;
 	
 	private String password;
-
+	
 	public AdminDTO() {
 		super();
 	}
 
-	public AdminDTO(long adminId, @NotBlank String adminName, @Email String email, String password) {
+	
+
+	public AdminDTO(long adminId, String adminName, String email, String password) {
 		super();
 		this.adminId = adminId;
 		this.adminName = adminName;
 		this.email = email;
 		this.password = password;
 	}
+
+
 
 	public long getAdminId() {
 		return adminId;

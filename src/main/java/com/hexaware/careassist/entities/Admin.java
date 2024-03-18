@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -31,23 +32,34 @@ public class Admin {
 	private String password;
 	
 	private final String ROLE="ADMIN";
+	
+	@Lob
+    private byte[] adminProfilePic;
 
 	public Admin() {
 		super();
 	}
-
+	
 	public Admin(long adminId,
-			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String adminName,
+			@Pattern(regexp = "^[a-zA-Z ]{1,20}$", message = "Invalid name provided; should have only alphabets with a maximum length of 20") String adminName,
 			@Email String email,
-			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
-	String password) {
+			@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$", message = "password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			byte[] adminProfilePic) {
 		super();
 		this.adminId = adminId;
 		this.adminName = adminName;
 		this.email = email;
 		this.password = password;
+		this.adminProfilePic = adminProfilePic;
 	}
 
+	public byte[] getadminProfilePic() {
+		return adminProfilePic;
+	}
+
+	public void setadminProfilePic(byte[] adminProfilePic) {
+		this.adminProfilePic = adminProfilePic;
+	}
 
 	public long getAdminId() {
 		return adminId;

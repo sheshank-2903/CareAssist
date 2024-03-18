@@ -1,5 +1,7 @@
 package com.hexaware.careassist.controller;
 
+import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,14 +19,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
-import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
 
@@ -52,16 +61,31 @@ public class AdminRestController {
 	private Logger logger=LoggerFactory.getLogger(AdminRestController.class);
 	
 	
-	@PostMapping("/register")
+	
+	@PostMapping(value="/register",consumes = "multipart/form-data")
 	//@PreAuthorize("hasAuthority('ADMIN')")
-	public Admin addAdmin(@RequestBody AdminDTO adminDto) throws EmailAlreadyPresentException {
-		return adminService.addAdmin(adminDto);
+	public Admin addAdmin(@RequestPart String adminDtoStringified,@RequestPart("file") MultipartFile file ) throws EmailAlreadyPresentException, InvalidInputException {
+		ObjectMapper mapper = new ObjectMapper();
+		 AdminDTO adminDto=null;
+		try {
+			JsonNode jsonNode=mapper.readTree(adminDtoStringified);
+			adminDto=new AdminDTO(1,jsonNode.get("adminName").asText(),jsonNode.get("email").asText(),jsonNode.get("password").asText());
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return adminService.addAdmin(adminDto,file);
 	}
+	
+//	@RequestParam("file") MultipartFile file, @ModelAttribute AdminDTO adminDto
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Admin updateAdmin(@RequestBody AdminDTO adminDto) throws NoSuchAdminFoundException, EmailAlreadyPresentException  {
-		return adminService.updateAdmin(adminDto);
+	public Admin updateAdmin(@RequestBody AdminDTO adminDto ,@RequestParam("file") MultipartFile file) throws NoSuchAdminFoundException, EmailAlreadyPresentException, InvalidInputException  {
+		return adminService.updateAdmin(adminDto,file);
 	}
 	
 	@GetMapping("/get/{adminId}")
@@ -105,7 +129,6 @@ public class AdminRestController {
 		else {
 			logger.info("EMAIL Not Found!!!!");
 			throw new NoSuchAdminFoundException("No Such Admin Found");
-//			throw new UsernameNotFoundException("EMAIL Not Found!!!! ");
 		}
 		return token;
 
