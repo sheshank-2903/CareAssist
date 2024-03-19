@@ -1,9 +1,7 @@
 package com.hexaware.careassist.controller;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,11 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.entities.Admin;
-import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
-import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
 

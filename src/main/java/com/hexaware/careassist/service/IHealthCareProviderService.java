@@ -17,8 +17,7 @@ Description : creation of HealthCareProvider Interface
 
 public interface IHealthCareProviderService {
 	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto,MultipartFile file) throws EmailAlreadyPresentException,InvalidInputException;
-	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
-	public HealthCareProvider getCompleteHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
+	public HealthCareProvider getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException,InvalidInputException,EmailAlreadyPresentException;
 	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getAllHealthCareProvider();

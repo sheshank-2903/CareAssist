@@ -78,15 +78,9 @@ public class HealthCareProviderRestController {
 	
 	@GetMapping("/get/{healthCareProviderId}")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER') || hasAuthority('ADMIN') || hasAuthority('PATIENT')")
-	public HealthCareProviderDTO getHealthCareProviderById(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
+	public HealthCareProvider getHealthCareProviderById(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
 		return healthCareProviderService.getHealthCareProviderById(healthCareProviderId);
 	} 
-	
-	@GetMapping("/getCompleteHealthCareProviderById/{healthCareProviderId}")
-	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")
-	public HealthCareProvider getCompleteHealthCareProviderById(@PathVariable long healthCareProviderId) throws NoSuchHealthCareProviderFoundException {
-		return healthCareProviderService.getCompleteHealthCareProviderById(healthCareProviderId);
-	}
 	
 	@GetMapping("/getByEmail/{email}")
 	@PreAuthorize("hasAuthority('HEALTH_CARE_PROVIDER')")

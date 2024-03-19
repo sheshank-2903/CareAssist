@@ -78,7 +78,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	}
 
 	@Override
-	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId)
+	public HealthCareProvider getHealthCareProviderById(long healthCareProviderId)
 			throws NoSuchHealthCareProviderFoundException {
 		
 		HealthCareProvider healthcareprovider = healthCareRepo.findById(healthCareProviderId).orElseThrow(
@@ -86,9 +86,9 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 		
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider fetched successfully");
 		
-		return new HealthCareProviderDTO(healthcareprovider.getHealthCareProviderId(),
+		return new HealthCareProvider(healthcareprovider.getHealthCareProviderId(),
 				healthcareprovider.getHealthCareProviderName(), healthcareprovider.getProviderGender(),
-				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword());
+				healthcareprovider.getAddress(), healthcareprovider.getEmail(), healthcareprovider.getPassword(),healthcareprovider.getHealthCareProviderProfilePic());
 	}
 
 	@Override
@@ -165,11 +165,4 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 		healthCareProvider.setHealthCareProviderProfilePic(healthCareProviderProfilePic);
 		return healthCareRepo.save(healthCareProvider);
 	}
-
-	@Override
-	public HealthCareProvider getCompleteHealthCareProviderById(long healthCareProviderId)
-			throws NoSuchHealthCareProviderFoundException {
-		return healthCareRepo.findById(healthCareProviderId).orElseThrow(()->new NoSuchHealthCareProviderFoundException(exceptionMessage));
-	}
-
 }

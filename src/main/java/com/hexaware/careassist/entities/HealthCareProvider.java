@@ -1,5 +1,6 @@
 package com.hexaware.careassist.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +39,7 @@ public class HealthCareProvider {
 	private String password;
 	
 	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
     private byte[] healthCareProviderProfilePic;
 	
 	private final String ROLE="HEALTH_CARE_PROVIDER";
