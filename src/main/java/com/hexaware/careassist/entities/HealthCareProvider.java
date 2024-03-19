@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -36,6 +37,9 @@ public class HealthCareProvider {
 	@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8")
 	private String password;
 	
+	@Lob
+    private byte[] healthCareProviderProfilePic;
+	
 	private final String ROLE="HEALTH_CARE_PROVIDER";
 
 	public HealthCareProvider() {
@@ -48,7 +52,8 @@ public class HealthCareProvider {
 			@Pattern(regexp="^[a-zA-Z ]{1,20}$", message="Invalid name provided; should have only alphabets with a maximum length of 20") String healthCareProviderName,
 			@Pattern(regexp = "MALE|FEMALE", message = "Gender Provided can only be MALE|FEMALE") String providerGender,
 			@NotBlank String address, @Email String email,
-			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password) {
+			@Pattern(regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&./+]{8,}$",message="password must have at least 1 upper case, 1 lower case,1 special character, 1 digit and must be of minimum leangth 8") String password,
+			byte[] healthCareProviderProfilePic) {
 		super();
 		this.healthCareProviderId = healthCareProviderId;
 		this.healthCareProviderName = healthCareProviderName;
@@ -56,6 +61,7 @@ public class HealthCareProvider {
 		this.address = address;
 		this.email = email;
 		this.password = password;
+		this.healthCareProviderProfilePic=healthCareProviderProfilePic;
 	}
 
 
@@ -107,6 +113,20 @@ public class HealthCareProvider {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+
+	public byte[] getHealthCareProviderProfilePic() {
+		return healthCareProviderProfilePic;
+	}
+
+
+
+	public void setHealthCareProviderProfilePic(byte[] healthCareProviderProfilePic) {
+		this.healthCareProviderProfilePic = healthCareProviderProfilePic;
+	}
+
+
 
 	@Override
 	public String toString() {

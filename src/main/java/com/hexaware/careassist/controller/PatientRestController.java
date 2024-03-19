@@ -79,11 +79,9 @@ public class PatientRestController {
 					jsonNode.get("descriptionOfTreatment").asText(),jsonNode.get("email").asText(),
 					jsonNode.get("password").asText());
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidInputException("invalid Input Exception");
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidInputException("invalid Input Exception");
 		}
 		return service.addPatient(patientDto,file);
 	}

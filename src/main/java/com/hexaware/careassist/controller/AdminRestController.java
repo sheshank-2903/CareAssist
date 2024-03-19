@@ -31,9 +31,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.dto.AuthRequest;
 import com.hexaware.careassist.entities.Admin;
+import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.service.IAdminService;
 import com.hexaware.careassist.service.JwtService;
 
@@ -71,11 +73,9 @@ public class AdminRestController {
 			JsonNode jsonNode=mapper.readTree(adminDtoStringified);
 			adminDto=new AdminDTO(1,jsonNode.get("adminName").asText(),jsonNode.get("email").asText(),jsonNode.get("password").asText());
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidInputException("invalid Input Exception");
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidInputException("invalid Input Exception");
 		}
 		return adminService.addAdmin(adminDto,file);
 	}
@@ -90,13 +90,13 @@ public class AdminRestController {
 	
 	@GetMapping("/get/{adminId}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public AdminDTO getAdminById(@PathVariable long adminId) throws NoSuchAdminFoundException {
+	public Admin getAdminById(@PathVariable long adminId) throws NoSuchAdminFoundException {
 		return adminService.getAdminById(adminId);
 	}
 	
 	@GetMapping("/getByEmail/{email}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public AdminDTO getAdminByEmail(@PathVariable String email) throws NoSuchAdminFoundException {
+	public Admin getAdminByEmail(@PathVariable String email) throws NoSuchAdminFoundException {
 		return adminService.getAdminByEmail(email);
 	}
 	
@@ -138,6 +138,23 @@ public class AdminRestController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Admin> getAdminByName(@PathVariable String adminName) {
 		return adminService.getAdminByName(adminName);
+	}
+	
+	@PutMapping("/updateProfilePicture/{adminId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public Admin updateProfilePicture(@PathVariable long adminId,@RequestParam("adminProfilePicture") MultipartFile adminProfilePicture) throws NoSuchAdminFoundException {
+		if (adminProfilePicture != null) {
+	        byte[] profilePictureBytes;
+	        try {
+	            profilePictureBytes = adminProfilePicture.getBytes();
+	        } catch (IOException e) {
+	            throw new RuntimeException("Failed to read the profile picture file", e);
+	        }
+	        return adminService.updateProfilePicture(adminId, profilePictureBytes);
+	    } else {
+	        throw new IllegalArgumentException("Admin profile picture is required");
+	    }
+		
 	}
 	
 }

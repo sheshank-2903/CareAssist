@@ -1,5 +1,6 @@
 package com.hexaware.careassist.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,10 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
@@ -47,8 +50,8 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	Logger logger = LoggerFactory.getLogger(HealthCareProviderServiceImp.class);
 
 	@Override
-	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto)
-			throws EmailAlreadyPresentException {
+	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto,MultipartFile file)
+			throws EmailAlreadyPresentException, InvalidInputException {
 		
 		if(adminRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null || 
 				patientRepo.findByEmail(healthCareProviderDto.getEmail()).orElse(null)!=null ||
@@ -59,10 +62,15 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 		
 		healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
 
-		HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
-				healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthCareProviderName(),
-				healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
-				healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
+		HealthCareProvider healthcareprovider;
+		try {
+			healthcareprovider = healthCareRepo.save(new HealthCareProvider(
+					healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthCareProviderName(),
+					healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
+					healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword(),file.getBytes()));
+		} catch (IOException e) {
+			throw new InvalidInputException("image upload failed");
+		}
 		
 		logger.info("HealthCareProviderServiceImp - HealthCareProvider added successfully");
 		
@@ -85,7 +93,7 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 
 	@Override
 	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto)
-			throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException {
+			throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException, InvalidInputException {
 		
 		HealthCareProvider isPresent = healthCareRepo.findById(healthCareProviderDto.getHealthCareProviderId()).orElseThrow(
 				() -> new NoSuchHealthCareProviderFoundException(exceptionMessage));
@@ -98,10 +106,11 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 			
 			healthCareProviderDto.setPassword(passwordEncoder.encode(healthCareProviderDto.getPassword()));
 
-			HealthCareProvider healthcareprovider = healthCareRepo.save(new HealthCareProvider(
+			HealthCareProvider healthcareprovider;
+			healthcareprovider = healthCareRepo.save(new HealthCareProvider(
 					healthCareProviderDto.getHealthCareProviderId(), healthCareProviderDto.getHealthCareProviderName(),
 					healthCareProviderDto.getProviderGender(), healthCareProviderDto.getAddress(),
-					healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword()));
+					healthCareProviderDto.getEmail(), healthCareProviderDto.getPassword(),isPresent.getHealthCareProviderProfilePic()));
 			logger.info("HealthCareProviderServiceImp - HealthCareProvider updated successfully");
 			return healthcareprovider;
 			
@@ -148,6 +157,19 @@ public class HealthCareProviderServiceImp implements IHealthCareProviderService 
 	@Override
 	public List<HealthCareProvider> getHealthCareProviderByName(String healthCareProviderName) {
 		return healthCareRepo.findHealthCareProviderByName(healthCareProviderName);
+	}
+	
+	@Override
+	public HealthCareProvider updateProfilePicture(long healthCareProviderId,byte[] healthCareProviderProfilePic) throws NoSuchHealthCareProviderFoundException {
+		HealthCareProvider healthCareProvider=healthCareRepo.findById(healthCareProviderId).orElseThrow(()->new NoSuchHealthCareProviderFoundException(exceptionMessage));
+		healthCareProvider.setHealthCareProviderProfilePic(healthCareProviderProfilePic);
+		return healthCareRepo.save(healthCareProvider);
+	}
+
+	@Override
+	public HealthCareProvider getCompleteHealthCareProviderById(long healthCareProviderId)
+			throws NoSuchHealthCareProviderFoundException {
+		return healthCareRepo.findById(healthCareProviderId).orElseThrow(()->new NoSuchHealthCareProviderFoundException(exceptionMessage));
 	}
 
 }

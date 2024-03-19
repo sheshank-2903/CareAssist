@@ -55,11 +55,11 @@ public class Admin {
 		this.adminProfilePic = adminProfilePic;
 	}
 
-	public byte[] getadminProfilePic() {
+	public byte[] getAdminProfilePic() {
 		return adminProfilePic;
 	}
 
-	public void setadminProfilePic(byte[] adminProfilePic) {
+	public void setAdminProfilePic(byte[] adminProfilePic) {
 		this.adminProfilePic = adminProfilePic;
 	}
 
@@ -104,6 +104,5 @@ public class Admin {
 	public String getRole() {
 		return this.ROLE;
 	}
-
 	
 }

@@ -1,21 +1,19 @@
 package com.hexaware.careassist.service;
 import java.io.IOException;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
-import com.hexaware.careassist.entities.HealthCareProvider;
+import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
 import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
-import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
+import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.repository.AdminRepository;
 import com.hexaware.careassist.repository.HealthCareProviderRepository;
 import com.hexaware.careassist.repository.InsuranceCompanyRepository;
@@ -49,10 +47,10 @@ public class AdminServiceImp implements IAdminService {
 	Logger logger =LoggerFactory.getLogger(AdminServiceImp.class);
 	
 	@Override
-	public AdminDTO getAdminById(long adminId) throws NoSuchAdminFoundException {
+	public Admin getAdminById(long adminId) throws NoSuchAdminFoundException {
 		Admin admin = repo.findById(adminId).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));
 		logger.info("AdminServiceImp - Admin data fetched successfully");
-		return new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
+		return new Admin(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword(),admin.getAdminProfilePic());
 	}
 	
 
@@ -104,10 +102,10 @@ public class AdminServiceImp implements IAdminService {
 
 
 	@Override
-	public AdminDTO getAdminByEmail(String email) throws NoSuchAdminFoundException {
+	public Admin getAdminByEmail(String email) throws NoSuchAdminFoundException {
 		Admin admin=repo.findByEmail(email).orElseThrow(()-> new NoSuchAdminFoundException("No such admin exists in database"));;
 		logger.info("AdminServiceImp - Admin data fetched successfully");
-		return new AdminDTO(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword());
+		return new Admin(admin.getAdminId(),admin.getAdminName(),admin.getEmail(),admin.getPassword(),admin.getAdminProfilePic());
 	}
 
 
@@ -131,6 +129,14 @@ public class AdminServiceImp implements IAdminService {
 	@Override
 	public List<Admin> getAdminByName(String adminName) {
 		return repo.findAdminByName(adminName);
+	}
+
+
+	@Override
+	public Admin updateProfilePicture(long adminId, byte[] adminProfilePic) throws NoSuchAdminFoundException {
+		Admin admin=repo.findById(adminId).orElseThrow(()->new NoSuchAdminFoundException("No such admin exists in database"));
+		admin.setAdminProfilePic(adminProfilePic);
+		return repo.save(admin);
 	}
 
 

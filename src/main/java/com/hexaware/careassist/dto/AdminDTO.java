@@ -1,7 +1,5 @@
 package com.hexaware.careassist.dto;
 
-import jakarta.persistence.Lob;
-
 /*
 @Author :  Yash Dubey,Sheshank Sharma
 Modified Date : 31-01-2024

@@ -4,11 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -62,7 +59,6 @@ public class Patient {
 	private String password;
 	
 	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
     private byte[] patientProfilePic;
 	
     @OneToMany(cascade=CascadeType.ALL,mappedBy="patient")

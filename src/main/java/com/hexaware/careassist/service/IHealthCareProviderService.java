@@ -1,9 +1,12 @@
 package com.hexaware.careassist.service;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.hexaware.careassist.dto.HealthCareProviderDTO;
 import com.hexaware.careassist.entities.HealthCareProvider;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchHealthCareProviderFoundException;
 
 /*
@@ -13,11 +16,13 @@ Description : creation of HealthCareProvider Interface
 */
 
 public interface IHealthCareProviderService {
-	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws EmailAlreadyPresentException;
+	public HealthCareProvider addHealthCareProvider(HealthCareProviderDTO healthCareProviderDto,MultipartFile file) throws EmailAlreadyPresentException,InvalidInputException;
 	public HealthCareProviderDTO getHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
-	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException, EmailAlreadyPresentException;
+	public HealthCareProvider getCompleteHealthCareProviderById(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
+	public HealthCareProvider updateHealthCareProvider(HealthCareProviderDTO healthCareProviderDto) throws NoSuchHealthCareProviderFoundException,InvalidInputException,EmailAlreadyPresentException;
 	public boolean deleteHealthCareProvider(long healthCareProviderId) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getAllHealthCareProvider();
 	public HealthCareProviderDTO getHealthCareProviderByEmail(String email) throws NoSuchHealthCareProviderFoundException;
 	public List<HealthCareProvider> getHealthCareProviderByName(String healthCareProviderName);
+	public HealthCareProvider updateProfilePicture(long healthCareProviderId,byte[] healthCareProviderProfilePic) throws NoSuchHealthCareProviderFoundException;
 }
