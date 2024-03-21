@@ -17,6 +17,7 @@ import com.hexaware.careassist.dto.PatientDTO;
 import com.hexaware.careassist.entities.Patient;
 import com.hexaware.careassist.entities.Plans;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchPatientFoundException;
 import com.hexaware.careassist.exceptions.NoSuchPlanFoundException;
 
@@ -32,18 +33,18 @@ class PatientServiceImpTest {
 	@Autowired
 	IPatientService service;
 
-//	@Test
-//	@Disabled
-//	void testAddPatient() throws EmailAlreadyPresentException {
-//
-//		PatientDTO patientDto = new PatientDTO(101, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "king",
-//				"Male", "Pet Dard", "yash@gmail.com", "abc123");
-//
-//		Patient p = service.addPatient(patientDto);
-//
-//		assertEquals("king", p.getPatientName());
-//
-//	}
+	@Test
+	@Disabled
+	void testAddPatient() throws EmailAlreadyPresentException, InvalidInputException {
+
+		PatientDTO patientDto = new PatientDTO(101, LocalDate.of(2002, 04, 17), "1234567890", "abd abc abc", "king",
+				"Male", "Pet Dard", "yash@gmail.com", "abc123");
+
+		Patient p = service.addPatient(patientDto, null);
+
+		assertEquals("king", p.getPatientName());
+
+	}
 
 	@Test
 	@Disabled

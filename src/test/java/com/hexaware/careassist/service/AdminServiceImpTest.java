@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hexaware.careassist.dto.AdminDTO;
 import com.hexaware.careassist.entities.Admin;
 import com.hexaware.careassist.exceptions.EmailAlreadyPresentException;
+import com.hexaware.careassist.exceptions.InvalidInputException;
 import com.hexaware.careassist.exceptions.NoSuchAdminFoundException;
 
 /*
@@ -33,22 +34,22 @@ class AdminServiceImpTest {
 	@Test
 	@Disabled
 	void testGetAdminInfo() throws NoSuchAdminFoundException {
-		AdminDTO response=service.getAdminById(1);
+		Admin response=service.getAdminById(1);
 		assertEquals(1l,response.getAdminId());
 	}
 
-//	@Test
-//	@Disabled
-//	void testUpdateAdminInfo() throws NoSuchAdminFoundException, EmailAlreadyPresentException {
-//		Admin response=service.updateAdmin(new AdminDTO(1,"name","admin@gmail.com","password"));
-//		assertTrue(response.getAdminName()=="name" && response.getEmail()=="admin@gmail.com");
-//	}
-//
-//	@Test
-//	@Disabled
-//	void testAddAdmin() throws EmailAlreadyPresentException {
-//		Admin response=service.addAdmin(new AdminDTO(2,"king","email@gmail.com","password"));
-//		assertTrue(response.getAdminName()=="king" && response.getEmail()=="email@gmail.com");
-//	}
+	@Test
+	@Disabled
+	void testUpdateAdminInfo() throws NoSuchAdminFoundException, EmailAlreadyPresentException, InvalidInputException {
+		Admin response=service.updateAdmin(new AdminDTO(1,"name","admin@gmail.com","password"), null);
+		assertTrue(response.getAdminName()=="name" && response.getEmail()=="admin@gmail.com");
+	}
+
+	@Test
+	@Disabled
+	void testAddAdmin() throws EmailAlreadyPresentException, InvalidInputException {
+		Admin response=service.addAdmin(new AdminDTO(2,"king","email@gmail.com","password"), null);
+		assertTrue(response.getAdminName()=="king" && response.getEmail()=="email@gmail.com");
+	}
 
 }
